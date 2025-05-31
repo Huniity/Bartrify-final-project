@@ -1,7 +1,230 @@
-{% extends 'core/base.html' %}
+<!-- {% extends 'core/base.html' %}
 
 {% block title %}Feed{% endblock %}
 
 {% block content %}
-    <!-- Page content here -->
-{% endblock %}
+    Page content here
+{% endblock %} -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bartrify</title>
+    <link rel="stylesheet" href="./feed.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav>
+            <div class="nav_logo">
+                <img class="main_logo" src="main_logo.png">
+                <img class="main_brand" src="main_brand.png">
+            </div>
+            <div class="nav_buttons">
+                <a href="#">Sign In</a>
+                <button class="join-btn">Join Us</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-text">
+            <h1>Trade Services.<br>Build Trust.<br>Solve Problems.</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore
+                magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                commodo
+                consequat.
+            </p>
+            <div class="hero-buttons">
+                <a href="#content"><button class="outline">Explore More</button></a>
+                <button class="solid">Start Exchanging Now</button>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="./hero.png" alt="hero" />
+        </div>
+    </section>
+
+    <!-- Content -->
+    <section class="info-section">
+        <div class="content">
+            <div class="div1"><img src="./lawn.png" alt="Community" width="150px" /></div>
+            <div class="div2"><img src="./clean.png" alt="Community" width="150px" /></div>
+            <div class="div3">
+                <h2>How does it work?</h2>
+                <p>Create an account</p>
+                <p>Request or offer services</p>
+                <p>Start exchanging!</p>
+            </div>
+            <div class="div4"><img src="./paint.png" alt="Community" width="150px" /></div>
+            <div class="div5">
+                <h2>Join the community now!</h2>
+            </div>
+            <div class="div6">
+                <p>347+ Barters</p>
+            </div>
+            <div class="div7">
+                <p>1.2M+ Services</p>
+            </div>
+            <div class="div8">
+                <p>500k Completed Services</p>
+            </div>
+            <div class="div9"><img src="./community.png" alt="Community" width="600px" /></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <div class="wave-footer">
+        <svg width="100%" height="100%" id="svg" viewBox="0 0 1440 390" xmlns="http://www.w3.org/2000/svg"
+            class="transition duration-300 ease-in-out delay-150">
+            <path
+                d="M 0,600 L 0,225 C 201.06666666666666,198.20000000000002 402.1333333333333,171.40000000000003 535,184 C 667.8666666666667,196.59999999999997 732.5333333333333,248.59999999999997 872,262 C 1011.4666666666667,275.40000000000003 1225.7333333333333,250.20000000000002 1440,225 L 1440,600 L 0,600 Z"
+                stroke="none" stroke-width="0" fill="#7c9b95" fill-opacity="1"
+                class="transition-all duration-300 ease-in-out delay-150 path-0"></path>
+        </svg>
+    </div>
+    <footer class="footer">
+        <div class="footer-container">
+
+            <div class="footer-col">
+                <h3><i class="fa-solid fa-circle-info"></i> About Us</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore
+                    magna aliqua. Quis ipsum suspendisse ultrices gravida.</p>
+            </div>
+
+            <div class="footer-col">
+                <h3><i class="fa-solid fa-link"></i> Quick Links</h3>
+                <ul>
+                    <li><a href="#"><i class="fa-solid fa-house"></i> Home</a></li>
+                    <li><a href="#"><i class="fa-solid fa-rss"></i> Feed</a></li>
+                    <li><a href="#"><i class="fa-solid fa-user-plus"></i> Signup</a></li>
+                    <li><a href="#"><i class="fa-solid fa-right-to-bracket"></i> Signin</a></li>
+                    <li><a href="#"><i class="fa-solid fa-gauge-high"></i> Dashboard</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3><i class="fa-solid fa-shield-halved"></i> Privacy & Info</h3>
+                <ul>
+                    <li><a href="#"><i class="fa-solid fa-file-contract"></i> Terms & Conditions</a></li>
+                    <li><a href="#"><i class="fa-solid fa-user-shield"></i> Privacy Policy</a></li>
+                    <li><a href="#"><i class="fa-solid fa-scale-balanced"></i> RGPD</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3><i class="fa-solid fa-address-book"></i> Contacts</h3>
+                <ul class="contacts">
+                    <li><i class="fa-solid fa-location-dot"></i> @ETIC_Algarve, PT</li>
+                    <li><i class="fa-solid fa-envelope"></i> example1@gmail.com</li>
+                    <li><i class="fa-solid fa-envelope"></i> example2@gmail.com</li>
+                    <li><i class="fa-solid fa-envelope"></i> example3@gmail.com</li>
+                </ul>
+            </div>
+        </div>
+
+        <p class="footer-copy">
+            <i class="fa-regular fa-copyright"></i>
+            <span id="date"></span> Bartrify. All Rights Reserved.
+        </p>
+    </footer>
+
+    <script>
+        document.getElementById('date').textContent = new Date().getFullYear();
+    </script>
+
+</body>
+<style>
+.content {
+display: grid;
+grid-template-columns: repeat(6, 1fr);
+grid-template-rows: repeat(6, 1fr);
+grid-column-gap: 0px;
+grid-row-gap: 0px;
+}
+
+.div1 { 
+    grid-area: 1 / 1 / 2 / 2;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.div2 { 
+    grid-area: 1 / 3 / 2 / 4;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+.div3 { 
+    grid-area: 1 / 5 / 3 / 7;
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+.div3 h2{
+    padding-bottom: 20px;
+    text-shadow: 1px 2px 3px #2F4156;
+}
+.div3 p {
+    line-height: 1.5;
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+.div4 { 
+    grid-area: 2 / 2 / 3 / 3;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+.div5 {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    grid-area: 3 / 2 / 4 / 6;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-shadow: 1px 2px 3px #2F4156;
+}
+.div6 { grid-area: 4 / 1 / 5 / 2;
+    display: flex;
+    justify-content: flex-end;
+    align-items: end;
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 1.2;
+    height: 150px;
+}
+.div7 { 
+    grid-area: 5 / 2 / 6 / 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 1.2;
+}
+.div8 { 
+    grid-area: 6 / 3 / 7 / 4;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 1.2;
+}
+.div9 { 
+    grid-area: 4 / 4 / 7 / 7; 
+    }
+</style>
+
+</html>
