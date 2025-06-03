@@ -70,9 +70,9 @@ open.browser:
 	echo "Could not open browser automatically. Please visit http://localhost:8000 in your browser."
 
 create.env:
-	@echo "POSTGRES_DB='hub_db'" > .env
+	@echo "POSTGRES_DB='bartr_db'" > .env
 	@echo "POSTGRES_USERNAME='postgres'" >> .env
-	@echo "POSTGRES_PASSWORD='qwerty'" >> .env
+	@echo "POSTGRES_PASSWORD='bartr'" >> .env
 	@echo "POSTGRES_HOST='database'" >> .env
 	@echo "POSTGRES_PORT='5432'" >> .env
 	@echo "DJANGO_DEBUG='False'" >> .env
