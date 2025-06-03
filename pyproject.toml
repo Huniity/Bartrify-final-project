@@ -16,13 +16,13 @@ dependencies = [
 ]
 
 [tool.poetry]
-packages = [{include = "bartrify_project"}]
+packages = [{include = "bartrify"}]
 
 [tool.poetry.group.dev.dependencies]
 pytest-django = "^4.10.0"
 
 [tool.pytest.ini_options]
-DJANGO_SETTINGS_MODULE = "bartrify_project.settings"
+DJANGO_SETTINGS_MODULE = "bartrify.settings"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
