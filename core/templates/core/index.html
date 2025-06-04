@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+<!-- {% load static %} -->
+{% block title %}Welcome to Bartrify{% endblock %}
+
+{% block content %}
+{% load static %}
+<!-- Hero -->
+<section class="hero">
+    <div class="hero-text">
+        <div class="wrapper">
+            <h1 class="text one">Trade Services.</h1>
+        </div>
+        <div class="wrapper">
+            <h1 class="text two">Build Trust.</h1>
+        </div>
+        <div class="wrapper">
+            <h1 class="text three">Solve problems.</h1>
+        </div>
+        <div class="hero-desc">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                aliquip ex ea commodo consequat.</p>
+        </div>
+        <div class="hero-buttons">
+            <a href="#content"><button class="outline">Explore More</button></a>
+            <button class="solid">Start Exchanging Now</button>
+        </div>
+    </div>
+    <div class="hero-image">
+        <img src="./hero.png" alt="hero" />
+    </div>
+</section>
+
+<!-- Content Section -->
+<section class="info-section">
+    <div class="content">
+        <div class="div1"><img src="./lawn.png" alt="Community" width="150px" /></div>
+        <div class="div2"><img src="./clean.png" alt="Community" width="150px" /></div>
+        <div class="div3">
+            <h2>How does it work?</h2>
+            <p>Create an account</p>
+            <p>Request or offer services</p>
+            <p>Start exchanging!</p>
+        </div>
+        <div class="div4"><img src="./paint.png" alt="Community" width="150px" /></div>
+        <div class="div5">
+            <h2>Join the community now!</h2>
+        </div>
+        <div class="div6">
+            <p>347+ Barters</p>
+        </div>
+        <div class="div7">
+            <p>1.2M+ Services</p>
+        </div>
+        <div class="div8">
+            <p>500k Completed Services</p>
+        </div>
+        <div class="div9"><img src="./community.png" alt="Community" width="600px" /></div>
+    </div>
+</section>
+{% endblock %}
