@@ -4,6 +4,9 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
+    # avatar
+    # self services
+    #  
     bio = models.TextField(blank=True, default='')
     location = models.CharField(max_length=100, blank=True, default='')
 
