@@ -1,18 +1,62 @@
-### Sign Up
+### REGISTER
 POST http://localhost:8000/api/auth/signup/
 Content-Type: application/json
 
 {
-  "username": "testuser",
-  "email": "test@example.com",
-  "password": "testpassword123"
+  "username": "traderjoe",
+  "email": "joe@example.com",
+  "password": "SuperSecure123!"
 }
 
-### Log In
+###
+
+### LOGIN
 POST http://localhost:8000/api/auth/login/
 Content-Type: application/json
 
 {
-  "username": "testuser",
-  "password": "testpassword123"
+  "username": "traderjoe",
+  "password": "SuperSecure123!"
 }
+
+###
+# Copy the access token from login response and use it here
+@access_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ5MDM3MDg4LCJpYXQiOjE3NDkwMzY3ODgsImp0aSI6IjRlNjI0M2Y1MmQyYjQ1ZWQ4MzFkNzdkNDBkZTg2MGQ0IiwidXNlcl9pZCI6MX0.5e3WMLt8xWmXFmClawMA-aDfdl5Sjvl8CdlB_UpsTdU
+
+
+### GET MY PROFILE
+GET http://localhost:8000/api/users/me/
+Authorization: Bearer {{access_token}}
+
+###
+
+### UPDATE MY PROFILE
+PATCH http://localhost:8000/api/users/me/
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "bio": "I swap vintage guitars for crypto",
+  "location": "Amsterdam"
+}
+
+###
+
+### GET PUBLIC PROFILE (replace 1 with a real user ID)
+GET http://localhost:8000/api/users/1/
+
+
+### Create a service
+POST http://localhost:8000/api/services/
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "title": "Dog Walking",
+  "description": "I'll walk your dog for an hour. Happy puppers guaranteed.",
+  "category": "Pet Services",
+  "price": 15.00
+}
+
+### Get all services (feed)
+GET http://localhost:8000/api/services/
