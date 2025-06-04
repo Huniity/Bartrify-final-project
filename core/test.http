@@ -20,8 +20,8 @@ Content-Type: application/json
 }
 
 ###
-# Copy the access token from login response and use it here
-@access_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ5MDM3MDg4LCJpYXQiOjE3NDkwMzY3ODgsImp0aSI6IjRlNjI0M2Y1MmQyYjQ1ZWQ4MzFkNzdkNDBkZTg2MGQ0IiwidXNlcl9pZCI6MX0.5e3WMLt8xWmXFmClawMA-aDfdl5Sjvl8CdlB_UpsTdU
+# access token from login response and use it here
+@access_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ5MDY0NDM2LCJpYXQiOjE3NDkwNjQxMzYsImp0aSI6ImM1YWUwMTkwNjRhMDQ2NDdhMzY1OWJkNjA2MjUwOGQzIiwidXNlcl9pZCI6MX0.cL_gwsZ9GDed3VUcS1CdfjXRQw5Eytj4JALepqyzO84
 
 
 ### GET MY PROFILE
@@ -36,7 +36,7 @@ Authorization: Bearer {{access_token}}
 Content-Type: application/json
 
 {
-  "bio": "I swap vintage guitars for crypto",
+  "bio": "I swap vintage guitars for rrwrwf",
   "location": "Amsterdam"
 }
 
@@ -60,3 +60,8 @@ Content-Type: application/json
 
 ### Get all services (feed)
 GET http://localhost:8000/api/services/
+
+
+### View dashboard
+GET http://localhost:8000/api/users/dashboard/
+Authorization: Bearer {{access_token}}

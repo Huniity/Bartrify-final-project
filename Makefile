@@ -33,7 +33,7 @@ compose.super:
 	docker compose run --rm web poetry run python manage.py createsuperuser
 
 compose.start:
-	docker compose up --build --force-recreate -d
+	docker compose up --build --force-recreate 
 
 compose.fe:
 	docker compose up --build --force-recreate -d
