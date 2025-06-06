@@ -18,6 +18,5 @@ class IndexView(TemplateView):
     logger.info(HttpResponse.status_code)
 
 class RegisterView(TemplateView):
-    http_method_names = ["get"]
     template_name = "core/Register.html"
-    logger.info(HttpResponse.status_code)
+    http_method_names = ["get"]

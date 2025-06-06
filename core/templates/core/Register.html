@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/Register.css' %}" />
+
+<body>
+
+    <!-- Form Section -->
+    <div class="Container" id="Container">
+        <div class="card">
+            <!-- Front Side -->
+            <div class="card-side card-front" id="Register">
+                <div class="left-panel">
+                    <h2>Welcome back!</h2>
+                    <p>Please log in to access the full features of Bartrify!</p>
+                    <img src="{% static 'img/Login.png'%}" alt="Illustration">
+                </div>
+
+                <div class="right-panel">
+                    <h2>Login</h2>
+                    <form method="POST">
+
+                        <div class="form-group">
+                            <input type="email" name="email" id="User-email" placeholder=" " required>
+                            <label for="email">Email</label>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="password" name="password" id="User-password" placeholder=" " required>
+                            <label for="password">Password</label>
+                        </div>
+
+                        <button type="submit">Login</button>
+                    </form>
+
+
+                    <div class="divider"><span>OR</span></div>
+                    <div class="social-buttons">
+                        <!-- Social buttons -->
+                    </div>
+
+                    <div class="login-link">
+                        Already have an account? <a class="flip-btn" onclick="flipCard()">Log in</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Back Side -->
+            <div class="card-side card-back" id="Login">
+                <div class="left-panel">
+                    <h2>Welcome to Bartrify!</h2>
+                    <p>Create your account and enjoy the benefits!</p>
+                    <img src="{% static 'img/Login.png'%}" alt="Illustration">
+                </div>
+
+                <div class="right-panel">
+                    <h2>SIGN UP</h2>
+                    <form method="POST">
+                        <div class="form-row">
+                            <div class="form-group half-width">
+                                <input type="text" name="fullName" id="fullName" placeholder=" " required>
+                                <label for="fullName">Full Name</label>
+                            </div>
+
+                            <div class="form-group half-width">
+                                <input type="text" name="location" id="location" placeholder=" " required>
+                                <label for="location">Location</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="email" name="email" id="email" placeholder=" " required>
+                            <label for="email">Email</label>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="password" name="password" id="password" placeholder=" " required>
+                            <label for="password">Password</label>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="password" name="confirmPassword" id="confirmPassword" placeholder=" " required>
+                            <label for="confirmPassword">Confirm Password</label>
+                        </div>
+
+                        <button type="submit">SIGN UP</button>
+                    </form>
+
+                    <div class="divider"><span>OR</span></div>
+                    <div class="social-buttons">
+                        <a href="#">Login com Google</a>
+                        <a href="#">Login com Discord</a>
+                        <a href="#">Login com GitHub</a>
+                    </div>
+
+
+                    <div class="login-link">
+                        Already have an account? <a class="flip-btn" onclick="flipCard()">Log in</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function flipCard() {
+                document.getElementById('Container').classList.toggle('flipped');
+            }
+        </script>
+
+</body>
+{% endblock %}
