@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Home Page{% endblock %}
+
+{% block content %}
+
+<!-- Hero -->
+<section class="hero">
+    <div class="hero-text">
+        <h1>Trade Services.<br>Build Trust.<br>Solve Problems.</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+            magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+            commodo
+            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+            est
+            laborum.
+        </p>
+        <div class="hero-buttons">
+            <a href="#content"><button class="outline">Explore More</button></a>
+            <button class="solid">Start Exchanging Now</button>
+        </div>
+    </div>
+    <div class="hero-image">
+        <img src="{% static 'img/Hero.jpg'%}" alt="hero" />
+    </div>
+</section>
+
+<!-- Content -->
+<section class="content" id="content">
+    <div class="img-contend">
+        <img src="{% static 'img/Img-content.png'%}" alt="content" />
+    </div>
+    <div class="content-text">
+        <h2>How It Works?</h2>
+        <ul>
+            <li><i class="fa-solid fa-user-plus"></i> Create an account and set up your profile.</li>
+            <li><i class="fa-solid fa-magnifying-glass"></i> Browse available services and offers from other users.</li>
+            <li><i class="fa-solid fa-bullhorn"></i> Post your own services or items for trade.</li>
+            <li><i class="fa-solid fa-comments"></i> Connect with users to negotiate trades.</li>
+            <li><i class="fa-solid fa-handshake"></i> Complete trades and build your reputation.</li>
+        </ul>
+    </div>
+</section>
+
+<section class="community-section">
+    <div class="community-text">
+        <h2>Join the community now!</h2>
+        <div class="step-text step-1">
+            <strong>347+</strong><br><span>Barters</span>
+        </div>
+        <div class="step-text step-2">
+            <strong>1.2M+</strong><br><span>Services</span>
+        </div>
+        <div class="step-text step-3">
+            <strong>500k</strong><br><span>Completed Services</span>
+        </div>
+    </div>
+    <div class="community-image">
+        <img src="{% static 'img/community-image.png'%}" alt="Community Illustration">
+    </div>
+</section>
+{% endblock %}

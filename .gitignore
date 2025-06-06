@@ -17,7 +17,6 @@ eggs/
 lib/
 lib64/
 parts/
-static/
 sdist/
 var/
 wheels/
@@ -172,3 +171,5 @@ cython_debug/
 .pypirc
 
 .solutions.md
+
+static/
