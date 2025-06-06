@@ -23,7 +23,7 @@ packages = [{include = "bartrify"}]
 
 [tool.poetry.group.dev.dependencies]
 pytest-django = "^4.10.0"
-pillow = "^11.2.1"
+watchfiles = "^1.0.5"
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "bartrify.settings"
