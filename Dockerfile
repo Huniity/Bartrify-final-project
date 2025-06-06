@@ -24,4 +24,4 @@ RUN poetry run python manage.py collectstatic --noinput
 
 VOLUME [ "/app" ]
 
-CMD [ "poetry","run","uvicorn", "bartrify.asgi:application","--host","0.0.0.0","--port","8000", "--reload","--reload-include", "*.py,*.html,*.css,*.js" ]
+CMD [ "poetry","run","uvicorn", "bartrify.asgi:application","--host","0.0.0.0","--port","8000", "--reload","--reload-dir", "/app", "--reload-include", "*.py", "--reload-include", "*.html", "--reload-include", "*.js", "--reload-include", "*.css" ]
