@@ -17,6 +17,10 @@ class IndexView(TemplateView):
     template_name = "core/index.html"
     logger.info(HttpResponse.status_code)
 
+class DashboardView(TemplateView):
+    http_method_names = ["get"]
+    template_name = "core/dashboard.html"
+
 class RegisterView(TemplateView):
     http_method_names = ["get"]
     template_name = "core/Register.html"

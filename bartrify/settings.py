@@ -26,6 +26,8 @@ SECRET_KEY = "django-insecure-&7wo31tf^#_6-6)@85svq$-eq!$ko4&=h57)u=tccikp4$ah2x
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DJANGO_DEBUG",False)
 
+
+
 ALLOWED_HOSTS = ['*']
 
 
@@ -43,6 +45,7 @@ INSTALLED_APPS = [
     # "reviews",
     # "users",
 ]
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
