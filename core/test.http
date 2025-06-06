@@ -3,8 +3,8 @@ POST http://localhost:8000/api/auth/signup/
 Content-Type: application/json
 
 {
-  "username": "traderjoe",
-  "email": "joe@example.com",
+  "username": "teste",
+  "email": "teste@example.com",
   "password": "SuperSecure123!"
 }
 
@@ -15,14 +15,16 @@ POST http://localhost:8000/api/auth/login/
 Content-Type: application/json
 
 {
-  "username": "traderjoe",
+  "username": "teste",
   "password": "SuperSecure123!"
 }
 
 ###
-# access token from login response and use it here
-@access_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ5MDY0NDM2LCJpYXQiOjE3NDkwNjQxMzYsImp0aSI6ImM1YWUwMTkwNjRhMDQ2NDdhMzY1OWJkNjA2MjUwOGQzIiwidXNlcl9pZCI6MX0.cL_gwsZ9GDed3VUcS1CdfjXRQw5Eytj4JALepqyzO84
 
+# ⚠️ Replace this manually after login response or use a REST client with env variables
+@access_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ5MjA0MzA4LCJpYXQiOjE3NDkyMDQwMDgsImp0aSI6IjM0MzdkZTgzODUzMDRkOThiZTgxMDVjZTlhNmRmMzFjIiwidXNlcl9pZCI6MzR9.MUjbYVvOA7i_z5lPkmH4NWTrCKcLpscV_MLYX3TnvAE
+
+###
 
 ### GET MY PROFILE
 GET http://localhost:8000/api/users/me/
@@ -36,17 +38,18 @@ Authorization: Bearer {{access_token}}
 Content-Type: application/json
 
 {
-  "bio": "I swap vintage guitars for rrwrwf",
-  "location": "Amsterdam"
+  "bio": "Just a guy bartering cool stuff.",
+  "location": "Portugal"
 }
 
 ###
 
-### GET PUBLIC PROFILE (replace 1 with a real user ID)
-GET http://localhost:8000/api/users/1/
+### GET PUBLIC PROFILE (swap 1 with actual user ID)
+GET http://localhost:8000/api/users/34/
 
+###
 
-### Create a service
+### CREATE A SERVICE
 POST http://localhost:8000/api/services/
 Authorization: Bearer {{access_token}}
 Content-Type: application/json
@@ -55,13 +58,58 @@ Content-Type: application/json
   "title": "Dog Walking",
   "description": "I'll walk your dog for an hour. Happy puppers guaranteed.",
   "category": "Pet Services",
-  "price": 15.00
+  "price": "15.00"
 }
 
-### Get all services (feed)
+###
+
+### GET ALL SERVICES (feed)
 GET http://localhost:8000/api/services/
 
+###
 
-### View dashboard
+### DASHBOARD VIEW (your own services + requests)
 GET http://localhost:8000/api/users/dashboard/
+Authorization: Bearer {{access_token}}
+
+###
+
+### CREATE A SERVICE REQUEST
+POST http://localhost:8000/api/requests/
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "receiver": 1,
+  "service": 1,
+  "message": "Hey, I’m down to barter! Hit me up."
+}
+
+###
+
+### GET ALL SERVICE REQUESTS
+GET http://localhost:8000/api/requests/
+Authorization: Bearer {{access_token}}
+
+###
+
+### GET SINGLE REQUEST (swap ID)
+GET http://localhost:8000/api/requests/1/
+Authorization: Bearer {{access_token}}
+
+###
+
+### UPDATE SERVICE REQUEST STATUS
+PATCH http://localhost:8000/api/requests/1/
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "status": "accepted"
+}
+
+###
+
+### DELETE A SERVICE REQUEST
+DELETE http://localhost:8000/api/requests/1/
 Authorization: Bearer {{access_token}}

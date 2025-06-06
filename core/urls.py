@@ -4,10 +4,12 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from core.views.auth import RegisterView
 from core.views.user import MeView, PublicProfileView, DashboardView
 from core.views.service import ServiceViewSet
+from core.views.request import ServiceRequestViewSet
+
 
 router = DefaultRouter()
 router.register(r'services', ServiceViewSet, basename='service')
-
+router.register(r'requests', ServiceRequestViewSet, basename='request')
 
 urlpatterns = [
     path('auth/signup/', RegisterView.as_view(), name='signup'),
