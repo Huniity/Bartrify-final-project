@@ -20,4 +20,8 @@ class IndexView(TemplateView):
 class DashboardView(TemplateView):
     http_method_names = ["get"]
     template_name = "core/dashboard.html"
+    
+class RegisterView(TemplateView):
+    http_method_names = ["get"]
+    template_name = "core/Register.html"
     logger.info(HttpResponse.status_code)

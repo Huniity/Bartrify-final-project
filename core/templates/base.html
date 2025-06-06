@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Bartrify{% endblock %}</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="shortcut icon" href="{% static 'img/favicon.ico'%}" type="image/x-icon">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <a href="./index.html">
+        <img src="{% static 'img/Logo.png'%}" />
+        <span>Bartr</span>ify
+      </a>
+    </div>
+
+    <nav>
+      <a href="{% url 'Register' %}">Sign In</a>
+      <a href="{% url 'Register' %}" class="header-btn">Join Us</a>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  {% block content %}{% endblock %}
+
+  <!-- Footer -->
+  <div class="wave-footer">
+  </div>
+  <footer class="footer">
+    <div class="footer-container">
+
+      <div class="footer-col">
+        <h3><i class="fa-solid fa-circle-info"></i> About Us</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+          labore
+          et dolore
+          magna aliqua. Quis ipsum suspendisse ultrices gravida.</p>
+      </div>
+
+      <div class="footer-col">
+        <h3><i class="fa-solid fa-link"></i> Quick Links</h3>
+        <ul>
+          <li><a href="#"><i class="fa-solid fa-house"></i> Home</a></li>
+          <li><a href="#"><i class="fa-solid fa-rss"></i> Feed</a></li>
+          <li><a href="#"><i class="fa-solid fa-user-plus"></i> Signup</a></li>
+          <li><a href="#"><i class="fa-solid fa-right-to-bracket"></i> Signin</a></li>
+          <li><a href="#"><i class="fa-solid fa-gauge-high"></i> Dashboard</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3><i class="fa-solid fa-shield-halved"></i> Privacy & Info</h3>
+        <ul>
+          <li><a href="#"><i class="fa-solid fa-file-contract"></i> Terms & Conditions</a></li>
+          <li><a href="#"><i class="fa-solid fa-user-shield"></i> Privacy Policy</a></li>
+          <li><a href="#"><i class="fa-solid fa-scale-balanced"></i> RGPD</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3><i class="fa-solid fa-address-book"></i> Contacts</h3>
+        <ul class="contacts">
+          <li><i class="fa-solid fa-location-dot"></i> @ETIC_Algarve, PT</li>
+          <li><i class="fa-solid fa-envelope"></i> example1@gmail.com</li>
+          <li><i class="fa-solid fa-envelope"></i> example2@gmail.com</li>
+          <li><i class="fa-solid fa-envelope"></i> example3@gmail.com</li>
+
+        </ul>
+      </div>
+    </div>
+
+    <p class="footer-copy">
+      <i class="fa-regular fa-copyright"></i>
+      <span id="date"></span> Bartrify. All Rights Reserved.
+    </p>
+  </footer>
+  <script>
+    document.getElementById('date').textContent = new Date().getFullYear();
+  </script>
+</body>
+
+</html>
