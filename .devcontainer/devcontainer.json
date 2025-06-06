@@ -28,7 +28,7 @@
 		"LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}",
 		"POETRY_VIRTUALENVS_IN_PROJECT":true
 	}
-
+	
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
 

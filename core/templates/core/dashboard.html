@@ -1,0 +1,330 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome to Bartrify{% endblock %}
+
+{% block content %}
+{% load static %}
+
+    <div class="container">
+        <aside class="sidebar">
+            <input type="text" class="search" placeholder="Search">
+            <div class="chat-item"><img src="https://img.icons8.com/ios-filled/30/ffffff/user.png" alt=""> Alex</div>
+            <div class="chat-item"><img src="https://img.icons8.com/ios-filled/30/ffffff/user.png" alt=""> Maia</div>
+            <div class="chat-item"><img src="https://img.icons8.com/ios-filled/30/ffffff/user.png" alt=""> Ruca</div>
+            <div class="edit-profile">Edit Profile</div>
+        </aside>
+        <main class="main">
+            <div class="profile">
+                <img src="https://img.icons8.com/ios-filled/100/user-male-circle.png" alt="User">
+                <div>
+                    <h2 style="font-weight: bold;">Pedro Santos</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <div class="tags">
+                        <span class="tag-green">GARDENING</span>
+                        <span class="tag-blue">MECHANIC</span>
+                        <span class="tag-orange">ELECTRICIST</span>
+                    </div>
+                </div>
+                <div class="ratings">
+                    Ratings<br>
+                    <strong>5/5</strong><br>
+                    Excellent<br>
+                    30+ Reviews
+                </div>
+            </div>
+            <div class="tabs-container">
+                <div class="tabs">
+                    <div class="tab active">Active Exchanges</div>
+                    <div class="tab">Created Services</div>
+                    <div class="tab">Completed Exchanges</div>
+                </div>
+                <button class="add-service">NEW SERVICE</button>
+            </div>
+            <div class="exchange-card">
+                <strong>Abelha: Interior Designer</strong><br>
+                Name: Abelha Maia<br>
+                Exchange: Interior Design for your Mechanic Skill<br>
+                <span style="color:red; font-weight: bold;">ON-GOING</span>
+            </div>
+            <div class="exchange-card">
+                <strong>Ruca: Web Dev</strong><br>
+                Name: Ruca<br>
+                Exchange: Web Site for your Mechanic Skill<br>
+                <span style="color:red; font-weight: bold;">ON-GOING</span>
+            </div>
+            <div class="exchange-card">
+                <strong>Alex: Gardening</strong><br>
+                Name: Alex<br>
+                Exchange: Gardening for your Electricist Skill<br>
+                <span style="color:red; font-weight: bold;">ON-GOING</span>
+            </div>
+        </main>
+        <aside class="stats">
+            <div><strong>Exchanges made</strong><br>100+</div>
+            <div><strong>Profile views</strong><br>300+</div>
+            <div><strong>Credits earned</strong><br>2,400$</div>
+            <div class="graph">
+                <strong>Exchanges Graph</strong><br>
+                March 2023
+                <img src="https://img.icons8.com/ios-filled/100/bar-chart.png" alt="Graph">
+                <div>Today: $45.00<br>Best: $90.00<br>Average: $65.00</div>
+            </div>
+        </aside>
+    </div>
+
+<script src="http://localhost:35729/livereload.js"></script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+
+        header {
+            background-color: #7997a1;
+            color: white;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-weight: 700;
+            font-size: 24px;
+            gap: 10px;
+        }
+
+        .logo img {
+            height: 40px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .nav-right a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .sign-out {
+            background-color: #2b3e50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        .sign-out img {
+            margin-left: 8px;
+        }
+
+        .container {
+            display: flex;
+            padding: 20px;
+            gap: 20px;
+            flex-wrap: wrap;
+            width: 100%;
+            flex-wrap: nowrap;
+        }
+
+        .sidebar,
+        .stats {
+            width: 20%;
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .main {
+            flex-grow: 1;
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+            min-width: 300px;
+        }
+
+        .search {
+            padding: 10px;
+            background-color: #1f2c3b;
+            color: white;
+            border-radius: 8px;
+            border: none;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .chat-item {
+            background-color: #1f2c3b;
+            color: white;
+            border-radius: 8px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+
+        .edit-profile {
+            background-color: #1f2c3b;
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .profile {
+            display: flex;
+            gap: 20px;
+            flex-wrap: nowrap;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 20px;
+            width: 100%;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .profile img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 4px solid #1f2c3b;
+        }
+
+        .tags span {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 6px;
+            color: white;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        .tag-green {
+            background-color: #4CAF50;
+        }
+
+        .tag-blue {
+            background-color: #607D8B;
+        }
+
+        .tag-orange {
+            background-color: #FFA726;
+        }
+
+        .ratings {
+            background-color: #f4f6f8;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            min-width: 150px;
+        }
+
+        .tabs-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+        }
+
+        .tab {
+            padding: 10px 15px;
+            border-radius: 10px;
+            background-color: #e0e0e0;
+            font-weight: bold;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .tab.active {
+            background-color: #1f2c3b;
+            color: white;
+        }
+
+        .add-service {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .exchange-card {
+            background-color: #f4f6f8;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 10px;
+            border-left: 5px solid red;
+        }
+
+        .graph img {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .graph div {
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                padding: 10px;
+            }
+
+            .sidebar,
+            .stats,
+            .main {
+                width: 100%;
+                padding: 15px;
+            }
+
+            .profile {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .ratings {
+                align-self: center;
+            }
+
+            .tabs-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .tabs {
+                width: 100%;
+                overflow-x: scroll;
+            }
+        }
+    </style>
+{% endblock %}

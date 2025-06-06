@@ -35,6 +35,10 @@ compose.super:
 compose.start:
 	docker compose up --build --force-recreate -d
 
+compose.fe:
+	docker compose up --build --force-recreate -d
+	docker compose run web poetry run python manage.py livereload
+
 compose.migrate:
 	docker compose run --rm web poetry run python manage.py migrate
 
@@ -58,6 +62,9 @@ compose.course:
 
 compose.logs:
 	docker compose logs -f
+
+compose.django:
+	docker compose run --rm web poetry add django-livereload-server
 
 open.terminal:
 	code --new-window
