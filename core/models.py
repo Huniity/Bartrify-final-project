@@ -3,10 +3,14 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 
 
+
+def user_avatar_path(instance, filename):
+    return f'avatars/user_{instance.id}/{filename}'
+
 class User(AbstractUser):
-    # avatar
-    # self services
-    #  
+    avatar = models.ImageField(upload_to=user_avatar_path, blank=True, null=True)
+    first_name = models.CharField(max_length=150, blank=True)
+    last_name = models.CharField(max_length=150, blank=True)
     bio = models.TextField(blank=True, default='')
     location = models.CharField(max_length=100, blank=True, default='')
 
