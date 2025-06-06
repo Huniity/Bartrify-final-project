@@ -24,4 +24,4 @@ class DashboardView(TemplateView):
 class RegisterView(TemplateView):
     http_method_names = ["get"]
     template_name = "core/Register.html"
-    logger.info(HttpResponse.status_code)
+    #logger.info(HttpResponse.status_code)
