@@ -16,3 +16,8 @@ class IndexView(TemplateView):
     http_method_names = ["get"]
     template_name = "core/index.html"
     logger.info(HttpResponse.status_code)
+
+class DashboardView(TemplateView):
+    http_method_names = ["get"]
+    template_name = "core/dashboard.html"
+    logger.info(HttpResponse.status_code)

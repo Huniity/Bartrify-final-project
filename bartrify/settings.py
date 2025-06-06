@@ -26,6 +26,8 @@ SECRET_KEY = "django-insecure-&7wo31tf^#_6-6)@85svq$-eq!$ko4&=h57)u=tccikp4$ah2x
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DJANGO_DEBUG",False)
 
+
+
 ALLOWED_HOSTS = ['*']
 
 
@@ -43,6 +45,7 @@ INSTALLED_APPS = [
     # "reviews",
     # "users",
 ]
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -134,9 +137,9 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "static"
-# STATICFILES_DIRS = [ <- On local staic only
-#     BASE_DIR / 'static',
-# ]
+STATICFILES_DIRS = [
+    BASE_DIR / 'custom_static',
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
