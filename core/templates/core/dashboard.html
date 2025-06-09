@@ -7,41 +7,45 @@
 <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
 <main>
     <aside class="left-sidebar" aria-label="Recent chats and search">
-      <input type="search" placeholder="Search" aria-label="Search chats" />
+      <div class="search-container">
+        <input type="search" placeholder="Search" aria-label="Search chats"/>
+        <i class="fa-sharp fa-solid fa-magnifying-glass"></i>
+      </div>
       <h3>Recent Chats</h3>
       <div class="chat-list">
         <button class="chat-button" type="button">
           <div class="left">
-            <img src="https://storage.googleapis.com/a1aa/image/036b8775-61e1-4b07-892d-17a1aa12e9b8.jpg" alt="Avatar of Alex, a person with short brown hair wearing a red hoodie, circle cropped" />
+            <img src="https://placehold.co/600x400/black/white" alt="Placeholder Avatar" />
             <span>Alex</span>
           </div>
           <i class="fas fa-ellipsis-h"></i>
         </button>
         <button class="chat-button" type="button">
           <div class="left">
-            <img src="https://storage.googleapis.com/a1aa/image/e768b461-e406-4c20-3691-51476b06671c.jpg" alt="Avatar of Maia, a person with short brown hair wearing a red hoodie, circle cropped" />
+            <img src="https://placehold.co/600x400/black/white" alt="Placeholder Avatar" />
             <span>Maia</span>
           </div>
           <i class="fas fa-ellipsis-h"></i>
         </button>
         <button class="chat-button" type="button">
           <div class="left">
-            <img src="https://storage.googleapis.com/a1aa/image/aed21885-41cd-4f45-161a-7e615a5b27eb.jpg" alt="Avatar of Ruca, a person with short brown hair wearing a red hoodie, circle cropped" />
+            <img src="https://placehold.co/600x400/black/white" alt="Placeholder Avatar" />
             <span>Ruca</span>
           </div>
           <i class="fas fa-ellipsis-h"></i>
         </button>
       </div>
       <button class="edit-profile-btn" type="button">
-        <img src="https://storage.googleapis.com/a1aa/image/b974c4f9-8316-451e-b6c1-a0e3cf88a514.jpg" alt="Avatar of person with short brown hair wearing a red hoodie, circle cropped" />
+        <img src="https://placehold.co/600x400/black/white" alt="Placeholder Avatar" />
         <span>Edit Profile</span>
+        <i class="fa-solid fa-gear"></i>
       </button>
     </aside>
     <section class="center-content" aria-label="User profile and active exchanges">
       <div class="profile-top">
-        <img src="https://storage.googleapis.com/a1aa/image/b0d5edd5-9c52-4d5f-30a1-8e36bdad90dc.jpg" alt="Avatar of Pedro Santos, a person with short brown hair wearing a red hoodie, circle cropped with black border" class="profile-image" />
+        <img src="https://placehold.co/600x400/black/white" alt="Placeholder Avatar" class="profile-image" />
         <div class="profile-info">
-          <h2>Pedro Santos</h2>
+          <h2>John Doe</h2>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
           <div class="tags">
             <span class="tag gardening">Gardening</span>
@@ -63,12 +67,14 @@
       <div>
         <div class="active-exchanges-header">
           <h3>Active Exchanges</h3>
-          <button class="add-service-btn" type="button">Add a Service</button>
         </div>
-        <div class="tabs" role="tablist" aria-label="Exchange categories">
-          <span class="tab active" role="tab" aria-selected="true" tabindex="0">Active Exchanges</span>
-          <span class="tab inactive" role="tab" tabindex="-1">Created Services</span>
-          <span class="tab inactive" role="tab" tabindex="-1">Completed Exchanges</span>
+        <div class="tabs-wrapper">
+          <div class="tabs">
+            <span class="tab active" role="tab" aria-selected="true" tabindex="0">Active Exchanges</span>
+            <span class="tab inactive" role="tab" tabindex="-1">Created Services</span>
+            <span class="tab inactive" role="tab" tabindex="-1">Completed Exchanges</span>
+          </div>
+          <button class="add-service-btn">Add a Service</button>
         </div>
         <div>
           <div class="exchange-item">
@@ -86,7 +92,7 @@
           <div class="exchange-item">
             <strong>Alex: Gardening</strong>
             <p>Name: Alex</p>
-            <p>Exchange: Gardening for your Eletricit Skill</p>
+            <p>Exchange: Gardening for your Eletricist Skill</p>
             <span class="status">On-going</span>
           </div>
         </div>
@@ -114,8 +120,8 @@
         <div class="stat-item">
           <div class="stat-icon" aria-hidden="true"><i class="fas fa-wallet"></i></div>
           <div class="stat-text">
-            <p>Credits earned</p>
-            <p>2,400$</p>
+            <p>Profile Reviews</p>
+            <p>1345</p>
             <div class="stat-bar"></div>
           </div>
         </div>
@@ -125,8 +131,8 @@
         <div class="graph-header">
           <button aria-label="Previous month"><i class="fas fa-chevron-left"></i></button>
           <div class="graph-month">
-            March<br />
-            <small>2023</small>
+            June<br />
+            <small>2025</small>
           </div>
           <button aria-label="Next month"><i class="fas fa-chevron-right"></i></button>
         </div>
@@ -139,18 +145,37 @@
         </div>
         <div class="graph-labels">
           <span>1</span>
-          <span>1</span>
-          <span>12</span>
+          <span>2</span>
           <span>3</span>
           <span>4</span>
+          <span>5</span>
         </div>
         <div class="graph-stats">
-          <p>Today <span>$45.00</span></p>
-          <p>Best <span>$90.00</span></p>
-          <p>Average <span>$65.00</span></p>
+          <p>Today <span>4</span></p>
+          <p>Best <span>12</span></p>
+          <p>Average <span>3</span></p>
         </div>
       </section>
     </aside>
   </main>
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <script>
+  const tabs = document.querySelectorAll(".tabs .tab");
+
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      tabs.forEach(t => {
+        t.classList.remove("active");
+        t.classList.add("inactive");
+        t.setAttribute("aria-selected", "false");
+        t.setAttribute("tabindex", "-1");
+      });
+
+      tab.classList.remove("inactive");
+      tab.classList.add("active");
+      tab.setAttribute("aria-selected", "true");
+      tab.setAttribute("tabindex", "0");
+    });
+  });
+</script>
 {% endblock %}
