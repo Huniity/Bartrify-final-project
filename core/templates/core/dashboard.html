@@ -6,6 +6,8 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
 <main>
+
+      <!-- Left Side Bar -->
     <aside class="left-sidebar" aria-label="Recent chats and search">
       <div class="search-container">
         <input type="search" placeholder="Search" aria-label="Search chats"/>
@@ -41,6 +43,8 @@
         <i class="fa-solid fa-gear"></i>
       </button>
     </aside>
+
+          <!-- Main Dashboard -->
     <section class="center-content" aria-label="User profile and active exchanges">
       <div class="profile-top">
         <img src="https://placehold.co/600x400/black/white" alt="Placeholder Avatar" class="profile-image" />
@@ -98,6 +102,8 @@
         </div>
       </div>
     </section>
+
+    <!-- Right Side Bar -->
     <aside class="right-sidebar" aria-label="Stats and exchanges graph">
       <section class="stats">
         <h3>Stats</h3>

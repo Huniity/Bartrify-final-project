@@ -18,7 +18,7 @@ main {
 
 /* Left sidebar */
 aside.left-sidebar {
-  width: 13rem;
+  width: 16rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -217,6 +217,7 @@ section.center-content {
   font-weight: 600;
   font-size: 0.75rem;
   margin: 0.5rem 0 0.5rem 0;
+  color: var(--secundary-color);
 }
 
 /* Circle with 5/5 and Excellent inside */
@@ -301,8 +302,8 @@ section.center-content {
 }
 
 .tab.active {
-  width: 7.5rem;
-  font-size: 0.55rem;
+  width: 10rem;
+  font-size: 0.70rem;
   font-weight: 600;
   color: var(--secundary-color);
   background: linear-gradient(360deg,rgba(47, 65, 86, 1) 6%, rgba(255, 255, 255, 1) 8%);
@@ -311,10 +312,11 @@ section.center-content {
   text-align: center;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
+
 .tab.inactive {
   font-weight: 600;
-  width: 7.5rem;
-  font-size: 0.55rem;
+  width: 10rem;
+  font-size: 0.70rem;
   text-align: center;
   color: var(--secundary-color);
   padding: 0.25rem 0.75rem;
@@ -377,6 +379,7 @@ aside.right-sidebar {
   font-weight: 600;
   margin-top: 0;
   margin-bottom: 0.75rem;
+
 }
 
 .stat-item {
@@ -409,7 +412,7 @@ aside.right-sidebar {
 
 .stat-text p:first-child {
   margin: 0;
-  font-size: 0.5rem;
+  font-size: 0.7rem;
   color: var(--secundary-color);
 }
 
