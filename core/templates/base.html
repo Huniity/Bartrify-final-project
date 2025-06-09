@@ -12,26 +12,45 @@
 </head>
 
 <body>
-
+    {% if 'dashboard' not in request.path %}
   <!-- Header -->
   <header class="header">
     <div class="logo">
-      <a href="./index.html">
+      <a href="/">
         <img src="{% static 'img/Logo.png'%}" />
         <span>Bartr</span>ify
       </a>
     </div>
 
     <nav>
-      <a href="{% url 'Register' %}">Sign In</a>
-      <a href="{% url 'Register' %}" class="header-btn">Join Us</a>
+      <a href="{% url 'Register' %}">Sign In <i class="fa-solid fa-right-to-bracket"></i></a>
+      <a href="{% url 'Register' %}" class="header-btn">Join Us <i class="fa-solid fa-user-plus"></i></a>
     </nav>
   </header>
+{% endif %}
+{% if 'dashboard' in request.path %}
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <a href="/">
+        <img src="{% static 'img/Logo.png'%}" />
+        <span>Bartr</span>ify
+      </a>
+    </div>
+
+    <nav>
+       <h3>Welcome John Doe!</h2>
+      <a href="{% url 'Register' %}" class="header-btn">DASHBOARD <i class="fa-solid fa-gauge-high"></i></a>
+    </nav>
+  </header>
+{% endif %}
+
 
   <!-- Main Content -->
   {% block content %}{% endblock %}
 
   <!-- Footer -->
+  {% if 'dashboard' not in request.path %}
   <div class="wave-footer">
   </div>
   <footer class="footer">
@@ -82,6 +101,7 @@
       <span id="date"></span> Bartrify. All Rights Reserved.
     </p>
   </footer>
+    {% endif %}
   <script>
     document.getElementById('date').textContent = new Date().getFullYear();
   </script>
