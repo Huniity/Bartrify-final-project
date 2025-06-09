@@ -15,14 +15,14 @@ POST http://localhost:8000/api/auth/login/
 Content-Type: application/json
 
 {
-  "username": "tomas",
-  "password": "SuperSecure123!"
+  "username": "testing",
+  "password": "12345"
 }
 
 ###
 
 # ⚠️ Paste access_token manually after login
-@access_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ5NDk2MjA3LCJpYXQiOjE3NDk0OTU5MDcsImp0aSI6ImVkZmEwODNjYzY4MTRlNmNhOTQ4ZWQ2NTk2YjJjOTk4IiwidXNlcl9pZCI6MX0.9NWH8duGx1T7PJOElcVx_HFkOfpdg7G-KWdt7R5Hjac
+@access_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ5NTAwMTUwLCJpYXQiOjE3NDk0OTk4NTAsImp0aSI6ImEwZmM1NzdlZGYzYjRmYjc5MTg1YzQ4YzM4ZWJjYzZiIiwidXNlcl9pZCI6Mn0.-7ENLcS5YZOIOpzIE_K5V4gaFz7IDlsK84comOcosJg
 
 ###
 
