@@ -7,7 +7,7 @@ User = get_user_model()
 
 class UserDashboardSerializer(serializers.ModelSerializer):
     services = serializers.SerializerMethodField()
-    avatar = serializers.ImageField(read_only=True)  # Just show avatar URL here
+    avatar = serializers.ImageField(read_only=True)  
 
     class Meta:
         model = User
