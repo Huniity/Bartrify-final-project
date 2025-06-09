@@ -1,0 +1,279 @@
+/* ===== Flip Card + Form ===== */
+.Container {
+    width: 1200px;
+    height: 680px;
+    perspective: 1500px;
+    margin: 50px auto;
+
+}
+
+.card {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+
+.Container.flipped .card {
+    transform: rotateY(180deg);
+}
+
+.card-side {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    backface-visibility: hidden;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.card-front {
+    flex-direction: row;
+}
+
+.card-back {
+    /* flex-direction: row-reverse;    deixar ou tirar perguntar na aula */
+    transform: rotateY(180deg);
+}
+
+.left-panel {
+    background-color: var(--primary-color);
+    padding: 40px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.left-panel img {
+    width: 350px;
+    height: auto;
+    margin-top: 24px;
+}
+
+.left-panel h2 {
+    font-size: 22px;
+    color: #1d1d1d;
+    margin-top: 8px;
+}
+
+.left-panel p {
+    color: #333;
+    text-align: center;
+}
+
+.right-panel {
+    flex: 1.1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+.right-panel form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.right-panel .form-row {
+    width: 100%;
+}
+
+.right-panel .form-group {
+    width: 100%;
+}
+
+.right-panel h2 {
+    font-size: 24px;
+}
+
+.form-group {
+    position: relative;
+    margin-bottom: 8px;
+}
+
+.form-row {
+    display: flex;
+    gap: 16px;
+}
+
+.half-width {
+    flex: 1;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 18px 14px 10px 14px;
+    font-size: 16px;
+    border: 1.5px solid #bfc9d1;
+    border-radius: 12px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+    border-color: var(--primary-color);
+    background-color: #fff;
+}
+
+.form-group label {
+    position: absolute;
+    left: 16px;
+    top: 25px;
+    font-size: 14px;
+    color: #888;
+    transition: top 0.18s linear, left 0.18s linear, font-size 0.18s linear, color 0.18s linear;
+
+}
+
+.form-group input:focus+label,
+.form-group input:not(:placeholder-shown)+label {
+    top: 2px;
+    left: 12px;
+    font-size: 13px;
+    color: var(--primary-color);
+    padding: 0 4px;
+    background-color: white;
+}
+
+.form-group .fas {
+    position: absolute;
+    right: 15px;
+    top: 45%;
+    color: #888;
+    font-size: 16px;
+    z-index: 3;
+}
+
+.form-group .password-toggle-icon {
+    cursor: pointer;
+}
+
+input {
+    margin-top: 10px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--secundary-color);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 15px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 25px 0 20px;
+    color: #868686;
+    font-weight: 900;
+}
+
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #868686;
+}
+
+.divider::before {
+    margin-right: 10px;
+}
+
+.divider::after {
+    margin-left: 10px;
+}
+
+.social-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.social-buttons button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    border: 1px solid #bfc9d1;
+    color: var(--secundary-color);
+    cursor: pointer;
+    transition: color 0.4s ease-in-out, border-color 0.4s ease-in-out;
+    position: relative;
+    overflow: hidden;
+    flex: 1;
+}
+
+.social-buttons span {
+    z-index: 1;
+}
+
+.social-buttons .fab {
+    font-size: 16px;
+    transition: transform 0.4s ease-in-out, color 0.4s ease-in-out;
+    z-index: 2;
+}
+
+.social-buttons button::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    transition: top 0.4s ease-in-out;
+    z-index: 1;
+}
+
+.social-buttons button:hover {
+    color: white;
+    border-color: transparent;
+}
+
+.social-buttons button:hover::before {
+    top: 0;
+}
+
+.social-buttons button:hover .fab {
+    transform: rotateY(360deg);
+    color: white;
+}
+
+.social-buttons button:nth-child(1):hover::before {
+    background-color: #7289da;
+}
+
+.social-buttons button:nth-child(2):hover::before {
+    background-color: #dd4b39;
+}
+
+.social-buttons button:nth-child(3):hover::before {
+    background-color: #24292e;
+}
+
+.login-link {
+    margin-top: 25px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.login-link a {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: bold;
+}

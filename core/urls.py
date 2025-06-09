@@ -10,3 +10,4 @@ urlpatterns = [
     path("", IndexView.as_view(), name="index"),
     path("dashboard/", DashboardView.as_view(), name="dashboard"),
     path("/Register", RegisterView.as_view(), name="Register"),
+]
