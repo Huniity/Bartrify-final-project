@@ -17,11 +17,9 @@
       border-radius: 8px;
       padding: 2rem;
       max-width: 360px;
-      width: 90%;
+      /* width: 90%; */
       box-shadow: 0 4px 20px rgba(0,0,0,0.1);
       text-align: center;
-      position: relative;
-      animation-fill-mode: forwards;
     }
  
     .close-btn2 {
@@ -68,3 +66,126 @@
     .modal2.exiting {
       animation: meepOut2 .5s ease-in forwards;
     }
+    .left-panel {
+      background-color: var(--primary-color);
+      padding: 40px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+  }
+  .right-panel {
+    flex: 1.1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+.right-panel form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.right-panel .form-row {
+    width: 100%;
+}
+
+.right-panel .form-group {
+    width: 100%;
+}
+
+.right-panel h2 {
+    font-size: 24px;
+}
+
+.form-group {
+    position: relative;
+    margin-bottom: 8px;
+}
+
+.form-row {
+    display: flex;
+    gap: 16px;
+}
+
+.half-width {
+    flex: 1;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 18px 14px 10px 14px;
+    font-size: 16px;
+    border: 1.5px solid #bfc9d1;
+    border-radius: 12px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+    border-color: var(--primary-color);
+    background-color: #fff;
+}
+
+.form-group label {
+    position: absolute;
+    left: 16px;
+    top: 25px;
+    font-size: 14px;
+    color: #888;
+    transition: top 0.18s linear, left 0.18s linear, font-size 0.18s linear, color 0.18s linear;
+
+}
+
+.form-group input:focus+label,
+.form-group input:not(:placeholder-shown)+label {
+    top: 2px;
+    left: 12px;
+    font-size: 13px;
+    color: var(--primary-color);
+    padding: 0 4px;
+    background-color: white;
+}
+
+.form-group .fas {
+    position: absolute;
+    right: 15px;
+    top: 45%;
+    color: #888;
+    font-size: 16px;
+    z-index: 3;
+}
+
+.form-group .password-toggle-icon {
+    cursor: pointer;
+}
+
+input {
+    margin-top: 10px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--secundary-color);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 15px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 25px 0 20px;
+    color: #868686;
+    font-weight: 900;
+}

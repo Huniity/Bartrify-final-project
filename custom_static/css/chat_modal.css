@@ -1,15 +1,5 @@
-   .open-btn {
-      padding: 1rem 2rem;
-      font-size: 1.1rem;
-      background: #556B2F;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
 
-    /* Overlay */
-    .modal-overlay {
+    .modal-overlay3 {
       position: fixed;
       inset: 0;
       background: rgba(0,0,0,0.4);
@@ -18,12 +8,12 @@
       justify-content: flex-start; /* start from left */
       z-index: 1000;
     }
-    .modal-overlay.active {
+    .modal-overlay3.active {
       display: flex;
     }
 
     /* Modal box */
-    .modal-content {
+    .modal-content3 {
       top: 3.8rem;
       background: white;
       width: 80%;
@@ -39,12 +29,12 @@
       flex-direction: column;
       overflow: hidden;
     }
-    .modal-content.open {
+    .modal-content3.open {
       transform: translateX(19rem);
     }
 
     /* Close button */
-    .close-btn {
+    .close-btn3 {
       position: absolute;
       top: 1rem;
       right: 1rem;
@@ -54,12 +44,12 @@
       cursor: pointer;
       color: #556B2F;
     }
-    .close-btn:hover {
+    .close-btn3:hover {
       color: #334218;
     }
 
     /* Content area */
-    .modal-body {
+    .modal-body3 {
       padding: 2rem;
       overflow-y: auto;
       flex: 1;

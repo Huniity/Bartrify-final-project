@@ -18,7 +18,15 @@
     </div>
     <h3>Recent Chats</h3>
     <div class="chat-list">
-      <button class="chat-button" type="button" id="openBtn3">
+      <button class="chat-button" type="button" onclick="flipCard()">
+        <div class="left">
+          <img src="https://placehold.co/600x400/black/white" alt="Placeholder Avatar" />
+          <span>Flip to Chat</span>
+        </div>
+        <i class="fa-solid fa-arrows-rotate fa-spin"></i>
+      </button>
+      <br>
+      <button class="chat-button" type="button">
         <div class="left">
           <img src="https://placehold.co/600x400/black/white" alt="Placeholder Avatar" />
           <span>Alex</span>
@@ -40,141 +48,192 @@
         <i class="fas fa-ellipsis-h"></i>
       </button>
     </div>
-<button class="edit-profile-btn" id="openBtn2" type="button">
-  <img src="https://placehold.co/600x400/black/white" alt="Avatar" />
-  <span>Edit Profile</span>
-  <i class="fa-solid fa-gear"></i>
-</button>
+    <button class="edit-profile-btn" id="openBtn2" type="button">
+      <img src="https://placehold.co/600x400/black/white" alt="Avatar" />
+      <span>Edit Profile</span>
+      <i class="fa-solid fa-gear"></i>
+    </button>
   </aside>
 
-  <!-- Main Dashboard -->
-  <section class="center-content" aria-label="User profile and active exchanges">
-    <div class="profile-top">
-      <img src="https://placehold.co/600x400/black/white" alt="Placeholder Avatar" class="profile-image" />
-      <div class="profile-info">
-        <h2>John Doe</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua.</p>
-        <div class="tags">
-          <span class="tag gardening">Gardening</span>
-          <span class="tag mechanic">Mechanic</span>
-          <span class="tag eletricit">Eletricit</span>
-        </div>
+
+  <div class="dashboard-container" id="dashboard-container">
+    <div class="dashboard-card" id="dashboard-card">
+      <!-- Dashboard Side-->
+      <div class="dashboard-card-side dashboard-card-front" id="dashboard-card-front">
+        <section class="center-content" aria-label="User profile and active exchanges" id="dashboard-container">
+          <div class="profile-top">
+            <img src="https://placehold.co/600x400/black/white" alt="Placeholder Avatar" class="profile-image" />
+            <div class="profile-info">
+              <h2>John Doe</h2>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore
+                magna aliqua.</p>
+              <div class="tags">
+                <span class="tag gardening">Gardening</span>
+                <span class="tag mechanic">Mechanic</span>
+                <span class="tag eletricit">Eletricit</span>
+              </div>
+            </div>
+            <div class="ratings" aria-label="Ratings">
+              <h3>Ratings</h3>
+              <div class="circle-rating" role="img" aria-label="Rating 5 out of 5">
+                <div class="circle-text">
+                  <div class="rating">5/5</div>
+                  <div class="label">Excellent</div>
+                </div>
+              </div>
+              <p class="reviews">30+ Reviews</p>
+            </div>
+          </div>
+          <div>
+            <div class="active-exchanges-header">
+              <h3>Active Exchanges</h3>
+            </div>
+            <div class="tabs-wrapper">
+              <div class="tabs">
+                <span class="tab active" role="tab" aria-selected="true" tabindex="0">Active Exchanges</span>
+                <span class="tab inactive" role="tab" tabindex="-1">Created Services</span>
+                <span class="tab inactive" role="tab" tabindex="-1">Completed Exchanges</span>
+              </div>
+              <button class="add-service-btn" id="openBtn" type="button">
+                Add a Service
+              </button>
+            </div>
+
+            <div>
+              <div class="exchange-item">
+                <strong>Abelha: Interior Designer</strong>
+                <p>Name: Abelha Maia</p>
+                <p>Exchange: Interior Design for your Mechanic Skill</p>
+                <span class="status">On-going</span>
+              </div>
+              <div class="exchange-item">
+                <strong>Ruca: Web Dev</strong>
+                <p>Name: Ruca</p>
+                <p>Exchange: Web Site for your Mechanic Skill</p>
+                <span class="status">On-going</span>
+              </div>
+              <div class="exchange-item">
+                <strong>Alex: Gardening</strong>
+                <p>Name: Alex</p>
+                <p>Exchange: Gardening for your Eletricist Skill</p>
+                <span class="status">On-going</span>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
-      <div class="ratings" aria-label="Ratings">
-        <h3>Ratings</h3>
-        <div class="circle-rating" role="img" aria-label="Rating 5 out of 5">
-          <div class="circle-text">
-            <div class="rating">5/5</div>
-            <div class="label">Excellent</div>
+      <!-- Chat Side-->
+      <div class="dashboard-card-side dashboard-card-back" id="dashboard-card-back">
+        <h2>Chat Room</h2>
+        <p>Connect with other users, discuss trades, and build your network.</p>
+      </div>
+    </div>
+  </div>
+    
+    <aside class="right-sidebar" aria-label="Stats and exchanges graph">
+      <section class="stats">
+        <h3>Stats</h3>
+        <div class="stat-item">
+          <div class="stat-icon" aria-hidden="true"><i class="fas fa-exchange-alt"></i></div>
+          <div class="stat-text">
+            <p>Exchanges made</p>
+            <p>100+</p>
+            <div class="stat-bar"></div>
           </div>
         </div>
-        <p class="reviews">30+ Reviews</p>
-      </div>
-    </div>
-    <div>
-      <div class="active-exchanges-header">
-        <h3>Active Exchanges</h3>
-      </div>
-      <div class="tabs-wrapper">
-        <div class="tabs">
-          <span class="tab active" role="tab" aria-selected="true" tabindex="0">Active Exchanges</span>
-          <span class="tab inactive" role="tab" tabindex="-1">Created Services</span>
-          <span class="tab inactive" role="tab" tabindex="-1">Completed Exchanges</span>
+        <div class="stat-item">
+          <div class="stat-icon" aria-hidden="true"><i class="fas fa-rocket"></i></div>
+          <div class="stat-text">
+            <p>Profile views</p>
+            <p>300+</p>
+            <div class="stat-bar"></div>
+          </div>
         </div>
-        <button class="add-service-btn" id="openBtn" type="button">
-          Add a Service
-        </button>
-      </div>
-      
-      <div>
-        <div class="exchange-item">
-          <strong>Abelha: Interior Designer</strong>
-          <p>Name: Abelha Maia</p>
-          <p>Exchange: Interior Design for your Mechanic Skill</p>
-          <span class="status">On-going</span>
+        <div class="stat-item">
+          <div class="stat-icon" aria-hidden="true"><i class="fas fa-wallet"></i></div>
+          <div class="stat-text">
+            <p>Profile Reviews</p>
+            <p>1345</p>
+            <div class="stat-bar"></div>
+          </div>
         </div>
-        <div class="exchange-item">
-          <strong>Ruca: Web Dev</strong>
-          <p>Name: Ruca</p>
-          <p>Exchange: Web Site for your Mechanic Skill</p>
-          <span class="status">On-going</span>
+      </section>
+      <section class="graph-container">
+        <h3>Exchanges Graph</h3>
+        <div class="graph-header">
+          <button aria-label="Previous month"><i class="fas fa-chevron-left"></i></button>
+          <div class="graph-month">
+            June<br />
+            <small>2025</small>
+          </div>
+          <button aria-label="Next month"><i class="fas fa-chevron-right"></i></button>
         </div>
-        <div class="exchange-item">
-          <strong>Alex: Gardening</strong>
-          <p>Name: Alex</p>
-          <p>Exchange: Gardening for your Eletricist Skill</p>
-          <span class="status">On-going</span>
+        <div class="graph-bars" aria-hidden="true">
+          <div class="bar blue" style="height: 40%;"></div>
+          <div class="bar blue" style="height: 70%;"></div>
+          <div class="bar blue" style="height: 40%;"></div>
+          <div class="bar blue" style="height: 80%;"></div>
+          <div class="bar orange" style="height: 20%;"></div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Right Side Bar -->
-  <aside class="right-sidebar" aria-label="Stats and exchanges graph">
-    <section class="stats">
-      <h3>Stats</h3>
-      <div class="stat-item">
-        <div class="stat-icon" aria-hidden="true"><i class="fas fa-exchange-alt"></i></div>
-        <div class="stat-text">
-          <p>Exchanges made</p>
-          <p>100+</p>
-          <div class="stat-bar"></div>
+        <div class="graph-labels">
+          <span>1</span>
+          <span>2</span>
+          <span>3</span>
+          <span>4</span>
+          <span>5</span>
         </div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-icon" aria-hidden="true"><i class="fas fa-rocket"></i></div>
-        <div class="stat-text">
-          <p>Profile views</p>
-          <p>300+</p>
-          <div class="stat-bar"></div>
+        <div class="graph-stats">
+          <p>Today <span>4</span></p>
+          <p>Best <span>12</span></p>
+          <p>Average <span>3</span></p>
         </div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-icon" aria-hidden="true"><i class="fas fa-wallet"></i></div>
-        <div class="stat-text">
-          <p>Profile Reviews</p>
-          <p>1345</p>
-          <div class="stat-bar"></div>
-        </div>
-      </div>
-    </section>
-    <section class="graph-container">
-      <h3>Exchanges Graph</h3>
-      <div class="graph-header">
-        <button aria-label="Previous month"><i class="fas fa-chevron-left"></i></button>
-        <div class="graph-month">
-          June<br />
-          <small>2025</small>
-        </div>
-        <button aria-label="Next month"><i class="fas fa-chevron-right"></i></button>
-      </div>
-      <div class="graph-bars" aria-hidden="true">
-        <div class="bar blue" style="height: 40%;"></div>
-        <div class="bar blue" style="height: 70%;"></div>
-        <div class="bar blue" style="height: 40%;"></div>
-        <div class="bar blue" style="height: 80%;"></div>
-        <div class="bar orange" style="height: 20%;"></div>
-      </div>
-      <div class="graph-labels">
-        <span>1</span>
-        <span>2</span>
-        <span>3</span>
-        <span>4</span>
-        <span>5</span>
-      </div>
-      <div class="graph-stats">
-        <p>Today <span>4</span></p>
-        <p>Best <span>12</span></p>
-        <p>Average <span>3</span></p>
-      </div>
-    </section>
-  </aside>
+      </section>
+    </aside>
     {% include "core/service_modal.html" %}
     {% include "core/profile_modal.html" %}
     {% include "core/chat_modal.html" %}
 </main>
+<style>
+  aside.right-sidebar {
+    width: 15rem;
+  }
+  .dashboard-container {
+    width: 75%;
+  }
 
+  .dashboard-card {
+    height: 100%;
+    position: relative;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+  }
+
+  .dashboard-container.flipped .dashboard-card {
+    transform: rotateY(180deg);
+  }
+
+  .dashboard-card-side {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    background: white;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    backface-visibility: hidden;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  .dashboard-card-front {
+    flex-direction: row;
+  }
+
+  .dashboard-card-back {
+    /* flex-direction: row-reverse;    deixar ou tirar perguntar na aula */
+    transform: rotateY(180deg);
+  }
+</style>
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 <script>
   const tabs = document.querySelectorAll(".tabs .tab");
@@ -194,6 +253,11 @@
       tab.setAttribute("tabindex", "0");
     });
   });
+</script>
+<script>
+  function flipCard() {
+    document.getElementById('dashboard-container').classList.toggle('flipped');
+  }
 </script>
 <script src="{% static 'js/service_modal.js' %}"></script>
 <script src="{% static 'js/profile_modal.js' %}"></script>

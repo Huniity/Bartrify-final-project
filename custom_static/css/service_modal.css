@@ -1,5 +1,4 @@
 
-    /* Overlay now uses display none/block */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -14,11 +13,11 @@
     }
 
     .modal {
+      width: 1200px;
+      height: 680px;
       background: #fff;
       border-radius: 8px;
       padding: 2rem;
-      max-width: 360px;
-      width: 90%;
       box-shadow: 0 4px 20px rgba(0,0,0,0.1);
       text-align: center;
       position: relative;
@@ -59,6 +58,7 @@
       margin-bottom: 0.5rem;
     }
 
+    
     /* Meep Meep keyframes */
     @keyframes meepIn {
       0%   { opacity:0; transform: translateX(-120%) scale(0.2) skewX(-20deg); }
