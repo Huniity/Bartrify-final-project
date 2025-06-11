@@ -1,11 +1,15 @@
 ### 🚀 REGISTER
-POST http://localhost:8000/api/auth/signup/
+POST http://localhost:8000/api/register/
 Content-Type: application/json
 
 {
   "username": "tomas",
   "email": "teste@example.com",
-  "password": "SuperSecure123!"
+  "password": "SuperSecure123!",
+  "first_name": "Tomas",
+  "last_name": "the Rebel",
+  "bio": "Building stuff with chaos and code.",
+  "location": "Portugal"
 }
 
 ###
@@ -15,14 +19,14 @@ POST http://localhost:8000/api/auth/login/
 Content-Type: application/json
 
 {
-  "username": "testing",
-  "password": "12345"
+  "username": "tomas",
+  "password": "SuperSecure123!"
 }
 
 ###
 
 # ⚠️ Paste access_token manually after login
-@access_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ5NTAwMTUwLCJpYXQiOjE3NDk0OTk4NTAsImp0aSI6ImEwZmM1NzdlZGYzYjRmYjc5MTg1YzQ4YzM4ZWJjYzZiIiwidXNlcl9pZCI6Mn0.-7ENLcS5YZOIOpzIE_K5V4gaFz7IDlsK84comOcosJg
+@access_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ5NjcyMjcwLCJpYXQiOjE3NDk2NzE5NzAsImp0aSI6IjUzZDk0NTc3M2ZmNDQ1MzE5MWE5MTBlNDhjYTFlOTlmIiwidXNlcl9pZCI6Mn0.GZwa0p-1mK3pAhYh7IiaGnQbCiiUjMeRQmnrUpB5ki4
 
 ###
 
