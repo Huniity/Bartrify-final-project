@@ -179,13 +179,13 @@
                     <form id="signup-form">
                         <div class="form-row">
                             <div class="form-group half-width">
-                                <input type="text" name="first_name" id="firstName" placeholder=" " required>
+                                <input type="text" name="first_name" id="first_name" placeholder=" " required>
                                 <label for="firstName">First Name</label>
                                 <i class="fas fa-user icon-input"></i>
                             </div>
 
                             <div class="form-group half-width">
-                                <input type="text" name="last_name" id="lastName" placeholder=" " required>
+                                <input type="text" name="last_name" id="last_name" placeholder=" " required>
                                 <label for="lastName">Last Name</label>
                                 <i class="fas fa-user icon-input"></i>
                             </div>
@@ -280,84 +280,6 @@
 
         </div>
     </div>
-
-    <!-- Scripts -->
-    <script>
-        function flipCard() {
-            document.getElementById('Container').classList.toggle('flipped');
-        }
-
-        function setupPasswordToggle(inputId, toggleIconId) {
-            const passwordInput = document.getElementById(inputId);
-            const toggleIcon = document.getElementById(toggleIconId);
-            if (passwordInput && toggleIcon) {
-                toggleIcon.addEventListener('click', function () {
-                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                    passwordInput.setAttribute('type', type);
-                    this.classList.toggle('fa-eye');
-                    this.classList.toggle('fa-eye-slash');
-                });
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            setupPasswordToggle('password', 'togglePassword');
-            setupPasswordToggle('confirmPassword', 'toggleConfirmPassword');
-            setupPasswordToggle('password-back', 'togglePasswordBack');
-
-            const signupForm = document.getElementById("signup-form");
-            const loginForm = document.getElementById("login-form");
-
-            signupForm.addEventListener("submit", async (e) => {
-                e.preventDefault();
-
-                const data = {
-                    username: document.getElementById("username").value,
-                    email: document.getElementById("email").value,
-                    password: document.getElementById("password").value
-                };
-
-                const res = await fetch("/api/register/", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(data)
-                });
-
-                if (res.ok) {
-                    alert("Signup successful! Please log in.");
-                    flipCard();
-                } else {
-                    const error = await res.json();
-                    alert("Signup failed: " + JSON.stringify(error));
-                }
-            });
-
-            loginForm.addEventListener("submit", async (e) => {
-                e.preventDefault();
-
-                const data = {
-                    username: document.getElementById("login-username").value,
-                    password: document.getElementById("password-back").value
-                };
-
-                const res = await fetch("/api/auth/login/", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(data)
-                });
-
-                if (res.ok) {
-                    const tokens = await res.json();
-                    localStorage.setItem("access_token", tokens.access);
-                    localStorage.setItem("refresh_token", tokens.refresh);
-                    alert("Login successful!");
-                    window.location.href = "/dashboard/";
-                } else {
-                    const error = await res.json();
-                    alert("Login failed: " + JSON.stringify(error));
-                }
-            });
-        });
-    </script>
+    <script src="{% static 'js/register.js' %}"></script>
 >>>>>>> 95a0038 (feat(auth): add working login and signup frontend to Django REST API endpoints)
 {% endblock %}
