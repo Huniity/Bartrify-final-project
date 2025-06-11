@@ -1,0 +1,70 @@
+    /* Overlay now uses display none/block */
+    .modal-overlay2 {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+    .modal-overlay2.active {
+      display: flex;
+    }
+
+    .modal2 {
+      background: #fff;
+      border-radius: 8px;
+      padding: 2rem;
+      max-width: 360px;
+      width: 90%;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      text-align: center;
+      position: relative;
+      animation-fill-mode: forwards;
+    }
+ 
+    .close-btn2 {
+      position: absolute;
+      top: .8rem;
+      right: .8rem;
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      color: #556B2F;
+      cursor: pointer;
+    }
+    .close-btn2:hover {
+      color: #334218;
+    }
+
+    h2 {
+      margin: .5rem 0;
+      color: #556B2F;
+      font-size: 1.4rem;
+    }
+    p {
+      color: #555;
+      font-size: .65rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Meep Meep keyframes */
+    @keyframes meepIn2 {
+      0%   { opacity:0; transform: translateX(-120%) scale(0.2) skewX(-20deg); }
+      40%  { opacity:1; transform: translateX(15%)  scale(1.2) skewX(10deg); }
+      60%  { transform: translateX(-5%)  scale(0.9) skewX(-5deg); }
+      80%  { transform: translateX(5%)   scale(1.05) skewX(2deg); }
+      100% { transform: translateX(0)     scale(1) skewX(0); }
+    }
+    @keyframes meepOut2 {
+      0%   { opacity:1; transform: translateX(0)   scale(1) skewX(0); }
+      40%  { opacity:1; transform: translateX(-10%) scale(1.2) skewX(5deg); }
+      100% { opacity:0; transform: translateX(120%) scale(0.2) skewX(20deg); }
+    }
+    .modal2.entering {
+      animation: meepIn2 .6s ease-out forwards;
+    }
+    .modal2.exiting {
+      animation: meepOut2 .5s ease-in forwards;
+    }
