@@ -1,23 +1,10 @@
-{% extends 'core/base.html' %}
+{% extends 'base.html' %}
 
 {% block title %}Feed{% endblock %}
 
 {% block content %}
-<!-- Header -->
-<header class="header">
-    <div class="logo">
-        <a href="./index.html">
-            <img src="{% static 'core/img/Logo.png'%}" />
-            <span>Bartr</span>ify
-        </a>
-    </div>
-
-    <nav>
-        <a href="#">WELCOME JOHN DOE!</a>
-        <button class="header-btn">HomePage</button>
-    </nav>
-</header>
-
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/feed.css' %}" />
 <!-- Hero -->
 <section class="hero-feed">
     <div class="hero-text-feed">
@@ -34,113 +21,62 @@
 <!-- Content -->
 <section class="content-feed">
     <div class="filtros">
-        <div class="filter-controls">
-            <div class="filter-group search-group">
-                <label for="search-input" class="sr-only">Search</label>
-                <div class="search-box">
-                    <input type="text" id="search-input" placeholder="Search">
-                    <button type="submit" class="search-button">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-            </div>
+        <form method="get" class="filter-controls">
+    <div class="filter-group dropdown-group">
+        <select name="category" id="category-select" class="custom-select">
+            <option value="">All Categories</option>
+            <option value="Gardening" {% if selected_category == "Gardening" %}selected{% endif %}>Gardening</option>
+            <option value="Plumbing" {% if selected_category == "Plumbing" %}selected{% endif %}>Plumbing</option>
+            <option value="Nanny" {% if selected_category == "Nanny" %}selected{% endif %}>Nanny</option>
+            <option value="Furniture Assembler" {% if selected_category == "Furniture Assembler" %}selected{% endif %}>Furniture Assembler</option>
+        </select>
+    </div>
 
-            <div class="filter-group dropdown-group">
-                <label for="category-select" class="sr-only">Category</label>
-                <select id="category-select" class="custom-select">
-                    <option value="gardening">Gardening</option>
-                    <option value="plumbing">Plumbing</option>
-                    <option value="nanny">Nanny</option>
-                    <option value="furniture-assembler" selected>Furniture Assembler</option>
-                </select>
-            </div>
+    <div class="filter-group dropdown-group">
+        <select name="location" id="location-select" class="custom-select">
+            <option value="">All Locations</option>
+            <option value="Portugal" {% if selected_location == "Portugal" %}selected{% endif %}>Portugal</option>
+            <option value="Lisboa" {% if selected_location == "Lisboa" %}selected{% endif %}>Lisboa</option>
+            <option value="Porto" {% if selected_location == "Porto" %}selected{% endif %}>Porto</option>
+            <option value="Albufeira" {% if selected_location == "Albufeira" %}selected{% endif %}>Albufeira</option>
+        </select>
+    </div>
 
-            <div class="filter-group dropdown-group">
-                <label for="location-select" class="sr-only">Location</label>
-                <select id="location-select" class="custom-select">
-                    <option value="">Location</option>
-                    <option value="faro">Faro</option>
-                    <option value="lisboa">Lisboa</option>
-                    <option value="porto">Porto</option>
-                    <option value="albufeira" selected>Albufeira</option>
-                </select>
-            </div>
+    <div class="filter-group">
+        <button type="submit" class="header-btn">Filter</button>
+    </div>
+</form>
 
-            <div class="filter-group dropdown-group">
-                <label for="sort-select" class="sr-only">Sort By</label>
-                <select id="sort-select" class="custom-select">
-                    <option value="review-5-1">Review (1-5)</option>
-                    <option value="review-1-5">Review (5-1)</option>
-                    <option value="category-az">Category (A-Z)</option>
-                    <option value="category-za" selected>Category (Z-A)</option>
-                </select>
-            </div>
-        </div>
     </div>
 </section>
 
 <!-- Feed -->
 <section class="feed">
-    <div id="feed-container">
-
+    <div id="feed-container" class="card-grid">
+        {% for service in services %}
+            <div class="card">
+                <div class="card-left">
+                    <h3 class="category-h3">{{ service.category }}</h3>
+                    <img src="{% static 'core/img/default-service.png' %}" alt="{{ service.category }}">
+                </div>
+                <div class="card-right">
+                    <h4>{{ service.owner.first_name }} {{ service.owner.last_name }}</h4>
+                    <div class="stars">
+                        {% for i in "12345" %}
+                            {% if forloop.counter <= service.rating|default:3 %}
+                                ★
+                            {% else %}
+                                ☆
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <p>{{ service.description }}</p>
+                    <button class="contact-btn">CONTACT 📩</button>
+                </div>
+            </div>
+        {% empty %}
+            <p>No services found, yo. Try changing your filters.</p>
+        {% endfor %}
     </div>
 </section>
-
-<!-- Footer -->
-<div class="wave-footer">
-</div>
-<footer class="footer">
-    <div class="footer-container">
-
-        <div class="footer-col">
-            <h3><i class="fa-solid fa-circle-info"></i> About Us</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                labore
-                et dolore
-                magna aliqua. Quis ipsum suspendisse ultrices gravida.</p>
-        </div>
-
-        <div class="footer-col">
-            <h3><i class="fa-solid fa-link"></i> Quick Links</h3>
-            <ul>
-                <li><a href="#"><i class="fa-solid fa-house"></i> Home</a></li>
-                <li><a href="#"><i class="fa-solid fa-rss"></i> Feed</a></li>
-                <li><a href="#"><i class="fa-solid fa-user-plus"></i> Signup</a></li>
-                <li><a href="#"><i class="fa-solid fa-right-to-bracket"></i> Signin</a></li>
-                <li><a href="#"><i class="fa-solid fa-gauge-high"></i> Dashboard</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-col">
-            <h3><i class="fa-solid fa-shield-halved"></i> Privacy & Info</h3>
-            <ul>
-                <li><a href="#"><i class="fa-solid fa-file-contract"></i> Terms & Conditions</a></li>
-                <li><a href="#"><i class="fa-solid fa-user-shield"></i> Privacy Policy</a></li>
-                <li><a href="#"><i class="fa-solid fa-scale-balanced"></i> RGPD</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-col">
-            <h3><i class="fa-solid fa-address-book"></i> Contacts</h3>
-            <ul class="contacts">
-                <li><i class="fa-solid fa-location-dot"></i> @ETIC_Algarve, PT</li>
-                <li><i class="fa-solid fa-envelope"></i> example1@gmail.com</li>
-                <li><i class="fa-solid fa-envelope"></i> example2@gmail.com</li>
-                <li><i class="fa-solid fa-envelope"></i> example3@gmail.com</li>
-
-            </ul>
-        </div>
-    </div>
-
-    <p class="footer-copy">
-        <i class="fa-regular fa-copyright"></i>
-        <span id="date"></span> Bartrify. All Rights Reserved.
-    </p>
-</footer>
-
-<script src="../Js/main.js"></script>
-<script>
-    document.getElementById('date').textContent = new Date().getFullYear();
-</script>
-
 {% endblock %}
