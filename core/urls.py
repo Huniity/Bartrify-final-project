@@ -28,13 +28,12 @@ urlpatterns = [
     path('feed/', PageFeedView.as_view(), name='feed'),
 
     # Auth
-    path('api/auth/login/', TokenObtainPairView.as_view(),
-         name='token_obtain_pair'),
+    path('api/auth/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/auth/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
     # API
     path('api/me/', MeView.as_view(), name='me'),
-    path('api/users/<int:pk>/', PublicProfileView.as_view(), name='public-1profile'),
+    path('api/users/<int:pk>/', PublicProfileView.as_view(), name='public-profile'),
     path('api/dashboard/', APIDashboardView.as_view(), name='api-dashboard'),
     path('api/register/', APIRegisterView.as_view(), name='api-register'),
 
