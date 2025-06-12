@@ -5,9 +5,7 @@
 {% block content %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
-<link rel="stylesheet" href="{% static 'css/service_modal.css' %}">
-<link rel="stylesheet" href="{% static 'css/profile_modal.css' %}">
-<link rel="stylesheet" href="{% static 'css/chat_modal.css' %}">
+<link rel="stylesheet" href="{% static 'css/modals.css' %}">
 <main>
 
   <!-- Left Side Bar -->
@@ -190,9 +188,8 @@
         </div>
       </section>
     </aside>
-    {% include "core/service_modal.html" %}
     {% include "core/profile_modal.html" %}
-    {% include "core/chat_modal.html" %}
+    {% include "core/service_modal.html" %}
 </main>
 <style>
   aside.right-sidebar {
@@ -261,5 +258,4 @@
 </script>
 <script src="{% static 'js/service_modal.js' %}"></script>
 <script src="{% static 'js/profile_modal.js' %}"></script>
-<script src="{% static 'js/chat_modal.js' %}"></script>
 {% endblock %}
