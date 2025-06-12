@@ -11,22 +11,22 @@
         <h2>A few steps from being a Barter</h2>
         <form method="POST">
           <div class="form-row">
-            <div class="form-group half-width">
+            <div class="form-group">
               <input type="text" id="service_title" required />
               <label for="What can you trade?">What can you trade?</label>
-              <i class="fas fa-user icon-input"></i>
-            </div>
-            <div class="form-group half-width">
-              <input type="text" id="lastName" required />
-              <label for="lastName">Last Name</label>
               <i class="fas fa-user icon-input"></i>
             </div>
           </div>
           <div class="form-row">
             <div class="form-group half-width">
-              <input type="text" id="username" required />
-              <label for="username">Username</label>
+              <label for="Where are you located?">Where are you located</label>
               <i class="fas fa-user icon-input"></i>
+              <select id="location" name="location">
+                <option value="Algarve">Algarve</option>
+                <option value="Lisboa">Lisboa</option>
+                <option value="Porto">Porto</option>
+                <option value="International">International</option>
+              </select>
             </div>
             <div class="form-group half-width">
               <input type="text" id="location" required />
