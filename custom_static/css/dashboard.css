@@ -306,7 +306,7 @@ section.center-content {
   font-size: 0.70rem;
   font-weight: 600;
   color: var(--secundary-color);
-  background: linear-gradient(360deg, rgba(47, 65, 86, 1) 6%, rgba(255, 255, 255, 1) 8%);
+  background: linear-gradient(360deg,rgba(47, 65, 86, 1) 6%, rgba(255, 255, 255, 1) 8%);
   border-radius: 5px;
   padding: 0.25rem 0.75rem;
   text-align: center;
