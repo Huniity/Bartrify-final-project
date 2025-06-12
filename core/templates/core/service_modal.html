@@ -21,37 +21,84 @@
             <div class="form-group half-width">
               <label for="Where are you located?">Where are you located</label>
               <i class="fas fa-user icon-input"></i>
-              <select id="location" name="location">
-                <option value="Algarve">Algarve</option>
-                <option value="Lisboa">Lisboa</option>
-                <option value="Porto">Porto</option>
-                <option value="International">International</option>
+              <select id="type_trade" name="type_trade">
+                <option value="How would you like to trade?">How would you like to trade?</option>
+                <option value="Barter">Barter</option>
+                <option value="Tokens">Tokens</option>
               </select>
             </div>
             <div class="form-group half-width">
-              <input type="text" id="location" required />
-              <label for="location">Location</label>
-              <i class="fas fa-map-marker-alt icon-input"></i>
+              <label for="Where are you located?">Where are you located</label>
+              <i class="fas fa-user icon-input"></i>
+              <select id="category" name="category">
+                <option value="Select a category">Select a category</option>
+                <option value="Tech">Tech</option>
+                <option value="Gardening">Gardening</option>
+                <option value="Babysitter">Babysitter</option>
+                <option value="Plumber">Plumber</option>
+              </select>
             </div>
           </div>
           <div class="form-group">
-            <input type="email" id="email" required />
-            <label for="email">Email</label>
+            <textarea type="description" id="description" required></textarea>
+            <label for="description">Describe your offer</label>
             <i class="fas fa-envelope icon-input"></i>
           </div>
-          <div class="form-group">
-            <input type="password" id="password" required />
-            <label for="password">Password</label>
-            <i class="fas fa-eye icon-input"></i>
+          <div class="form-group option1">
+            <label for="What are you looking for?">What are you looking for</label>
+            <i class="fas fa-user icon-input"></i>
+            <select id="exchanging_for_service" name="exchanging_for_service">
+              <option value="Select a category">Select a category</option>
+              <option value="Tech">Tech</option>
+              <option value="Gardening">Gardening</option>
+              <option value="Babysitter">Babysitter</option>
+              <option value="Plumber">Plumber</option>
+            </select>
+            <select id="exchanging_for_token" name="exchanging_for_token">
+              <option value="Select a price">Select a price</option>
+              <option value="2 Tokens">2 Tokens</option>
+              <option value="3 Tokens">3 Tokens</option>
+              <option value="4 Tokens">4 Tokens</option>
+              <option value="5 Tokens">5 Tokens</option>
+            </select>
           </div>
-          <div class="form-group">
-            <input type="password" id="confirmPassword" required />
-            <label for="confirmPassword">Confirm Password</label>
-            <i class="fas fa-eye icon-input"></i>
-          </div>
-          <button type="submit">SIGN UP</button>
+          <button type="submit">Barter!</button>
         </form>
       </div>
     </div>
   </div>
 </div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const typeTrade = document.getElementById("type_trade");
+    const exchangingForService = document.getElementById("exchanging_for_service");
+    const exchangingForToken = document.getElementById("exchanging_for_token");
+
+    function updateDisplay() {
+      const value = typeTrade.value;
+      if (value === "Barter") {
+        exchangingForService.style.display = "inline";
+        exchangingForToken.style.display = "none";
+      } else if (value === "Tokens") {
+        exchangingForService.style.display = "none";
+        exchangingForToken.style.display = "inline";
+      } else {
+        exchangingForService.style.display = "none";
+        exchangingForToken.style.display = "none";
+      }
+    }
+
+    typeTrade.addEventListener("change", updateDisplay);
+
+    // Run once on page load in case a value is already selected
+    updateDisplay();
+  });
+</script>
+
+
+<style>
+  #exchanging_for_service,
+  #exchanging_for_token {
+    display: none;
+  }
+</style>
