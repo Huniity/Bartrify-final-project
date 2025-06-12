@@ -1,7 +1,126 @@
-{% extends 'core/base.html' %}
+{% extends 'base.html' %}
 
 {% block title %}Feed{% endblock %}
 
 {% block content %}
-    <!-- Page content here -->
+{% load static %}
+<!-- Hero -->
+<section class="hero-feed">
+    <div class="hero-text-feed">
+        <h1>
+            <span class="word">Trade What You Do <span class="span-h1-feed">Best.</span></span><br>
+            <span class="word delay">Gain What You Need <span class="span-h1-feed">Most.</span></span>
+        </h1>
+    </div>
+    <div class="hero-image-feed">
+        <img src="../Img/feed.png" alt="hero" />
+    </div>
+</section>
+
+<!-- Content -->
+<section class="content-feed">
+    <div class="filtros">
+        <form method="get" class="filter-controls">
+    <div class="filter-group dropdown-group">
+        <select name="category" id="category-select" class="custom-select">
+            <option value="">All Categories</option>
+            <option value="Gardening" {% if selected_category == "Gardening" %}selected{% endif %}>Gardening</option>
+            <option value="Plumbing" {% if selected_category == "Plumbing" %}selected{% endif %}>Plumbing</option>
+            <option value="Nanny" {% if selected_category == "Nanny" %}selected{% endif %}>Nanny</option>
+            <option value="Furniture Assembler" {% if selected_category == "Furniture Assembler" %}selected{% endif %}>Furniture Assembler</option>
+        </select>
+    </div>
+
+    <div class="filter-group dropdown-group">
+        <select name="location" id="location-select" class="custom-select">
+            <option value="">All Locations</option>
+            <option value="Portugal" {% if selected_location == "Portugal" %}selected{% endif %}>Portugal</option>
+            <option value="Lisboa" {% if selected_location == "Lisboa" %}selected{% endif %}>Lisboa</option>
+            <option value="Porto" {% if selected_location == "Porto" %}selected{% endif %}>Porto</option>
+            <option value="Albufeira" {% if selected_location == "Albufeira" %}selected{% endif %}>Albufeira</option>
+        </select>
+    </div>
+
+    <div class="filter-group">
+        <button type="submit" class="header-btn">Filter</button>
+    </div>
+</form>
+
+    </div>
+</section>
+
+<!-- Feed -->
+<section class="feed">
+    <div id="feed-container" class="services">
+        {% for service in services %}
+        <div class="service-card">
+            <h3>{{ service.title }}</h3>
+            <p>{{ service.description }}</p>
+            <p><strong>Category:</strong> {{ service.category }}</p>
+            <p><strong>Price:</strong> €{{ service.price }}</p>
+            <p><strong>By:</strong> {{ service.owner.first_name }} {{ service.owner.last_name }} from {{ service.owner.location }}</p>
+        </div>
+        {% empty %}
+        <p>No services found. Time to create the first one, legend!</p>
+        {% endfor %}
+    </div>    
+</section>
+
+<!-- Footer -->
+<div class="wave-footer">
+</div>
+<footer class="footer">
+    <div class="footer-container">
+
+        <div class="footer-col">
+            <h3><i class="fa-solid fa-circle-info"></i> About Us</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                labore
+                et dolore
+                magna aliqua. Quis ipsum suspendisse ultrices gravida.</p>
+        </div>
+
+        <div class="footer-col">
+            <h3><i class="fa-solid fa-link"></i> Quick Links</h3>
+            <ul>
+                <li><a href="#"><i class="fa-solid fa-house"></i> Home</a></li>
+                <li><a href="#"><i class="fa-solid fa-rss"></i> Feed</a></li>
+                <li><a href="#"><i class="fa-solid fa-user-plus"></i> Signup</a></li>
+                <li><a href="#"><i class="fa-solid fa-right-to-bracket"></i> Signin</a></li>
+                <li><a href="#"><i class="fa-solid fa-gauge-high"></i> Dashboard</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-col">
+            <h3><i class="fa-solid fa-shield-halved"></i> Privacy & Info</h3>
+            <ul>
+                <li><a href="#"><i class="fa-solid fa-file-contract"></i> Terms & Conditions</a></li>
+                <li><a href="#"><i class="fa-solid fa-user-shield"></i> Privacy Policy</a></li>
+                <li><a href="#"><i class="fa-solid fa-scale-balanced"></i> RGPD</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-col">
+            <h3><i class="fa-solid fa-address-book"></i> Contacts</h3>
+            <ul class="contacts">
+                <li><i class="fa-solid fa-location-dot"></i> @ETIC_Algarve, PT</li>
+                <li><i class="fa-solid fa-envelope"></i> example1@gmail.com</li>
+                <li><i class="fa-solid fa-envelope"></i> example2@gmail.com</li>
+                <li><i class="fa-solid fa-envelope"></i> example3@gmail.com</li>
+
+            </ul>
+        </div>
+    </div>
+
+    <p class="footer-copy">
+        <i class="fa-regular fa-copyright"></i>
+        <span id="date"></span> Bartrify. All Rights Reserved.
+    </p>
+</footer>
+
+<script src="../Js/main.js"></script>
+<script>
+    document.getElementById('date').textContent = new Date().getFullYear();
+</script>
+
 {% endblock %}

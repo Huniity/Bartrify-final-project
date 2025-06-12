@@ -9,6 +9,7 @@ from core.views.pages import (
     IndexView,
     DashboardView as PageDashboardView,
     RegisterView as PageRegisterView,
+    FeedView as PageFeedView,
 )
 
 __all__ = [
@@ -24,4 +25,5 @@ __all__ = [
     "IndexView",
     "PageDashboardView",
     "PageRegisterView",
+    "PageFeedView",
 ]
