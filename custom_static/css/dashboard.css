@@ -18,7 +18,7 @@ main {
 
 /* Left sidebar */
 aside.left-sidebar {
-  width: 16rem;
+  width: 18rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -52,8 +52,6 @@ aside.left-sidebar input[type="search"] {
   color: var(--text);
   pointer-events: none;
 }
-
-
 
 aside.left-sidebar input::placeholder {
   color: var(--text);
@@ -358,7 +356,7 @@ section.center-content {
 
 /* Right sidebar */
 aside.right-sidebar {
-  width: 12rem;
+  width: 18rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -506,12 +504,6 @@ aside.right-sidebar {
   font-weight: 700;
 }
 
-/* Additional styles for the circular rating with text centered */
-/* .circle-rating {
-    position: relative;
-    width: 56px;
-    height: 56px;
-  } */
 .circle-text {
   position: absolute;
   top: 50%;
