@@ -1,3 +1,7 @@
+* {
+  font-family: 'outfit', sans-serif;
+}
+
 /* Overlay and Modal */
 .modal-overlay,
 .modal-overlay2 {
@@ -17,8 +21,8 @@
 
 .modal,
 .modal2 {
-  width: 1200px;
-  height: 680px;
+  width: 60%;
+  height: 75%;
   background: #fff;
   border-radius: 8px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
@@ -31,7 +35,7 @@
 }
 
 /* Smaller modal2 variant */
-.modal2.small {
+.modal.small, .modal2.small {
   padding: 2rem;
   max-width: 360px;
   text-align: center;
@@ -158,24 +162,33 @@ form {
   flex: 1;
 }
 
-/* Inputs */
-input, select, textarea {
+/* Inputs, Selects, Textareas */
+input,
+select,
+textarea {
   width: 100%;
   padding: 0.75rem 2.5rem 0.75rem 1rem;
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 0.9rem;
   background-color: #f8f8f8;
-  transition: border 0.3s;
+  transition: border 0.3s, background-color 0.3s;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
 }
 
-input:focus, select:focus {
+/* Focus states */
+input:focus,
+select:focus,
+textarea:focus {
   outline: none;
   border-color: #3b6e68;
   background-color: #fff;
 }
 
-/* Labels */
+/* Floating Labels for all inputs, selects, and textareas */
 label {
   position: absolute;
   top: 0.7rem;
@@ -185,42 +198,44 @@ label {
   color: #666;
   transition: top 0.18s linear, left 0.18s linear, font-size 0.18s linear, color 0.18s linear;
   pointer-events: none;
-  display: none;
+  background-color: transparent;
+  z-index: 1;
 }
 
-.form-group input:focus+label {
-  top: -0.7rem;
-  left: 1rem;
-  font-size: 0.75rem;
-  color: #3b6e68;
-  padding: 0 0.25rem;
-}
-/* .modal2.form-group input:not(:placeholder-shown)+label {
+/* Float label up when input/textarea is focused or has content */
+input:focus + label,
+input:not(:placeholder-shown) + label,
+textarea:focus + label,
+textarea:not(:placeholder-shown) + label,
+select:focus + label,
+select:not([value=""]) + label,
+select:not(:placeholder-shown) + label {
   top: -0.7rem;
   left: 1rem;
   font-size: 0.75rem;
   color: #3b6e68;
   background-color: #fff;
   padding: 0 0.25rem;
-} */
-
-
-input:not(:placeholder-shown)+label {
-    top: 2px;
-    left: 12px;
-    font-size: 13px;
-    color: var(--primary-color);
-    padding: 0 4px;
+  pointer-events: none;
 }
 
-textarea{
-  width: 100%;
+/* Textarea Styling */
+textarea {
   height: 100px;
   resize: none;
   word-wrap: break-word;
   word-break: break-word;
 }
-/* Icons */
+
+/* Hide default select arrow and add custom arrow */
+select {
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3csvg fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1em;
+}
+
+/* Input Icons */
 .icon-input {
   position: absolute;
   right: 1rem;
@@ -231,7 +246,7 @@ textarea{
 
 /* Submit Button */
 button[type="submit"] {
-  margin-top: 1rem;
+  /* margin-top: 1rem; */
   padding: 0.75rem;
   background: #2c3e50;
   color: white;
@@ -250,8 +265,8 @@ button[type="submit"]:hover {
 .close-btn,
 .close-btn2 {
   position: absolute;
-  top: 0.8rem;
-  right: 0.8rem;
+  top: 1rem;
+  right: 2rem;
   background: none;
   border: none;
   font-size: 1.5rem;
@@ -260,24 +275,92 @@ button[type="submit"]:hover {
   z-index: 101;
 }
 
-.close-btn2 {
-  font-size: 1.2rem;
-}
-
 .close-btn:hover,
 .close-btn2:hover {
   color: #334218;
 }
 
 /* Small modal2 specific styles */
-.modal2.small h2 {
+.modal.small h2, .modal2.small h2 {
   margin: 0.5rem 0;
   color: #556b2f;
   font-size: 1.4rem;
 }
 
-.modal2.small p {
+.modal.small p, .modal2.small p {
   color: #555;
   font-size: 0.65rem;
   margin-bottom: 0.5rem;
+}
+
+/* Wrappers for conditional selects (initially hidden) */
+#wrapper_service,
+#wrapper_token {
+  display: none;
+  position: relative;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+/* Show wrapper when active */
+#wrapper_service.active,
+#wrapper_token.active {
+  display: block;
+}
+
+/* Position labels inside wrappers */
+#wrapper_service label,
+#wrapper_token label {
+  position: absolute;
+  top: 0.7rem;
+  left: 1rem;
+  font-size: 0.75rem;
+  padding: 0 0.25rem;
+  color: #666;
+  pointer-events: none;
+  transition: top 0.18s linear, left 0.18s linear, font-size 0.18s linear, color 0.18s linear;
+  background-color: transparent;
+  z-index: 1;
+}
+
+/* Select styling inside wrappers */
+#wrapper_service select,
+#wrapper_token select {
+  width: 100%;
+  padding: 0.75rem 2.5rem 0.75rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  background-color: #f8f8f8;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  transition: border 0.3s, background-color 0.3s;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3csvg fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1em;
+}
+
+/* On focus inside wrappers */
+#wrapper_service select:focus,
+#wrapper_token select:focus {
+  outline: none;
+  border-color: #3b6e68;
+  background-color: #fff;
+}
+
+/* Float label up for selects inside wrappers on focus or value */
+#wrapper_service select:focus + label,
+#wrapper_service select:not([value=""]) + label,
+#wrapper_token select:focus + label,
+#wrapper_token select:not([value=""]) + label {
+  top: -0.7rem;
+  left: 1rem;
+  font-size: 0.75rem;
+  color: #3b6e68;
+  background-color: #fff;
+  padding: 0 0.25rem;
+  pointer-events: none;
 }

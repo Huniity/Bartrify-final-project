@@ -53,7 +53,6 @@
     </button>
   </aside>
 
-
   <div class="dashboard-container" id="dashboard-container">
     <div class="dashboard-card" id="dashboard-card">
       <!-- Dashboard Side-->
@@ -63,9 +62,8 @@
             <img src="https://placehold.co/600x400/black/white" alt="Placeholder Avatar" class="profile-image" />
             <div class="profile-info">
               <h2>John Doe</h2>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore
-                magna aliqua.</p>
+              <p id="editableText">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+              <button id="editPopupBtn">Edit My Bio</button>
               <div class="tags">
                 <span class="tag gardening">Gardening</span>
                 <span class="tag mechanic">Mechanic</span>
@@ -190,6 +188,7 @@
     </aside>
     {% include "core/profile_modal.html" %}
     {% include "core/service_modal.html" %}
+    {% include "core/bio_modal.html" %}
 </main>
 <style>
   aside.right-sidebar {
@@ -227,7 +226,6 @@
   }
 
   .dashboard-card-back {
-    /* flex-direction: row-reverse;    deixar ou tirar perguntar na aula */
     transform: rotateY(180deg);
   }
 </style>
@@ -256,6 +254,9 @@
     document.getElementById('dashboard-container').classList.toggle('flipped');
   }
 </script>
+<script>var myEditableElement = document.getElementById('myContent');
+myEditableElement.addEventListener('input', function() {
+});</script>
 <script src="{% static 'js/service_modal.js' %}"></script>
 <script src="{% static 'js/profile_modal.js' %}"></script>
 {% endblock %}

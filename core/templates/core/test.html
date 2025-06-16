@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Test Avatar Upload</title>
+</head>
+<body>
+
+  <label for="avatarInput" style="cursor:pointer; display:inline-block;">
+    <img src="https://placehold.co/600x400/black/white" alt="Current Avatar" id="avatarPreview" />
+    <span>Click to upload avatar</span>
+  </label>
+  <input type="file" id="avatarInput" style="display:none;" />
+
+</body>
+<style>
+  /* Make avatar upload full width and top-aligned */
+  .avatar-upload {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+    /* space below avatar */
+    position: relative;
+  }
+
+  /* Keep input hidden */
+  .avatar-upload input[type="file"] {
+    display: none;
+  }
+
+  /* Avatar label styling */
+  .avatar-label {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.9rem;
+    color: #666;
+    user-select: none;
+    position: relative;
+    z-index: 2;
+  }
+
+  .avatar-label img {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #3b6e68;
+    margin-bottom: 0.5rem;
+    transition: box-shadow 0.3s ease;
+  }
+  .avatar-upload img {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .avatar-label:hover img {
+    box-shadow: 0 0 8px 2px #3b6e68;
+  }
+
+  /* Make sure .form-row keeps original flex layout */
+  .form-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: nowrap;
+    /* prevent wrapping, keep side-by-side */
+  }
+</style>
+<script>
+  const avatarInput = document.getElementById('avatarInput');
+  const avatarPreview = document.getElementById('avatarPreview');
+
+  avatarInput.addEventListener('change', function () {
+    const file = this.files[0];
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = function (e) {
+        avatarPreview.src = e.target.result; // update preview image
+      };
+
+      reader.readAsDataURL(file);
+    }
+  });
+</script>
+</html>

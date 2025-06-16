@@ -1,57 +1,147 @@
+{% load static %}
 <div class="modal-overlay" id="overlay2" aria-hidden="true">
-  <button class="close-btn" id="closeBtn2" aria-label="Close">&times;</button>
   <div class="modal" id="modal2" role="dialog" aria-modal="true" tabindex="-1">
+    <button class="close-btn" id="closeBtn2" aria-label="Close">&times;</button>
     <div class="modal-content">
       <div class="left-panel">
-        <h2>Welcome to Profile Editing!</h2>
-        <p>Create your account and enjoy the benefits!</p>
-        <img src="your-illustration.png" alt="Illustration" />
+        <h2>Update your Profile Now!</h2>
+        <p>Build Trust and share something about you</p>
+        <img src="{% static 'img/login.png'%}" alt="Illustration" />
       </div>
       <div class="right-panel">
-        <h2>SIGN UP</h2>
         <form method="POST">
+          <div class="avatar-upload">
+            <label for="avatarInput" class="avatar-label" aria-label="Upload avatar" tabindex="0">
+              <img src="https://placehold.co/600x400/black/white" alt="Current Avatar" id="avatarPreview" />
+              <span>Click to upload avatar</span>
+            </label>
+            <input type="file" id="avatarInput" name="avatar" accept="image/*" placeholder=" " required />
+          </div>
           <div class="form-row">
             <div class="form-group half-width">
-              <input type="text" id="name" required />
-              <label for="name">Name</label>
+              <input type="text" id="firstname" placeholder=" " required />
+              <label for="firstname">Firstname</label>
               <i class="fas fa-user icon-input"></i>
             </div>
             <div class="form-group half-width">
-              <input type="text" id="lastName" required />
+              <input type="text" id="lastName" placeholder=" " required />
               <label for="lastName">Last Name</label>
               <i class="fas fa-user icon-input"></i>
             </div>
           </div>
           <div class="form-row">
             <div class="form-group half-width">
-              <input type="text" id="username" required />
+              <input type="text" id="username" placeholder=" " required />
               <label for="username">Username</label>
               <i class="fas fa-user icon-input"></i>
             </div>
             <div class="form-group half-width">
-              <input type="text" id="location" required />
+              <select id="location" name="location">
+                <option value="Select a location">Select your location</option>
+                <option value="Sul">Sul</option>
+                <option value="Centro">Centro</option>
+                <option value="Norte">Norte</option>
+                <option value="International">International</option>
+              </select>
               <label for="location">Location</label>
               <i class="fas fa-map-marker-alt icon-input"></i>
             </div>
           </div>
           <div class="form-group">
-            <input type="email" id="email" required />
-            <label for="email">Email</label>
-            <i class="fas fa-envelope icon-input"></i>
-          </div>
-          <div class="form-group">
-            <input type="password" id="password" required />
-            <label for="password">Password</label>
+            <input type="password" id="actual_password" placeholder=" " required />
+            <label for="actual_password">Actual Password</label>
             <i class="fas fa-eye icon-input"></i>
           </div>
           <div class="form-group">
-            <input type="password" id="confirmPassword" required />
-            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="new_password" placeholder=" "/>
+            <label for="new_password">New Password</label>
             <i class="fas fa-eye icon-input"></i>
           </div>
-          <button type="submit">SIGN UP</button>
+          <div class="form-group">
+            <input type="password" id="confirm_new_password" placeholder=" "/>
+            <label for="confirm_new_password">Confirm New Password</label>
+            <i class="fas fa-eye icon-input"></i>
+          </div>
+          <button type="submit" class="update_profile">UPDATE PROFILE</button>
         </form>
       </div>
     </div>
   </div>
 </div>
+
+<style>
+  /* Make avatar upload full width and top-aligned */
+  .avatar-upload {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
+    /* space below avatar */
+    position: relative;
+  }
+
+  /* Keep input hidden */
+  .avatar-upload input[type="file"] {
+    display: none;
+  }
+
+  /* Avatar label styling */
+  .avatar-label {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.9rem;
+    color: #666;
+    user-select: none;
+    position: relative;
+    z-index: 2;
+    pointer-events: all!important;
+  }
+
+  .avatar-label img {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #3b6e68;
+    margin-bottom: 0.5rem;
+    transition: box-shadow 0.3s ease;
+  }
+  .avatar-upload img {
+  width: 5;
+  height: 5rem;
+  border-radius: 50%;
+  object-fit: cover;
+  }
+
+  .avatar-label:hover img {
+    box-shadow: 0 0 8px 2px #3b6e68;
+  }
+
+  /* Make sure .form-row keeps original flex layout */
+  .form-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: nowrap;
+    /* prevent wrapping, keep side-by-side */
+  }
+</style>
+<script>
+  const avatarInput = document.getElementById('avatarInput');
+  const avatarPreview = document.getElementById('avatarPreview');
+
+  avatarInput.addEventListener('change', function () {
+    const file = this.files[0];
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = function (e) {
+        avatarPreview.src = e.target.result; // update preview image
+      };
+
+      reader.readAsDataURL(file);
+    }
+  });
+</script>

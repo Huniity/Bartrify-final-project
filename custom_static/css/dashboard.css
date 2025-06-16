@@ -504,12 +504,6 @@ aside.right-sidebar {
   font-weight: 700;
 }
 
-/* Additional styles for the circular rating with text centered */
-/* .circle-rating {
-    position: relative;
-    width: 56px;
-    height: 56px;
-  } */
 .circle-text {
   position: absolute;
   top: 50%;
