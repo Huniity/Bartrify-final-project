@@ -30,3 +30,26 @@ const openBtn   = document.getElementById('openBtn');
       closeModal();
     }
   });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const typeTrade = document.getElementById("type_trade");
+    const wrapperService = document.getElementById("wrapper_service");
+    const wrapperToken = document.getElementById("wrapper_token");
+  
+    function updateDisplay() {
+      const value = typeTrade.value;
+      if (value === "Barter") {
+        wrapperService.style.display = "inline-block";
+        wrapperToken.style.display = "none";
+      } else if (value === "Tokens") {
+        wrapperService.style.display = "none";
+        wrapperToken.style.display = "block";
+      } else {
+        wrapperService.style.display = "none";
+        wrapperToken.style.display = "none";
+      }
+    }
+  
+    typeTrade.addEventListener("change", updateDisplay);
+    updateDisplay();
+  });

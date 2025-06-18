@@ -30,9 +30,9 @@
             <input type="search" placeholder="Search chats..." aria-label="Search chats" />
         </div>
         
-        <div class="chat-section">
+        <div class="chat-section" >
             <h3>Recent Chats</h3>
-            <div class="chat-button">
+            <div class="chat-button" onclick="flipCard()">
                 <div class="chat-info">
                     <div class="chat-avatar">
                         <img src="https://ui-avatars.com/api/?name=Alex+Johnson&background=567C8D&color=fff" alt="Alex" />
@@ -44,7 +44,7 @@
                 </div>
             </div>
             
-            <div class="chat-button">
+            <div class="chat-button" onclick="flipCard()">
                 <div class="chat-info">
                     <div class="chat-avatar">
                         <img src="https://ui-avatars.com/api/?name=Maia+Smith&background=567C8D&color=fff" alt="Maia" />
@@ -56,7 +56,7 @@
                 </div>
             </div>
             
-            <div class="chat-button">
+            <div class="chat-button" onclick="flipCard()">
                 <div class="chat-info">
                     <div class="chat-avatar">
                         <img src="https://ui-avatars.com/api/?name=Ruca+Silva&background=567C8D&color=fff" alt="Ruca" />
@@ -68,7 +68,7 @@
                 </div>
             </div>
             
-            <div class="chat-button">
+            <div class="chat-button" onclick="flipCard()">
                 <div class="chat-info">
                     <div class="chat-avatar">
                         <img src="https://ui-avatars.com/api/?name=David+Kim&background=567C8D&color=fff" alt="David" />
@@ -151,208 +151,255 @@
             </div>
         </div>
         
-        <div class="main-content">
-            <div class="content-column-left">
-                <div class="tabs-container">
-                    <div class="tabs-header">
+        
+        <div class="card" id="card">
+            <div class="card-content">
+              <div class="front">
+                <div class="main-content">
+                  <div class="content-column-left">
+                    <div class="tabs-container">
+                      <div class="tabs-header">
                         <button class="tab-btn active" data-tab="active">Active</button>
                         <button class="tab-btn" data-tab="completed">Completed</button>
                         <button class="tab-btn" data-tab="services">My Services</button>
-                    </div>
-                    
-                    <div class="tab-content">
+                      </div>
+        
+                      <div class="tab-content">
                         <div id="active" class="tab-pane active">
-                            <div class="exchange-item">
-                                <div class="exchange-info">
-                                    <div class="service-avatar" style="background-color: #4caf50;">
-                                        <i class="fa-solid fa-leaf"></i>
-                                    </div>
-                                    <div>
-                                        <h4>Gardening Service</h4>
-                                        <p>With: Alex Johnson · Jun 15</p>
-                                    </div>
-                                </div>
-                                <div class="exchange-status">
-                                    <span class="status in-progress">In Progress</span>
-                                </div>
+                          <div class="exchange-item">
+                            <div class="exchange-info">
+                              <div class="service-avatar" style="background-color: #4caf50;">
+                                <i class="fa-solid fa-leaf"></i>
+                              </div>
+                              <div>
+                                <h4>Gardening Service</h4>
+                                <p>With: Alex Johnson · Jun 15</p>
+                              </div>
                             </div>
-                            <div class="exchange-item">
-                                <div class="exchange-info">
-                                    <div class="service-avatar" style="background-color: #4caf50;">
-                                        <i class="fa-solid fa-leaf"></i>
-                                    </div>
-                                    <div>
-                                        <h4>Gardening Service</h4>
-                                        <p>With: Alex Johnson · Jun 15</p>
-                                    </div>
-                                </div>
-                                <div class="exchange-status">
-                                    <span class="status in-progress">In Progress</span>
-                                </div>
+                            <div class="exchange-status">
+                              <span class="status in-progress">In Progress</span>
                             </div>
-                            <div class="exchange-item">
-                                <div class="exchange-info">
-                                    <div class="service-avatar" style="background-color: #4caf50;">
-                                        <i class="fa-solid fa-leaf"></i>
-                                    </div>
-                                    <div>
-                                        <h4>Gardening Service</h4>
-                                        <p>With: Alex Johnson · Jun 15</p>
-                                    </div>
-                                </div>
-                                <div class="exchange-status">
-                                    <span class="status in-progress">In Progress</span>
-                                </div>
+                          </div>
+                          <div class="exchange-item">
+                            <div class="exchange-info">
+                              <div class="service-avatar" style="background-color: #4caf50;">
+                                <i class="fa-solid fa-leaf"></i>
+                              </div>
+                              <div>
+                                <h4>Gardening Service</h4>
+                                <p>With: Alex Johnson · Jun 15</p>
+                              </div>
                             </div>
-                            <div class="exchange-item">
-                                <div class="exchange-info">
-                                    <div class="service-avatar" style="background-color: #4caf50;">
-                                        <i class="fa-solid fa-leaf"></i>
-                                    </div>
-                                    <div>
-                                        <h4>Gardening Service</h4>
-                                        <p>With: Alex Johnson · Jun 15</p>
-                                    </div>
-                                </div>
-                                <div class="exchange-status">
-                                    <span class="status in-progress">In Progress</span>
-                                </div>
+                            <div class="exchange-status">
+                              <span class="status in-progress">In Progress</span>
                             </div>
-                            <div class="exchange-item">
-                                <div class="exchange-info">
-                                    <div class="service-avatar" style="background-color: #2196f3;">
-                                        <i class="fa-solid fa-wrench"></i>
-                                    </div>
-                                    <div>
-                                        <h4>Kitchen Repair</h4>
-                                        <p>With: Maria Garcia · Jun 10</p>
-                                    </div>
-                                </div>
-                                <div class="exchange-status">
-                                    <span class="status in-progress">In Progress</span>
-                                </div>
+                          </div>
+                          <div class="exchange-item">
+                            <div class="exchange-info">
+                              <div class="service-avatar" style="background-color: #4caf50;">
+                                <i class="fa-solid fa-leaf"></i>
+                              </div>
+                              <div>
+                                <h4>Gardening Service</h4>
+                                <p>With: Alex Johnson · Jun 15</p>
+                              </div>
                             </div>
-                            
-                            <div class="exchange-item">
-                                <div class="exchange-info">
-                                    <div class="service-avatar" style="background-color: #9c27b0;">
-                                        <i class="fa-solid fa-calculator"></i>
-                                    </div>
-                                    <div>
-                                        <h4>Math Tutoring</h4>
-                                        <p>With: David Kim · Tomorrow</p>
-                                    </div>
-                                </div>
-                                <div class="exchange-status">
-                                    <span class="status in-progress">In Progress</span>
-                                </div>
+                            <div class="exchange-status">
+                              <span class="status in-progress">In Progress</span>
                             </div>
+                          </div>
+                          <div class="exchange-item">
+                            <div class="exchange-info">
+                              <div class="service-avatar" style="background-color: #4caf50;">
+                                <i class="fa-solid fa-leaf"></i>
+                              </div>
+                              <div>
+                                <h4>Gardening Service</h4>
+                                <p>With: Alex Johnson · Jun 15</p>
+                              </div>
+                            </div>
+                            <div class="exchange-status">
+                              <span class="status in-progress">In Progress</span>
+                            </div>
+                          </div>
+                          <div class="exchange-item">
+                            <div class="exchange-info">
+                              <div class="service-avatar" style="background-color: #2196f3;">
+                                <i class="fa-solid fa-wrench"></i>
+                              </div>
+                              <div>
+                                <h4>Kitchen Repair</h4>
+                                <p>With: Maria Garcia · Jun 10</p>
+                              </div>
+                            </div>
+                            <div class="exchange-status">
+                              <span class="status in-progress">In Progress</span>
+                            </div>
+                          </div>
+        
+                          <div class="exchange-item">
+                            <div class="exchange-info">
+                              <div class="service-avatar" style="background-color: #9c27b0;">
+                                <i class="fa-solid fa-calculator"></i>
+                              </div>
+                              <div>
+                                <h4>Math Tutoring</h4>
+                                <p>With: David Kim · Tomorrow</p>
+                              </div>
+                            </div>
+                            <div class="exchange-status">
+                              <span class="status in-progress">In Progress</span>
+                            </div>
+                          </div>
                         </div>
-                        
+        
                         <div id="completed" class="tab-pane">
-                            <div class="exchange-item">
-                                <div class="exchange-info">
-                                    <div class="service-avatar" style="background-color: #3f51b5;">
-                                        <i class="fa-solid fa-faucet"></i>
-                                    </div>
-                                    <div>
-                                        <h4>Kitchen Plumbing</h4>
-                                        <p>With: Robert Chen · Jun 5</p>
-                                    </div>
-                                </div>
-                                <div class="exchange-status">
-                                    <span class="status completed">Completed</span>
-                                    <span class="time-remaining">Rated 5/5</span>
-                                </div>
+                          <div class="exchange-item">
+                            <div class="exchange-info">
+                              <div class="service-avatar" style="background-color: #3f51b5;">
+                                <i class="fa-solid fa-faucet"></i>
+                              </div>
+                              <div>
+                                <h4>Kitchen Plumbing</h4>
+                                <p>With: Robert Chen · Jun 5</p>
+                              </div>
                             </div>
-                            
-                            <div class="exchange-item">
-                                <div class="exchange-info">
-                                    <div class="service-avatar" style="background-color: #00bcd4;">
-                                        <i class="fa-solid fa-broom"></i>
-                                    </div>
-                                    <div>
-                                        <h4>Deep Cleaning</h4>
-                                        <p>With: Sarah Miller · Jun 2</p>
-                                    </div>
-                                </div>
-                                <div class="exchange-status">
-                                    <span class="status completed">Completed</span>
-                                    <span class="time-remaining">Rated 4/5</span>
-                                </div>
+                            <div class="exchange-status">
+                              <span class="status completed">Completed</span>
+                              <span class="time-remaining">Rated 5/5</span>
                             </div>
+                          </div>
+        
+                          <div class="exchange-item">
+                            <div class="exchange-info">
+                              <div class="service-avatar" style="background-color: #00bcd4;">
+                                <i class="fa-solid fa-broom"></i>
+                              </div>
+                              <div>
+                                <h4>Deep Cleaning</h4>
+                                <p>With: Sarah Miller · Jun 2</p>
+                              </div>
+                            </div>
+                            <div class="exchange-status">
+                              <span class="status completed">Completed</span>
+                              <span class="time-remaining">Rated 4/5</span>
+                            </div>
+                          </div>
                         </div>
-                        
+        
                         <div id="services" class="tab-pane">
-                            <div class="exchange-item">
-                                <div class="exchange-info">
-                                    <div class="service-avatar" style="background-color: #4caf50;">
-                                        <i class="fa-solid fa-leaf"></i>
-                                    </div>
-                                    <div>
-                                        <h4>Gardening Service</h4>
-                                        <p>Home & Garden · 20 exchanges</p>
-                                    </div>
-                                </div>
-                                <div class="exchange-status">
-                                    <span class="status in-progress">Active</span>
-                                    <button class="btn-small">Edit</button>
-                                </div>
+                          <div class="exchange-item">
+                            <div class="exchange-info">
+                              <div class="service-avatar" style="background-color: #4caf50;">
+                                <i class="fa-solid fa-leaf"></i>
+                              </div>
+                              <div>
+                                <h4>Gardening Service</h4>
+                                <p>Home & Garden · 20 exchanges</p>
+                              </div>
                             </div>
-                            
-                            <div class="exchange-item">
-                                <div class="exchange-info">
-                                    <div class="service-avatar" style="background-color: #9c27b0;">
-                                        <i class="fa-solid fa-calculator"></i>
-                                    </div>
-                                    <div>
-                                        <h4>Math Tutoring</h4>
-                                        <p>Education · 12 exchanges</p>
-                                    </div>
-                                </div>
-                                <div class="exchange-status">
-                                    <span class="status in-progress">Active</span>
-                                    <button class="btn-small">Edit</button>
-                                </div>
+                            <div class="exchange-status">
+                              <span class="status in-progress">Active</span>
+                              <button class="btn-small">Edit</button>
                             </div>
+                          </div>
+        
+                          <div class="exchange-item">
+                            <div class="exchange-info">
+                              <div class="service-avatar" style="background-color: #9c27b0;">
+                                <i class="fa-solid fa-calculator"></i>
+                              </div>
+                              <div>
+                                <h4>Math Tutoring</h4>
+                                <p>Education · 12 exchanges</p>
+                              </div>
+                            </div>
+                            <div class="exchange-status">
+                              <span class="status in-progress">Active</span>
+                              <button class="btn-small">Edit</button>
+                            </div>
+                          </div>
                         </div>
+                      </div>
                     </div>
-                </div>
-            </div>
-            
-            <div class="content-column-right">
-                <div class="subscription-card">
-                    <div class="subscription-header">
+                  </div>
+        
+                  <div class="content-column-right">
+                    <div class="subscription-card">
+                      <div class="subscription-header">
                         <h3>Subscription Plan</h3>
                         <span class="status-badge active">Active</span>
-                    </div>
-                    <div class="subscription-body">
+                      </div>
+                      <div class="subscription-body">
                         <div class="plan-details">
-                            <i class="fa-solid fa-crown premium-icon"></i>
-                            <div>
-                                <p class="plan-name">Premium Plan</p>
-                                <p class="plan-features">Unlimited Services · Priority Appearance</p>
-                            </div>
+                          <i class="fa-solid fa-crown premium-icon"></i>
+                          <div>
+                            <p class="plan-name">Premium Plan</p>
+                            <p class="plan-features">Unlimited Services · Priority Appearance</p>
+                          </div>
                         </div>
-                        
+        
                         <div class="renewal-info">
-                            <p><i class="fa-solid fa-arrow-rotate-right"></i> Renewal: <strong>July 15, 2025</strong></p>
-                            <p><i class="fa-solid fa-gift"></i> 50 bonus tokens monthly</p>
-                            <div class="subscription-actions">
-                                <button class="btn-primary">Upgrade</button>
-                            </div>
+                          <p><i class="fa-solid fa-arrow-rotate-right"></i> Renewal: <strong>July 15, 2025</strong></p>
+                          <p><i class="fa-solid fa-gift"></i> 50 bonus tokens monthly</p>
+                          <div class="subscription-actions">
+                            <button class="btn-primary">Upgrade</button>
+                          </div>
                         </div>
-                    </div>
-                    <div class="token-card">
+                      </div>
+                      <div class="token-card">
                         <h3>Your Token Balance</h3>
                         <div class="token-balance">
-                            <i class="fa-solid fa-coins"></i>
-                            <span>150</span>
+                          <i class="fa-solid fa-coins"></i>
+                          <span>150</span>
                         </div>
+                      </div>
                     </div>
+                  </div>
                 </div>
+              </div>
+              <div class="back">
+                <div class="dashboard-card-side dashboard-card-back" id="dashboard-card-back"
+                  style="display:flex; flex-direction: column;">
+                  <header class="chat-header">
+                    Alex
+                    <button aria-label="Close chat"
+                      class="text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-blue-500">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </header>
+                  <div class="chat-messages" tabindex="0" aria-live="polite" aria-relevant="additions" id="scrollable">
+                    <div class="message-left" role="article" aria-label="Message from Alex">
+                      <img src="https://placehold.co/600x400/black/white" alt="Placeholder Avatar" class="message-avatar" />
+                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla dapibus, sapien et volutpat placerat,
+                        arcu
+                        mauris blandit justo, in porttitor mi nisi scelerisque dolor.</p>
+                    </div>
+                    <div class="message-right" role="article" aria-label="Your message">
+                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla dapibus, sapien et volutpat placerat,
+                        arcu
+                        mauris blandit justo, in porttitor mi nisi scelerisque dolor.</p>
+                      <img src="https://placehold.co/600x400/black/white" alt="Placeholder Avatar" class="message-avatar" />
+                    </div>
+                    <div class="message-right" role="article" aria-label="Your message">
+                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla dapibus, sapien et volutpat placerat,
+                        arcu
+                        mauris blandit justo, in porttitor mi nisi scelerisque dolor.</p>
+                      <img src="https://placehold.co/600x400/black/white" alt="Placeholder Avatar" class="message-avatar" />
+                    </div>
+                  </div>
+                  <form class="chat-input-area" onsubmit="event.preventDefault()">
+                    <input aria-label="Type your message" autocomplete="off" class="chat-input" placeholder="Message"
+                      type="text" />
+                    <button aria-label="Attach file" class="attach-button" type="button">
+                      <i class="fas fa-paperclip"></i>
+                    </button>
+                    <button class="send-button" type="submit">SEND MESSAGE</button>
+                  </form>
+                </div>
+              </div>
             </div>
-        </div>
+          </div>
     </div>
     
     <!-- Right panel - Stats -->
@@ -414,20 +461,217 @@
         </div>
     </div>
 </div>
+<style>
+  
+  .card {
+  width: 55rem;
+  height: 25rem;
+  float: left;
+  perspective: 1000px;
+  position: relative; /* Needed for absolute children */
+}
+
+.card-content {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.card.flipped .card-content {
+  transform: rotateY(180deg);
+}
+
+.front,
+.back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  top: 0;
+  left: 0;
+  border-radius: 5px;
+}
+
+.front {
+  background: white;
+  z-index: 2;
+}
+
+.back {
+  background: #03446A;
+  color: white;
+  transform: rotateY(180deg);
+  z-index: 1;
+}
+    .main-content {
+      width: 55rem;
+        height: 25rem;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .dashboard-card-back {
+      height: 25rem;
+      width: 55rem;
+    }
+      .chat-container {
+        background: white;
+        border-radius: 0.5rem;
+        width: 100%;
+        width: 55rem;
+        height: 25rem;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      }
+    
+      .chat-header {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        padding: 0.5rem 1rem;
+        font-weight: 600;
+        font-size: 0.75rem;
+        color: #1e293b;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+    
+      .chat-messages {
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        background: #f9fafb;
+        width: 55rem;
+        height: 25rem;
+        overflow: auto;
+      }
+    
+      .message-left,
+      .message-right {
+        max-width: 220px;
+        font-size: 0.75rem;
+        line-height: 1.2;
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+    
+      .message-left {
+        background: #7c9b9585;
+        border-radius: 0.375rem;
+        padding: 1rem;
+        color: #000;
+      }
+    
+      .message-right {
+        background: #cecece;
+        border-radius: 0.375rem;
+        padding: 1rem;
+        color: #000;
+        margin-left: auto;
+        flex-direction: row-reverse;
+      }
+    
+      .message-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 9999px;
+        flex-shrink: 0;
+      }
+    
+      .chat-input-area {
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        padding: 1rem 1.5rem;
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        background: white;
+        flex-direction: row;
+        ;
+      }
+    
+      .chat-input {
+        flex: 1;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+        padding: 0.5rem 1rem;
+        font-size: 0.75rem;
+        outline: none;
+        transition: border-color 0.2s;
+        width: 80%;
+      }
+    
+      .chat-input:focus {
+        border-color: #2f4a5a;
+        box-shadow: 0 0 0 2px #a3cef1;
+      }
+    
+      .attach-button {
+        background: transparent;
+        border: none;
+        color: rgba(0, 0, 0, 0.5);
+        cursor: pointer;
+        font-size: 1rem;
+        padding: 0.25rem;
+        transition: color 0.2s;
+      }
+    
+      .attach-button:hover {
+        color: #2f4a5a;
+      }
+    
+      .send-button {
+        background-color: #2f4a5a;
+        color: white;
+        font-weight: 600;
+        font-size: 0.75rem;
+        padding: 0.5rem 1.5rem;
+        border-radius: 0.375rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+        transition: filter 0.2s;
+        white-space: nowrap;
+      }
+    
+      .send-button:hover {
+        filter: brightness(1.1);
+      }
+    
+      @media (max-width: 640px) {
+        .chat-container {
+          max-width: 100%;
+          max-height: 100vh;
+          border-radius: 0;
+        }
+    
+        .chat-input-area {
+          padding: 0.75rem 1rem;
+        }
+    
+        .send-button {
+          padding: 0.5rem 1rem;
+          font-size: 0.7rem;
+        }
+      }
+    </style>
 {% include "core/profile_modal.html" %}
 {% include "core/service_modal.html" %}
 {% include "core/bio_modal.html" %}
-<script>
-  function flipCard() {
-    document.getElementById('dashboard-container').classList.toggle('flipped');
-  }
-</script>
-<script>
-const myEditableElement = document.getElementById('myContent');
-  myEditableElement.addEventListener('input', function () {
-  });
-</script>
 <script src="{% static 'js/service_modal.js' %}"></script>
 <script src="{% static 'js/profile_modal.js' %}"></script>
 <script src="{% static 'js/bio_modal.js' %}"></script>
+<script>
+    window.addEventListener('load', function () {
+      const el = document.getElementById('scrollable');
+      el.scrollTop = el.scrollHeight;
+    });
+  </script>
+  <script>
+    function flipCard() {
+      document.getElementById('card').classList.toggle('flipped');
+    }
+  </script>
 {% endblock %}
