@@ -4,7 +4,8 @@
 
 /* Overlay and Modal */
 .modal-overlay,
-.modal-overlay2 {
+.modal-overlay2,
+.modal-overlay3 {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.4);
@@ -78,26 +79,37 @@
 }
 
 .modal.entering,
-.modal2.entering {
+.modal2.entering,
+.popup-modal-content.entering {
   animation: meepIn 0.6s ease-out forwards;
 }
 
 .modal.exiting,
-.modal2.exiting {
+.modal2.exiting,
+.popup-modal-content.exiting {
   animation: meepOut 0.5s ease-in forwards;
 }
-
+.popup-modal-content {
+  display: flex;
+  height: 100%;
+}
 /* Modal Content Layout */
 .modal-content,
 .modal-content2 {
   display: flex;
   height: 100%;
 }
+.popup-modal.entering {
+  animation: meepIn 0.5s ease-out forwards;
+}
 
+.popup-modal.exiting {
+  animation: meepOut 0.5s ease-in forwards;
+}
 /* Left Panel */
 .left-panel {
   width: 50%;
-  background: #6e8d89;
+  background: linear-gradient(135deg, var(--test-color1) 50%, var(--test-color2) 100%);
   color: white;
   text-align: center;
   padding: 3rem 2rem;
@@ -263,7 +275,8 @@ button[type="submit"]:hover {
 
 /* Close Buttons */
 .close-btn,
-.close-btn2 {
+.close-btn2,
+.close-btn3 {
   position: absolute;
   top: 1rem;
   right: 2rem;
@@ -276,7 +289,8 @@ button[type="submit"]:hover {
 }
 
 .close-btn:hover,
-.close-btn2:hover {
+.close-btn2:hover,
+.close-btn3:hover {
   color: #334218;
 }
 
@@ -363,4 +377,18 @@ button[type="submit"]:hover {
   background-color: #fff;
   padding: 0 0.25rem;
   pointer-events: none;
+}
+
+#editPopupOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+#editPopupOverlay.active {
+  display: flex;
 }

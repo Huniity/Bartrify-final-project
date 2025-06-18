@@ -4,437 +4,430 @@
 
 {% block content %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard2.css' %}">
 <link rel="stylesheet" href="{% static 'css/modals.css' %}">
-<main>
-
-  <!-- Left Side Bar -->
-  <aside class="left-sidebar" aria-label="Recent chats and search">
-    <div class="search-container">
-      <input type="search" placeholder="Search" aria-label="Search chats" />
-      <i class="fa-sharp fa-solid fa-magnifying-glass"></i>
-    </div>
-    <h3>Recent Chats</h3>
-    <div class="chat-list">
-      <button class="chat-button" type="button" onclick="flipCard()">
-        <div class="left">
-          <img src="https://placehold.co/600x400/black/white" alt="Placeholder Avatar" />
-          <span>Flip to Chat</span>
-        </div>
-        <i class="fa-solid fa-arrows-rotate fa-spin"></i>
-      </button>
-      <br>
-      <button class="chat-button" type="button">
-        <div class="left">
-          <img src="https://placehold.co/600x400/black/white" alt="Placeholder Avatar" />
-          <span>Alex</span>
-        </div>
-        <i class="fas fa-ellipsis-h"></i>
-      </button>
-      <button class="chat-button" type="button">
-        <div class="left">
-          <img src="https://placehold.co/600x400/black/white" alt="Placeholder Avatar" />
-          <span>Maia</span>
-        </div>
-        <i class="fas fa-ellipsis-h"></i>
-      </button>
-      <button class="chat-button" type="button">
-        <div class="left">
-          <img src="https://placehold.co/600x400/black/white" alt="Placeholder Avatar" />
-          <span>Ruca</span>
-        </div>
-        <i class="fas fa-ellipsis-h"></i>
-      </button>
-    </div>
-    <button class="edit-profile-btn" id="openBtn2" type="button">
-      <img src="https://placehold.co/600x400/black/white" alt="Avatar" />
-      <span>Edit Profile</span>
-      <i class="fa-solid fa-gear"></i>
-    </button>
-  </aside>
-
-  <div class="dashboard-container" id="dashboard-container">
-    <div class="dashboard-card" id="dashboard-card">
-      <!-- Dashboard Side-->
-      <div class="dashboard-card-side dashboard-card-front" id="dashboard-card-front">
-        <section class="center-content" aria-label="User profile and active exchanges" id="dashboard-container">
-          <div class="profile-top">
-            <img src="https://placehold.co/600x400/black/white" alt="Placeholder Avatar" class="profile-image" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{% static 'js/dashboard.js' %}"></script>
+<div class="dashboard-container">
+    <!-- Left panel - Profile & Chats -->
+    <div class="panel">
+        <div class="profile-section">
+            <div class="avatar-container">
+                <img src="https://ui-avatars.com/api/?name=John+Doe&background=7c9b95&color=fff" alt="Profile" class="profile-image" id="avatarPreview2"/>
+            </div>
             <div class="profile-info">
-              <h2>John Doe</h2>
-              <p id="editableText">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt ut labore et dolore magna aliqua.</p>
-              <button id="editPopupBtn">Edit My Bio</button>
-              <div class="tags">
-                <span class="tag gardening">Gardening</span>
-                <span class="tag mechanic">Mechanic</span>
-                <span class="tag eletricit">Eletricit</span>
-              </div>
+                <h2>John Doe</h2>
+                <p id="editableText">Service enthusiast with 5+ years experience</p>
+                <button class="btn-edit" id="editPopupBtn">
+                    <i class="fas fa-edit"></i> Edit Bio
+                </button>
             </div>
-            <!-- <div class="ratings" aria-label="Ratings">
-              <h3>Ratings</h3>
-              <div class="circle-rating" role="img" aria-label="Rating 5 out of 5">
-                <div class="circle-text">
-                  <div class="rating">5/5</div>
-                  <div class="label">Excellent</div>
+        </div>
+        
+        <div class="search-container">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="search" placeholder="Search chats..." aria-label="Search chats" />
+        </div>
+        
+        <div class="chat-section">
+            <h3>Recent Chats</h3>
+            <div class="chat-button">
+                <div class="chat-info">
+                    <div class="chat-avatar">
+                        <img src="https://ui-avatars.com/api/?name=Alex+Johnson&background=567C8D&color=fff" alt="Alex" />
+                    </div>
+                    <div class="chat-details">
+                        <span class="chat-name">Alex Johnson</span>
+                        <p class="last-msg">Can you help with gardening?</p>
+                    </div>
                 </div>
-              </div>
-              <p class="reviews">30+ Reviews</p>
-            </div> -->
-          </div>
-          <div>
-            <div class="active-exchanges-header">
-              <h3>Active Exchanges</h3>
             </div>
-            <div class="tabs-wrapper">
-              <div class="tabs">
-                <span class="tab active" role="tab" aria-selected="true" tabindex="0">Active Exchanges</span>
-                <span class="tab inactive" role="tab" tabindex="-1">Created Services</span>
-                <span class="tab inactive" role="tab" tabindex="-1">Completed Exchanges</span>
-              </div>
-              <button class="add-service-btn" id="openBtn" type="button">
-                Add a Service
-              </button>
+            
+            <div class="chat-button">
+                <div class="chat-info">
+                    <div class="chat-avatar">
+                        <img src="https://ui-avatars.com/api/?name=Maia+Smith&background=567C8D&color=fff" alt="Maia" />
+                    </div>
+                    <div class="chat-details">
+                        <span class="chat-name">Maia Smith</span>
+                        <p class="last-msg">Thanks for the repair!</p>
+                    </div>
+                </div>
             </div>
-
-            <div>
-              <div class="exchange-item">
-                <strong>Abelha: Interior Designer</strong>
-                <p>Name: Abelha Maia</p>
-                <p>Exchange: Interior Design for your Mechanic Skill</p>
-                <span class="status">On-going</span>
-              </div>
-              <div class="exchange-item">
-                <strong>Ruca: Web Dev</strong>
-                <p>Name: Ruca</p>
-                <p>Exchange: Web Site for your Mechanic Skill</p>
-                <span class="status">On-going</span>
-              </div>
-              <div class="exchange-item">
-                <strong>Alex: Gardening</strong>
-                <p>Name: Alex</p>
-                <p>Exchange: Gardening for your Eletricist Skill</p>
-                <span class="status">On-going</span>
-              </div>
+            
+            <div class="chat-button">
+                <div class="chat-info">
+                    <div class="chat-avatar">
+                        <img src="https://ui-avatars.com/api/?name=Ruca+Silva&background=567C8D&color=fff" alt="Ruca" />
+                    </div>
+                    <div class="chat-details">
+                        <span class="chat-name">Ruca Silva</span>
+                        <p class="last-msg">When are you available?</p>
+                    </div>
+                </div>
             </div>
-          </div>
-        </section>
-      </div>
-      <!-- Chat Side-->
-      <div class="dashboard-card-side dashboard-card-back" id="dashboard-card-back" style="display:flex; flex-direction: column;">
-        <header class="chat-header">
-          Alex
-          <button aria-label="Close chat"
-            class="text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-blue-500">
-            <i class="fas fa-times"></i>
-          </button>
-        </header>
-        <div class="chat-messages" tabindex="0" aria-live="polite" aria-relevant="additions">
-          <div class="message-left" role="article" aria-label="Message from Alex">
-            <img src="https://placehold.co/600x400/black/white" alt="Placeholder Avatar" class="message-avatar"/>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla dapibus, sapien et volutpat placerat, arcu
-              mauris blandit justo, in porttitor mi nisi scelerisque dolor.</p>
-          </div>
-          <div class="message-right" role="article" aria-label="Your message">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla dapibus, sapien et volutpat placerat, arcu
-              mauris blandit justo, in porttitor mi nisi scelerisque dolor.</p>
-            <img src="https://placehold.co/600x400/black/white" alt="Placeholder Avatar" class="message-avatar" />
-          </div>
-          <div class="message-right" role="article" aria-label="Your message">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla dapibus, sapien et volutpat placerat, arcu
-              mauris blandit justo, in porttitor mi nisi scelerisque dolor.</p>
-            <img src="https://placehold.co/600x400/black/white" alt="Placeholder Avatar" class="message-avatar"/>
-          </div>
+            
+            <div class="chat-button">
+                <div class="chat-info">
+                    <div class="chat-avatar">
+                        <img src="https://ui-avatars.com/api/?name=David+Kim&background=567C8D&color=fff" alt="David" />
+                    </div>
+                    <div class="chat-details">
+                        <span class="chat-name">David Kim</span>
+                        <p class="last-msg">Math tutoring session</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <form class="chat-input-area" onsubmit="event.preventDefault()">
-          <input aria-label="Type your message" autocomplete="off" class="chat-input" placeholder="Message"
-            type="text" />
-          <button aria-label="Attach file" class="attach-button" type="button">
-            <i class="fas fa-paperclip"></i>
-          </button>
-          <button class="send-button" type="submit">SEND MESSAGE</button>
-        </form>
-      </div>
+        
+        <div class="action-buttons">
+            <button class="btn-action" id="openBtn2">
+                <i class="fa-solid fa-user-pen"></i>
+                <span>Edit Profile</span>
+            </button>
+        </div>
     </div>
-  </div>
-
-  <aside class="right-sidebar" aria-label="Stats and exchanges graph">
-    <section>
-      <div class="ratings" aria-label="Ratings">
-        <h3>Ratings</h3>
-        <div class="circle-rating" role="img" aria-label="Rating 5 out of 5">
-          <div class="circle-text">
-            <div class="rating">5/5</div>
-            <div class="label">Excellent</div>
-          </div>
+    
+    <!-- Center panel - Dashboard -->
+    <div class="panel">
+        <div class="dashboard-header">
+            <div class="dashboard-header-left">
+                <div>
+                    <img src="https://placehold.co/600x400/black/white" alt="Placeholder Avatar" class="avatar-dashboard-header" />
+                </div>
+                <div>
+                    <h1>Welcome back, John!</h1>
+                    <p>Here's your activity summary for today</p>
+                </div>
+            </div>    
+            <div class="dashboard-header-btn">
+                <button class="btn-action" id="openBtn">
+                    <i class="fa-solid fa-square-plus"></i>
+                    <span>Create a New Service</span>
+                </button>
+            </div>
         </div>
-        <p class="reviews">30+ Reviews</p>
-      </div>
-    </section>
-    <section class="stats">
-      <h3>Stats</h3>
-      <div class="stat-item">
-        <div class="stat-icon" aria-hidden="true"><i class="fas fa-exchange-alt"></i></div>
-        <div class="stat-text">
-          <p>Exchanges made</p>
-          <p>100+</p>
-          <div class="stat-bar"></div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fa-solid fa-coins"></i>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-value">150</span>
+                    <span class="stat-title">Tokens</span>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fa-solid fa-handshake"></i>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-value">24</span>
+                    <span class="stat-title">Active</span>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-value">4.8</span>
+                    <span class="stat-title">Rating</span>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fa-solid fa-calendar-check"></i>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-value">7</span>
+                    <span class="stat-title">Upcoming</span>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-icon" aria-hidden="true"><i class="fas fa-rocket"></i></div>
-        <div class="stat-text">
-          <p>Profile views</p>
-          <p>300+</p>
-          <div class="stat-bar"></div>
+        
+        <div class="main-content">
+            <div class="content-column-left">
+                <div class="tabs-container">
+                    <div class="tabs-header">
+                        <button class="tab-btn active" data-tab="active">Active</button>
+                        <button class="tab-btn" data-tab="completed">Completed</button>
+                        <button class="tab-btn" data-tab="services">My Services</button>
+                    </div>
+                    
+                    <div class="tab-content">
+                        <div id="active" class="tab-pane active">
+                            <div class="exchange-item">
+                                <div class="exchange-info">
+                                    <div class="service-avatar" style="background-color: #4caf50;">
+                                        <i class="fa-solid fa-leaf"></i>
+                                    </div>
+                                    <div>
+                                        <h4>Gardening Service</h4>
+                                        <p>With: Alex Johnson · Jun 15</p>
+                                    </div>
+                                </div>
+                                <div class="exchange-status">
+                                    <span class="status in-progress">In Progress</span>
+                                </div>
+                            </div>
+                            <div class="exchange-item">
+                                <div class="exchange-info">
+                                    <div class="service-avatar" style="background-color: #4caf50;">
+                                        <i class="fa-solid fa-leaf"></i>
+                                    </div>
+                                    <div>
+                                        <h4>Gardening Service</h4>
+                                        <p>With: Alex Johnson · Jun 15</p>
+                                    </div>
+                                </div>
+                                <div class="exchange-status">
+                                    <span class="status in-progress">In Progress</span>
+                                </div>
+                            </div>
+                            <div class="exchange-item">
+                                <div class="exchange-info">
+                                    <div class="service-avatar" style="background-color: #4caf50;">
+                                        <i class="fa-solid fa-leaf"></i>
+                                    </div>
+                                    <div>
+                                        <h4>Gardening Service</h4>
+                                        <p>With: Alex Johnson · Jun 15</p>
+                                    </div>
+                                </div>
+                                <div class="exchange-status">
+                                    <span class="status in-progress">In Progress</span>
+                                </div>
+                            </div>
+                            <div class="exchange-item">
+                                <div class="exchange-info">
+                                    <div class="service-avatar" style="background-color: #4caf50;">
+                                        <i class="fa-solid fa-leaf"></i>
+                                    </div>
+                                    <div>
+                                        <h4>Gardening Service</h4>
+                                        <p>With: Alex Johnson · Jun 15</p>
+                                    </div>
+                                </div>
+                                <div class="exchange-status">
+                                    <span class="status in-progress">In Progress</span>
+                                </div>
+                            </div>
+                            <div class="exchange-item">
+                                <div class="exchange-info">
+                                    <div class="service-avatar" style="background-color: #2196f3;">
+                                        <i class="fa-solid fa-wrench"></i>
+                                    </div>
+                                    <div>
+                                        <h4>Kitchen Repair</h4>
+                                        <p>With: Maria Garcia · Jun 10</p>
+                                    </div>
+                                </div>
+                                <div class="exchange-status">
+                                    <span class="status in-progress">In Progress</span>
+                                </div>
+                            </div>
+                            
+                            <div class="exchange-item">
+                                <div class="exchange-info">
+                                    <div class="service-avatar" style="background-color: #9c27b0;">
+                                        <i class="fa-solid fa-calculator"></i>
+                                    </div>
+                                    <div>
+                                        <h4>Math Tutoring</h4>
+                                        <p>With: David Kim · Tomorrow</p>
+                                    </div>
+                                </div>
+                                <div class="exchange-status">
+                                    <span class="status in-progress">In Progress</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="completed" class="tab-pane">
+                            <div class="exchange-item">
+                                <div class="exchange-info">
+                                    <div class="service-avatar" style="background-color: #3f51b5;">
+                                        <i class="fa-solid fa-faucet"></i>
+                                    </div>
+                                    <div>
+                                        <h4>Kitchen Plumbing</h4>
+                                        <p>With: Robert Chen · Jun 5</p>
+                                    </div>
+                                </div>
+                                <div class="exchange-status">
+                                    <span class="status completed">Completed</span>
+                                    <span class="time-remaining">Rated 5/5</span>
+                                </div>
+                            </div>
+                            
+                            <div class="exchange-item">
+                                <div class="exchange-info">
+                                    <div class="service-avatar" style="background-color: #00bcd4;">
+                                        <i class="fa-solid fa-broom"></i>
+                                    </div>
+                                    <div>
+                                        <h4>Deep Cleaning</h4>
+                                        <p>With: Sarah Miller · Jun 2</p>
+                                    </div>
+                                </div>
+                                <div class="exchange-status">
+                                    <span class="status completed">Completed</span>
+                                    <span class="time-remaining">Rated 4/5</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="services" class="tab-pane">
+                            <div class="exchange-item">
+                                <div class="exchange-info">
+                                    <div class="service-avatar" style="background-color: #4caf50;">
+                                        <i class="fa-solid fa-leaf"></i>
+                                    </div>
+                                    <div>
+                                        <h4>Gardening Service</h4>
+                                        <p>Home & Garden · 20 exchanges</p>
+                                    </div>
+                                </div>
+                                <div class="exchange-status">
+                                    <span class="status in-progress">Active</span>
+                                    <button class="btn-small">Edit</button>
+                                </div>
+                            </div>
+                            
+                            <div class="exchange-item">
+                                <div class="exchange-info">
+                                    <div class="service-avatar" style="background-color: #9c27b0;">
+                                        <i class="fa-solid fa-calculator"></i>
+                                    </div>
+                                    <div>
+                                        <h4>Math Tutoring</h4>
+                                        <p>Education · 12 exchanges</p>
+                                    </div>
+                                </div>
+                                <div class="exchange-status">
+                                    <span class="status in-progress">Active</span>
+                                    <button class="btn-small">Edit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="content-column-right">
+                <div class="subscription-card">
+                    <div class="subscription-header">
+                        <h3>Subscription Plan</h3>
+                        <span class="status-badge active">Active</span>
+                    </div>
+                    <div class="subscription-body">
+                        <div class="plan-details">
+                            <i class="fa-solid fa-crown premium-icon"></i>
+                            <div>
+                                <p class="plan-name">Premium Plan</p>
+                                <p class="plan-features">Unlimited Services · Priority Appearance</p>
+                            </div>
+                        </div>
+                        
+                        <div class="renewal-info">
+                            <p><i class="fa-solid fa-arrow-rotate-right"></i> Renewal: <strong>July 15, 2025</strong></p>
+                            <p><i class="fa-solid fa-gift"></i> 50 bonus tokens monthly</p>
+                            <div class="subscription-actions">
+                                <button class="btn-primary">Upgrade</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="token-card">
+                        <h3>Your Token Balance</h3>
+                        <div class="token-balance">
+                            <i class="fa-solid fa-coins"></i>
+                            <span>150</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-icon" aria-hidden="true"><i class="fas fa-wallet"></i></div>
-        <div class="stat-text">
-          <p>Profile Reviews</p>
-          <p>1345</p>
-          <div class="stat-bar"></div>
+    </div>
+    
+    <!-- Right panel - Stats -->
+    <div class="panel">
+        <div class="stats-content">
+            <div class="stats-card">
+                <h3><i class="fa-solid fa-star"></i> Reviews & Ratings</h3>
+                <div class="rating-summary">
+                    <div class="average-rating">
+                        4.8
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                    <div class="rating-details">
+                        <div class="rating-bar">
+                            <span>5 stars</span>
+                            <div class="bar-container">
+                                <div class="bar-fill" style="width: 85%"></div>
+                            </div>
+                            <span>85%</span>
+                        </div>
+                        <div class="rating-bar">
+                            <span>4 stars</span>
+                            <div class="bar-container">
+                                <div class="bar-fill" style="width: 12%"></div>
+                            </div>
+                            <span>12%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stats-card">
+                <h3><i class="fa-solid fa-chart-line"></i> Monthly Activity</h3>
+                <div class="chart-container">
+                    <canvas id="servicesChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="stats-card">
+                <h3><i class="fa-solid fa-trophy"></i> Achievements</h3>
+                <div class="badges-container">
+                    <div class="badge">
+                        <i class="fa-solid fa-seedling"></i>
+                        <span>Gardener</span>
+                    </div>
+                    <div class="badge">
+                        <i class="fa-solid fa-bolt"></i>
+                        <span>Electrician</span>
+                    </div>
+                </div>
+                <button class="btn-secondary small">View All</button>
+            </div>
         </div>
-      </div>
-    </section>
-    <section class="graph-container">
-      <h3>Exchanges Graph</h3>
-      <div class="graph-header">
-        <button aria-label="Previous month"><i class="fas fa-chevron-left"></i></button>
-        <div class="graph-month">
-          June<br />
-          <small>2025</small>
-        </div>
-        <button aria-label="Next month"><i class="fas fa-chevron-right"></i></button>
-      </div>
-      <div class="graph-bars" aria-hidden="true">
-        <div class="bar blue" style="height: 40%;"></div>
-        <div class="bar blue" style="height: 70%;"></div>
-        <div class="bar blue" style="height: 40%;"></div>
-        <div class="bar blue" style="height: 80%;"></div>
-        <div class="bar orange" style="height: 20%;"></div>
-      </div>
-      <div class="graph-labels">
-        <span>1</span>
-        <span>2</span>
-        <span>3</span>
-        <span>4</span>
-        <span>5</span>
-      </div>
-      <div class="graph-stats">
-        <p>Today <span>4</span></p>
-        <p>Best <span>12</span></p>
-        <p>Average <span>3</span></p>
-      </div>
-    </section>
-  </aside>
-  {% include "core/profile_modal.html" %}
-  {% include "core/service_modal.html" %}
-  {% include "core/bio_modal.html" %}
-</main>
-<style>
-  .dashboard-card-side dashboard-card-back {
-    font-family: 'outfit', sans-serif!important;
-     margin: 0;
-     min-height: 100vh;
-     display: flex;
-     justify-content: center;
-     align-items: center;
-     padding: 1rem;
-  }
-
-   .chat-container {
-     background: white;
-     border-radius: 0.5rem;
-     width: 100%;
-     max-width: 600px;
-     max-height: 90vh;
-     display: flex;
-     flex-direction: column;
-     box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
-   }
-   .chat-header {
-     border-bottom: 1px solid rgba(0,0,0,0.1);
-     padding: 0.5rem 1rem;
-     font-weight: 600;
-     font-size: 0.75rem;
-     color: #1e293b;
-     display: flex;
-     justify-content: space-between;
-     align-items: center;
-   }
-   .chat-messages {
-     flex: 1;
-     overflow-y: auto;
-     padding: 1.5rem 1.5rem 1rem 1.5rem;
-     display: flex;
-     flex-direction: column;
-     gap: 1.5rem;
-     background: #f9fafb; /* Tailwind gray-50 */
-   }
-   .message-left, .message-right {
-     max-width: 220px;
-     font-size: 0.75rem;
-     line-height: 1.2;
-     display: flex;
-     align-items: flex-start;
-     gap: 0.5rem;
-   }
-   .message-left {
-     background: #7c9b9585;
-     border-radius: 0.375rem;
-     padding: 1rem;
-     color: #000;
-   }
-   .message-right {
-     background: #cecece;
-     border-radius: 0.375rem;
-     padding: 1rem;
-     color: #000;
-     margin-left: auto;
-     flex-direction: row-reverse;
-   }
-   .message-avatar {
-     width: 32px;
-     height: 32px;
-     border-radius: 9999px;
-     flex-shrink: 0;
-   }
-   .chat-input-area {
-     border-top: 1px solid rgba(0,0,0,0.1);
-     padding: 1rem 1.5rem;
-     display: flex;
-     gap: 1rem;
-     align-items: center;
-     background: white;
-     flex-direction: row;;
-   }
-   .chat-input {
-     flex: 1;
-     border: 1px solid rgba(0,0,0,0.2);
-     border-radius: 5px;
-     padding: 0.5rem 1rem;
-     font-size: 0.75rem;
-     outline: none;
-     transition: border-color 0.2s;
-     width: 80%;
-   }
-   .chat-input:focus {
-     border-color: #2f4a5a;
-     box-shadow: 0 0 0 2px #a3cef1;
-   }
-   .attach-button {
-     background: transparent;
-     border: none;
-     color: rgba(0,0,0,0.5);
-     cursor: pointer;
-     font-size: 1rem;
-     padding: 0.25rem;
-     transition: color 0.2s;
-   }
-   .attach-button:hover {
-     color: #2f4a5a;
-   }
-   .send-button {
-     background-color: #2f4a5a;
-     color: white;
-     font-weight: 600;
-     font-size: 0.75rem;
-     padding: 0.5rem 1.5rem;
-     border-radius: 0.375rem;
-     box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-     cursor: pointer;
-     transition: filter 0.2s;
-     white-space: nowrap;
-   }
-   .send-button:hover {
-     filter: brightness(1.1);
-   }
-   @media (max-width: 640px) {
-     .chat-container {
-       max-width: 100%;
-       max-height: 100vh;
-       border-radius: 0;
-     }
-     .chat-input-area {
-       padding: 0.75rem 1rem;
-     }
-     .send-button {
-       padding: 0.5rem 1rem;
-       font-size: 0.7rem;
-     }
-    }
-
-/* ===========================  */
-  aside.right-sidebar {
-    width: 30rem;
-  }
-
-  .dashboard-container {
-    width: 60%;
-    height: 80vh;
-  }
-
-  .dashboard-card {
-    height: 100%;
-    position: relative;
-    transition: transform 0.8s;
-    transform-style: preserve-3d;
-  }
-
-  .dashboard-container.flipped .dashboard-card {
-    transform: rotateY(180deg);
-  }
-
-  .dashboard-card-side {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    background: white;
-    border-radius: 0.5rem;
-    overflow: hidden;
-    backface-visibility: hidden;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  }
-
-  .dashboard-card-front {
-    flex-direction: row;
-  }
-
-  .dashboard-card-back {
-    transform: rotateY(180deg);
-  }
-</style>
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-<script>
-  const tabs = document.querySelectorAll(".tabs .tab");
-
-  tabs.forEach(tab => {
-    tab.addEventListener("click", () => {
-      tabs.forEach(t => {
-        t.classList.remove("active");
-        t.classList.add("inactive");
-        t.setAttribute("aria-selected", "false");
-        t.setAttribute("tabindex", "-1");
-      });
-
-      tab.classList.remove("inactive");
-      tab.classList.add("active");
-      tab.setAttribute("aria-selected", "true");
-      tab.setAttribute("tabindex", "0");
-    });
-  });
-</script>
+    </div>
+</div>
+{% include "core/profile_modal.html" %}
+{% include "core/service_modal.html" %}
+{% include "core/bio_modal.html" %}
 <script>
   function flipCard() {
     document.getElementById('dashboard-container').classList.toggle('flipped');
   }
 </script>
-<script>var myEditableElement = document.getElementById('myContent');
+<script>
+const myEditableElement = document.getElementById('myContent');
   myEditableElement.addEventListener('input', function () {
-  });</script>
+  });
+</script>
 <script src="{% static 'js/service_modal.js' %}"></script>
 <script src="{% static 'js/profile_modal.js' %}"></script>
+<script src="{% static 'js/bio_modal.js' %}"></script>
 {% endblock %}

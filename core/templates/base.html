@@ -33,14 +33,13 @@
   <header class="header">
     <div class="logo">
       <a href="/">
-        <img src="{% static 'img/Logo.png'%}" />
-        <span>Bartr</span>ify
+        <img src="{% static 'img/Logo.png'%}" class="main_logo"/>
+        <img src="{% static 'img/main_brand.png'%}" class="brand_logo"/>
       </a>
     </div>
 
     <nav>
-       <h3>Welcome John Doe!</h3><img src="https://placehold.co/600x400/black/white" alt="Placeholder Avatar" />
-      <a href="{% url 'Register' %}" class="header-btn">DASHBOARD <i class="fa-solid fa-gauge-high"></i></a>
+       <a href="{% url 'Register' %}" class="header-btn"><span>DASHBOARD</span> <i class="fa-solid fa-gauge-high"></i></a>
     </nav>
   </header>
 {% endif %}

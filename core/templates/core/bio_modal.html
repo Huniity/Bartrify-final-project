@@ -1,33 +1,40 @@
 {% load static %}
-<div id="editPopupModal" class="popup-modal" aria-hidden="true" role="dialog" aria-modal="true" tabindex="-1">
-  <div class="popup-modal-content">
-    <div class="popup-left-panel">
-      <h2>Tell us more about you!</h2>
-      <p>Let others know you better!</p>
-      <img src="{% static 'img/login.png' %}" alt="Edit illustration" />
-    </div>
-    <div class="popup-right-panel">
-    <h2>Edit My Bio</h2>
-    <textarea id="editPopupTextarea" rows="4" placeholder=" "></textarea>
-    <label for="editPopupTextarea">Tell us more about you!</label>
-      <div class="popup-buttons">
-          <button id="editPopupSaveBtn">Save</button>
-          <button id="editPopupCancelBtn">Cancel</button>
-        </div>
+<div id="editPopupOverlay" class="modal-overlay3" aria-hidden="true">
+  <div id="editPopupModal" class="popup-modal" aria-hidden="true" role="dialog" aria-modal="true" tabindex="-1">
+    <button class="close-btn3" id="closeBtn3" aria-label="Close">&times;</button>
+    <div class="popup-modal-content">
+      <div class="left-panel">
+        <h2>Tell us more about you!</h2>
+        <p>Let others know you better!</p>
+        <img src="{% static 'img/login.png' %}" alt="Edit illustration" />
+      </div>
+      <div class="popup-right-panel">
+        <h2>Edit My Bio</h2>
+        <label for="editPopupTextarea">Tell us more about you!</label>
+        <textarea id="editPopupTextarea" rows="4" placeholder=" "></textarea>
+          <div class="popup-buttons">
+              <button id="editPopupSaveBtn">Save</button>
+              <button id="editPopupCancelBtn">Cancel</button>
+          </div>
+      </div>
     </div>
   </div>
 </div>
 
 <style>
-  .popup-modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.4);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-  }
+   .popup-modal {
+  width: 35rem;
+  height: 20rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  position: relative;
+  animation-fill-mode: forwards;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
   .popup-modal.active {
     display: flex;
   }
@@ -44,7 +51,7 @@
 
   .popup-left-panel {
     width: 40%;
-    background: #6e8d89;
+    background: linear-gradient(135deg, var(--test-color1) 50%, var(--test-color2) 100%);
     color: white;
     padding: 2rem 1.5rem;
     display: flex;
@@ -135,33 +142,3 @@
         border: 1px solid #2c3e50;
     }
 </style>
-
-<script>
-  const editPopupBtn = document.getElementById('editPopupBtn');
-  const editPopupModal = document.getElementById('editPopupModal');
-  const editPopupTextarea = document.getElementById('editPopupTextarea');
-  const editPopupSaveBtn = document.getElementById('editPopupSaveBtn');
-  const editPopupCancelBtn = document.getElementById('editPopupCancelBtn');
-  const editableText = document.getElementById('editableText');
-
-  editPopupBtn.addEventListener('click', () => {
-    editPopupTextarea.value = editableText.textContent.trim();
-    editPopupModal.classList.add('active');
-    editPopupTextarea.focus();
-  });
-
-  editPopupSaveBtn.addEventListener('click', () => {
-    editableText.textContent = editPopupTextarea.value;
-    editPopupModal.classList.remove('active');
-  });
-
-  editPopupCancelBtn.addEventListener('click', () => {
-    editPopupModal.classList.remove('active');
-  });
-
-  editPopupModal.addEventListener('click', e => {
-    if (e.target === editPopupModal) {
-      editPopupModal.classList.remove('active');
-    }
-  });
-</script>
