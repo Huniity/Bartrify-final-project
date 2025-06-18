@@ -1,22 +1,9 @@
-{% extends 'core/base.html' %}
-
-{% block title %}Feed{% endblock %}
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Home Page{% endblock %}
 
 {% block content %}
-<!-- Header -->
-<header class="header">
-    <div class="logo">
-        <a href="./index.html">
-            <img src="{% static 'core/img/Logo.png'%}" />
-            <span>Bartr</span>ify
-        </a>
-    </div>
-
-    <nav>
-        <a href="#">WELCOME JOHN DOE!</a>
-        <button class="header-btn">HomePage</button>
-    </nav>
-</header>
+<link rel="stylesheet" href="{% static 'css/feed.css' %}" />
 
 <!-- Hero -->
 <section class="hero-feed">
@@ -27,7 +14,7 @@
         </h1>
     </div>
     <div class="hero-image-feed">
-        <img src="../Img/feed.png" alt="hero" />
+        <img src="{% static 'img/feed.png'%}" alt="hero" />
     </div>
 </section>
 
@@ -79,68 +66,75 @@
     </div>
 </section>
 
+<div id="profile-feed-modal" class="Modal-Container">
+    <div class="modal-card-profile">
+        <div class="modal-header">
+            <img id="profile-avatar" class="profile-avatar" src="" />
+            <div class="align-text-profile">
+                <h3 id="profile-name" class="profile-name"></h3>
+                <p id="profile-description" class="profile-description"></p>
+            </div>
+            <a class="btn-profile" onclick="openContactModal()"><span>Contact</span></a>
+        </div>
+
+        <div class="bottom-panel">
+            <button onclick="closeProfileModal()" class="close-btn-profile">✖</button>
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('tab-services')">Serviços Fornecidos</button>
+                <button class="tab" onclick="showTab('tab-needed')">Serviços Necessários</button>
+                <button class="tab" onclick="showTab('tab-reviews')">Reviews</button>
+            </div>
+            <div id="tab-services" class="tab-content"></div>
+            <div id="tab-needed" class="tab-content"></div>
+            <div id="tab-reviews" class="tab-content"></div>
+        </div>
+    </div>
+</div>
+
+<div id="contact-modal" class="Modal-Container">
+    <div class="modal-card">
+        <div class="left-panel">
+            <h2>Contact Me!</h2>
+            <p>Start a conversation with this user.</p>
+            <img src="./Img/modal.png" alt="Contact Illustration" />
+
+        </div>
+        <div class="right-panel">
+            <span class="close-btn" onclick="closeModal()">×</span>
+            <div class="user-info">
+                <div class="form-group">
+                    <img id="modal-user-avatar" class="user-avatar" alt="User Avatar" />
+                    <div class="align-text-rating">
+                        <h3 id="modal-user-name" class="user-name">User Name</h3>
+                        <div id="modal-user-rating" class="user-stars">★★★★☆</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="category-box">
+                        <img id="modal-trade1-icon" class="category-trade-icon" alt="Category Icon 1" />
+                        <span id="modal-trade1-title" class="category-trade-title">Category 1</span>
+                    </div>
+                    <p id="modal-user-description" class="user-description">Descrição do utilizador...</p>
+                </div>
+                <form id="contact-form">
+                    <div class="form-group">
+                        <textarea id="message" placeholder=" " required></textarea>
+                        <label for="message">Write your message</label>
+
+                        <button type="submit" class="submit-btn">Send message</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Feed -->
 <section class="feed">
     <div id="feed-container">
-
     </div>
 </section>
 
-<!-- Footer -->
-<div class="wave-footer">
-</div>
-<footer class="footer">
-    <div class="footer-container">
-
-        <div class="footer-col">
-            <h3><i class="fa-solid fa-circle-info"></i> About Us</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                labore
-                et dolore
-                magna aliqua. Quis ipsum suspendisse ultrices gravida.</p>
-        </div>
-
-        <div class="footer-col">
-            <h3><i class="fa-solid fa-link"></i> Quick Links</h3>
-            <ul>
-                <li><a href="#"><i class="fa-solid fa-house"></i> Home</a></li>
-                <li><a href="#"><i class="fa-solid fa-rss"></i> Feed</a></li>
-                <li><a href="#"><i class="fa-solid fa-user-plus"></i> Signup</a></li>
-                <li><a href="#"><i class="fa-solid fa-right-to-bracket"></i> Signin</a></li>
-                <li><a href="#"><i class="fa-solid fa-gauge-high"></i> Dashboard</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-col">
-            <h3><i class="fa-solid fa-shield-halved"></i> Privacy & Info</h3>
-            <ul>
-                <li><a href="#"><i class="fa-solid fa-file-contract"></i> Terms & Conditions</a></li>
-                <li><a href="#"><i class="fa-solid fa-user-shield"></i> Privacy Policy</a></li>
-                <li><a href="#"><i class="fa-solid fa-scale-balanced"></i> RGPD</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-col">
-            <h3><i class="fa-solid fa-address-book"></i> Contacts</h3>
-            <ul class="contacts">
-                <li><i class="fa-solid fa-location-dot"></i> @ETIC_Algarve, PT</li>
-                <li><i class="fa-solid fa-envelope"></i> example1@gmail.com</li>
-                <li><i class="fa-solid fa-envelope"></i> example2@gmail.com</li>
-                <li><i class="fa-solid fa-envelope"></i> example3@gmail.com</li>
-
-            </ul>
-        </div>
-    </div>
-
-    <p class="footer-copy">
-        <i class="fa-regular fa-copyright"></i>
-        <span id="date"></span> Bartrify. All Rights Reserved.
-    </p>
-</footer>
-
-<script src="../Js/main.js"></script>
-<script>
-    document.getElementById('date').textContent = new Date().getFullYear();
-</script>
-
+<script src=""></script>
 {% endblock %}
