@@ -80,3 +80,13 @@
             });
         });
     });
+
+
+    window.addEventListener('load', function () {
+      const el = document.getElementById('scrollable');
+      el.scrollTop = el.scrollHeight;
+    });
+    
+    function flipCard() {
+      document.getElementById('card').classList.toggle('flipped');
+    }

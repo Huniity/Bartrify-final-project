@@ -46,35 +46,30 @@
 @keyframes meepIn {
   0% {
     opacity: 0;
-    transform: translateX(-120%) scale(0.2) skewX(-20deg);
-  }
-  40% {
-    opacity: 1;
-    transform: translateX(15%) scale(1.2) skewX(10deg);
+    transform: translateY(-30px) rotateX(20deg) scale(0.95);
+    transform-origin: top;
+    filter: blur(6px);
   }
   60% {
-    transform: translateX(-5%) scale(0.9) skewX(-5deg);
-  }
-  80% {
-    transform: translateX(5%) scale(1.05) skewX(2deg);
+    opacity: 0.7;
+    transform: translateY(10px) rotateX(0deg) scale(1.02);
+    filter: blur(2px);
   }
   100% {
-    transform: translateX(0) scale(1) skewX(0);
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
   }
 }
 
 @keyframes meepOut {
   0% {
     opacity: 1;
-    transform: translateX(0) scale(1) skewX(0);
-  }
-  40% {
-    opacity: 1;
-    transform: translateX(-10%) scale(1.2) skewX(5deg);
+    transform: translateY(0) scale(1);
   }
   100% {
     opacity: 0;
-    transform: translateX(120%) scale(0.2) skewX(20deg);
+    transform: translateY(-12px) scale(0.98);
   }
 }
 
@@ -87,7 +82,7 @@
 .modal.exiting,
 .modal2.exiting,
 .popup-modal-content.exiting {
-  animation: meepOut 0.5s ease-in forwards;
+  animation: meepOut 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 .popup-modal-content {
   display: flex;
@@ -104,7 +99,7 @@
 }
 
 .popup-modal.exiting {
-  animation: meepOut 0.5s ease-in forwards;
+  animation: meepOut 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 /* Left Panel */
 .left-panel {
