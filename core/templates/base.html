@@ -12,39 +12,65 @@
 </head>
 
 <body>
-  {% if 'dashboard' not in request.path %}
-  <!-- Header -->
-  <header class="header">
-    <div class="logo">
-      <a href="/">
-        <img src="{% static 'img/Logo.png'%}" />
-        <span>Bartr</span>ify
-      </a>
-    </div>
-
-    <nav>
-      <a href="{% url 'Register' %}">Sign In <i class="fa-solid fa-right-to-bracket"></i></a>
-      <a href="{% url 'Register' %}" class="header-btn">Join Us <i class="fa-solid fa-user-plus"></i></a>
-    </nav>
-  </header>
-  {% endif %}
   {% if 'dashboard' in request.path %}
-  <!-- Header -->
+  <!-- Header para dashboard -->
   <header class="header">
     <div class="logo">
       <a href="/">
         <img src="{% static 'img/Logo.png'%}" />
-        <span>Bartr</span>ify
+        <span class="Bartr">Bartr</span><span class="ify">ify</span>
       </a>
     </div>
-
     <nav>
-      <h3>Welcome John Doe!</h2>
-        <a href="{% url 'Register' %}" class="header-btn">DASHBOARD <i class="fa-solid fa-gauge-high"></i></a>
+      <h3>Welcome John Doe!</h3>
+      <a href="{% url 'dashboard' %}" class="header-btn">DASHBOARD <i class="fa-solid fa-gauge-high"></i></a>
+    </nav>
+  </header>
+
+  {% elif 'feed' in request.path %}
+  <!-- Header para dashboard -->
+  <header class="header">
+    <div class="logo">
+      <a href="/">
+        <img src="{% static 'img/Logo.png'%}" />
+        <span class="Bartr">Bartr</span><span class="ify">ify</span>
+      </a>
+    </div>
+    <nav>
+      <h3>Welcome John Doe!</h3>
+      <a href="{% url 'dashboard' %}" class="header-btn">DASHBOARD <i class="fa-solid fa-gauge-high"></i></a>
+    </nav>
+  </header>
+
+  {% elif 'register' in request.path %}
+  <!-- Header para página de registro/login -->
+  <header class="header">
+    <div class="logo">
+      <a href="/">
+        <img src="{% static 'img/Logo.png'%}" />
+        <span class="Bartr">Bartr</span><span class="ify">ify</span>
+      </a>
+    </div>
+    <nav>
+      <a href="/" class="header-btn">Home <i class="fa-solid fa-house"></i></a>
+    </nav>
+  </header>
+
+  {% else %}
+  <!-- Header padrão (fora do dashboard ou register) -->
+  <header class="header">
+    <div class="logo">
+      <a href="/">
+        <img src="{% static 'img/Logo.png'%}" />
+        <span class="Bartr">Bartr</span><span class="ify">ify</span>
+      </a>
+    </div>
+    <nav>
+      <a href="{% url 'Register' %}?mode=signin">Sign In <i class="fa-solid fa-right-to-bracket"></i></a>
+      <a href="{% url 'Register' %}?mode=signup" class="header-btn">Join Us <i class="fa-solid fa-user-plus"></i></a>
     </nav>
   </header>
   {% endif %}
-
 
   <!-- Main Content -->
   {% block content %}{% endblock %}
@@ -66,11 +92,11 @@
         <div class="footer-col">
           <h3><i class="fa-solid fa-link"></i> Quick Links</h3>
           <ul>
-            <li><a href="#"><i class="fa-solid fa-house"></i> Home</a></li>
-            <li><a href="#"><i class="fa-solid fa-rss"></i> Feed</a></li>
-            <li><a href="#"><i class="fa-solid fa-user-plus"></i> Signup</a></li>
-            <li><a href="#"><i class="fa-solid fa-right-to-bracket"></i> Signin</a></li>
-            <li><a href="#"><i class="fa-solid fa-gauge-high"></i> Dashboard</a></li>
+            <li><a href="{% url 'index' %}"><i class="fa-solid fa-house"></i> Home</a></li>
+            <li><a href="{% url 'Feed' %}"><i class="fa-solid fa-rss"></i> Feed</a></li>
+            <li><a href="{% url 'Register' %}?mode=signup"><i class="fa-solid fa-user-plus"></i> Signup</a></li>
+            <li><a href="{% url 'Register' %}?mode=signin"><i class="fa-solid fa-right-to-bracket"></i> Signin</a></li>
+            <li><a href="{% url 'dashboard' %}"><i class="fa-solid fa-gauge-high"></i> Dashboard</a></li>
           </ul>
         </div>
 
