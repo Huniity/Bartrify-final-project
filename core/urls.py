@@ -14,11 +14,14 @@ from core.views import (
     APIRegisterView,
     ServiceViewSet,
     ServiceRequestViewSet,
+    MyServiceViewSet,
+    PasswordChangeView,
 )
 
 router = DefaultRouter()
 router.register(r'services', ServiceViewSet, basename='service')
 router.register(r'requests', ServiceRequestViewSet, basename='service-request')
+router.register(r'my-services', MyServiceViewSet, basename='my-services')
 
 urlpatterns = [
     # Pages
@@ -36,6 +39,7 @@ urlpatterns = [
     path('api/users/<int:pk>/', PublicProfileView.as_view(), name='public-profile'),
     path('api/dashboard/', APIDashboardView.as_view(), name='api-dashboard'),
     path('api/register/', APIRegisterView.as_view(), name='api-register'),
+    path('api/password/change/', PasswordChangeView.as_view(), name='password_change'),
 
     # Routers
     path('api/', include(router.urls)),

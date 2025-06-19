@@ -26,7 +26,7 @@ Content-Type: application/json
 ###
 
 # ⚠️ Paste access_token manually after login
-@access_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUwMzYzNzQxLCJpYXQiOjE3NTAyNzczNDEsImp0aSI6ImI0MzJiMGZjNjFhODRhNjY5MGVlYTViMTQwZWNjMzlkIiwidXNlcl9pZCI6Mn0.rDpl5U6NkAG50lm9vgfLK2uUibj1RwTpMIDQW3aWfew
+@access_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUwNDEzNTU3LCJpYXQiOjE3NTAzMjcxNTcsImp0aSI6IjhmMDUyNmQ0YTFjYzRmYjBhMjk2ZTJhNDdlNjZhOGQ2IiwidXNlcl9pZCI6MzV9.11jUXUC8L2QqAobe6bXqCAkgBJZHYDfHNgHIvwdePC8
 
 ###
 
@@ -63,10 +63,10 @@ Authorization: Bearer {{access_token}}
 Content-Type: application/json
 
 {
-  "title": "Dog Walking",
-  "description": "I'll walk your dog for an hour. Happy puppers guaranteed.",
-  "category": "Pet Services",
-  "desired_category": "Mechanical Services"
+  "title": "League Coach",
+  "description": "I'll coach you in league of legends.",
+  "category": "Coaching",
+  "desired_category": "Gardening"
 }
 
 ###
@@ -88,7 +88,7 @@ Authorization: Bearer {{access_token}}
 Content-Type: application/json
 
 {
-  "receiver": 2,
+  "receiver": 35,
   "service": 1,
   "message": "Yo, down to barter? Let's make magic."
 }
