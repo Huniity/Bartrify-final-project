@@ -16,12 +16,27 @@ class User(AbstractUser):
 
 
 class Service(models.Model):
+    CATEGORY_CHOICES = [
+        ('IT_SUPPORT', 'IT Support & Troubleshooting'),
+        ('GRAPHIC_DESIGN', 'Graphic Design & Branding'),
+        ('WEB_DEV', 'Web Development & Design'),
+        ('LANG_TUTOR', 'Language Tutoring'),
+        ('HOME_REPAIR', 'Home Repair & Maintenance'),
+        ('CLEANING', 'Cleaning Services'),
+        ('PET_SITTING', 'Pet Sitting & Walking'),
+        ('PHOTOGRAPHY', 'Photography & Editing'),
+        ('CONSULTING', 'Business Consulting'),
+        ('FITNESS_COACH', 'Fitness Coaching'),
+        ('EDUCATION', 'Education & Tutoring'), 
+        ('HANDICRAFTS', 'Handicrafts & Custom Goods'),
+    ]
+
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='services')
     title = models.CharField(max_length=255)
     description = models.TextField()
-    category = models.CharField(max_length=100)
-    desired_category = models.CharField(max_length=100, blank=True, null=True)
-    price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    category = models.CharField(max_length=100, choices=CATEGORY_CHOICES) # Use choices here
+    desired_category = models.CharField(max_length=100, choices=CATEGORY_CHOICES, blank=True, null=True) # Use choices here
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0) # Default to 0 for barter
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
