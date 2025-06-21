@@ -1,6 +1,3 @@
-/* Import da Pasta HomePage */
-@import url(../../HomePage/CSS/Global.css);
-
 /* ===== Flip Card + Form ===== */
 .Container {
     width: 1200px;
@@ -44,7 +41,7 @@
 }
 
 .left-panel {
-    background-color: var(--primary-color);
+    background: var(--gradient);
     padding: 40px;
     flex: 1;
     display: flex;
@@ -54,13 +51,14 @@
 }
 
 .left-panel img {
-    width: 350px;
+    width: 550px;
     height: auto;
     margin-top: 24px;
 }
 
 .left-panel h2 {
-    font-size: 22px;
+    font-size: 30px;
+    font-weight: 600;
     color: #1d1d1d;
     margin-top: 8px;
 }
@@ -134,7 +132,6 @@
     font-size: 14px;
     color: #888;
     transition: top 0.18s linear, left 0.18s linear, font-size 0.18s linear, color 0.18s linear;
-
 }
 
 .form-group input:focus+label,
@@ -167,13 +164,14 @@ input {
 button {
     width: 100%;
     padding: 12px;
-    background-color: var(--secundary-color);
     color: white;
     font-weight: bold;
     border: none;
     border-radius: 15px;
     margin-top: 10px;
     cursor: pointer;
+
+    background: var(--gradient);
 }
 
 .divider {
@@ -210,7 +208,7 @@ button {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #ffffff;
+    background: none;
     border: 1px solid #bfc9d1;
     color: var(--secundary-color);
     cursor: pointer;
@@ -280,4 +278,3 @@ button {
     cursor: pointer;
     font-weight: bold;
 }
-

@@ -1,126 +1,126 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Home Page{% endblock %}
-    
+{% block title %}Register / Sign In{% endblock %} {# More descriptive title #}
+
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/register.css' %}" />
-    <!-- Form Section -->
-    <div class="Container" id="Container">
-        <div class="card">
 
-            <!-- Front Side (Signup) -->
-            <div class="card-side card-front">
-                <div class="left-panel">
-                    <h2>Welcome to Bartrify!</h2>
-                    <p>Create your account and enjoy the benefits!</p>
-                    <img src="../Img/Login.png" alt="Illustration">
-                </div>
-
-                <div class="right-panel">
-                    <h2>SIGN UP</h2>
-                    <form id="signup-form">
-                        <div class="form-row">
-                            <div class="form-group half-width">
-                                <input type="text" name="first_name" id="first_name" placeholder=" " required>
-                                <label for="firstName">First Name</label>
-                                <i class="fas fa-user icon-input"></i>
-                            </div>
-
-                            <div class="form-group half-width">
-                                <input type="text" name="last_name" id="last_name" placeholder=" " required>
-                                <label for="lastName">Last Name</label>
-                                <i class="fas fa-user icon-input"></i>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group half-width">
-                                <input type="text" name="username" id="username" placeholder=" " required>
-                                <label for="username">Username</label>
-                                <i class="fas fa-user icon-input"></i>
-                            </div>
-
-                            <div class="form-group half-width">
-                                <input type="text" name="location" id="location" placeholder=" " required>
-                                <label for="location">Location</label>
-                                <i class="fas fa-map-marker-alt icon-input"></i>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <input type="email" name="email" id="email" placeholder=" " required>
-                            <label for="email">Email</label>
-                            <i class="fas fa-envelope icon-input"></i>
-                        </div>
-
-                        <div class="form-group">
-                            <input type="password" name="password" id="password" placeholder=" " required>
-                            <label for="password">Password</label>
-                            <i class="fas fa-eye password-toggle-icon" id="togglePassword"></i>
-                        </div>
-
-                        <div class="form-group">
-                            <input type="password" name="confirmPassword" id="confirmPassword" placeholder=" " required>
-                            <label for="confirmPassword">Confirm Password</label>
-                            <i class="fas fa-eye password-toggle-icon" id="toggleConfirmPassword"></i>
-                        </div>
-
-                        <button type="submit">SIGN UP</button>
-                    </form>
-
-                    <div class="divider"><span>OR</span></div>
-                    <div class="social-buttons">
-                        <button><span>Discord</span><i class="fab fa-discord"></i></button>
-                        <button><span>Google</span><i class="fab fa-google"></i></button>
-                        <button><span>Github</span><i class="fab fa-github"></i></button>
-                    </div>
-
-                    <div class="login-link">
-                        Already have an account? <a class="flip-btn" onclick="flipCard()">Login</a>
-                    </div>
-                </div>
+<div class="Container {% if request.GET.mode == 'signin' %}flipped{% endif %}" id="Container">
+    <div class="card">
+        <div class="card-side card-front">
+            <div class="left-panel">
+                <h2>Welcome to Bartrify!</h2>
+                <p>Create your account and enjoy the benefits!</p>
+                <img src="{% static 'img/SignUp.png' %}" alt="Illustration"> {# Corrected static path #}
             </div>
 
-            <!-- Back Side (Login) -->
-            <div class="card-side card-back">
-                <div class="left-panel">
-                    <h2>Welcome back!</h2>
-                    <p>Please log in to access the full features of Bartrify!</p>
-                    <img src="{% static 'img/Login.png'%}" alt="Illustration">
-                </div>
-
-                <div class="right-panel">
-                    <h2>SIGN IN</h2>
-                    <form id="login-form">
-                        <div class="form-group">
-                            <input type="text" name="username" id="login-username" placeholder=" " required>
-                            <label for="login-username">Username</label>
+            <div class="right-panel">
+                <h2>SIGN UP</h2>
+                {# Removed method="POST" here, will handle via JS #}
+                <form id="signup-form"> {# Added ID for JS targeting #}
+                    {% csrf_token %}
+                    <div class="form-row">
+                        <div class="form-group half-width">
+                            <input type="text" name="first_name" id="firstName" placeholder=" " required> {# Changed name to first_name #}
+                            <label for="firstName">First Name</label>
                             <i class="fas fa-user icon-input"></i>
                         </div>
 
-                        <div class="form-group">
-                            <input type="password" name="password" id="password-back" placeholder=" " required>
-                            <label for="password-back">Password</label>
-                            <i class="fas fa-eye password-toggle-icon" id="togglePasswordBack"></i>
+                        <div class="form-group half-width">
+                            <input type="text" name="last_name" id="lastName" placeholder=" " required> {# Changed name to last_name #}
+                            <label for="lastName">Last Name</label>
+                            <i class="fas fa-user icon-input"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group half-width">
+                            <input type="text" name="username" id="username" placeholder=" " required>
+                            <label for="username">Username</label>
+                            <i class="fas fa-user icon-input"></i>
                         </div>
 
-                        <button type="submit">LOGIN</button>
-                    </form>
-
-                    <div class="divider"><span>OR</span></div>
-                    <div class="social-buttons">
-                        <button><span>Discord</span><i class="fab fa-discord"></i></button>
-                        <button><span>Google</span><i class="fab fa-google"></i></button>
-                        <button><span>Github</span><i class="fab fa-github"></i></button>
+                        <div class="form-group half-width">
+                            <input type="text" name="location" id="location" placeholder=" " required>
+                            <label for="location">Location</label>
+                            <i class="fas fa-map-marker-alt icon-input"></i>
+                        </div>
                     </div>
 
-                    <div class="login-link">
-                        Don’t have an account? <a class="flip-btn" onclick="flipCard()">Register Here!</a>
+                    <div class="form-group">
+                        <input type="email" name="email" id="email" placeholder=" " required>
+                        <label for="email">Email</label>
+                        <i class="fas fa-envelope icon-input"></i>
                     </div>
+
+                    <div class="form-group">
+                        <input type="password" name="password" id="password" placeholder=" " required>
+                        <label for="password">Password</label>
+                        <i class="fas fa-eye password-toggle-icon" id="togglePassword"></i>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="password" name="confirm_password" id="confirmPassword" placeholder=" " required> {# Changed name to confirm_password #}
+                        <label for="confirmPassword">Confirm Password</label>
+                        <i class="fas fa-eye password-toggle-icon" id="toggleConfirmPassword"></i>
+                    </div>
+
+                    <button type="submit">SIGN UP</button>
+                </form>
+
+                <div class="divider"><span>OR</span></div>
+                <div class="social-buttons">
+                    <button><span>Discord</span><i class="fab fa-discord"></i></button>
+                    <button><span>Google</span><i class="fab fa-google"></i></button>
+                    <button><span>Github</span><i class="fab fa-github"></i></button>
+                </div>
+
+                <div class="login-link">
+                    Already have an account? <a class="flip-btn" onclick="flipCard()">Login</a>
                 </div>
             </div>
+        </div>
 
+        <div class="card-side card-back">
+            <div class="left-panel">
+                <h2>Welcome back!</h2>
+                <p>Please log in to access the full features of Bartrify!</p>
+                <img src="{% static 'img/SignIn.png' %}" alt="Illustration"> {# Corrected static path #}
+            </div>
+            <div class="right-panel">
+                <h2>SIGN IN</h2>
+                {# Removed method="POST" here, will handle via JS #}
+                <form id="login-form"> {# Added ID for JS targeting #}
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input type="text" name="username" id="login-username" placeholder=" " required> {# Changed ID for clarity, name is username #}
+                        <label for="login-username">Username or Email</label> {# Updated label #}
+                        <i class="fas fa-user icon-input"></i>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="password" name="password" id="password-back" placeholder=" " required>
+                        <label for="password-back">Password</label>
+                        <i class="fas fa-eye password-toggle-icon" id="togglePasswordBack"></i>
+                    </div>
+
+                    <button type="submit">SIGN IN</button>
+                </form>
+
+                <div class="divider"><span>OR</span></div>
+                <div class="social-buttons">
+                    <button><span>Discord</span><i class="fab fa-discord"></i></button>
+                    <button><span>Google</span><i class="fab fa-google"></i></button>
+                    <button><span>Github</span><i class="fab fa-github"></i></button>
+                </div>
+
+                <div class="login-link">
+                    Don’t have an account? <a class="flip-btn" onclick="flipCard()">Register Here!</a>
+                </div>
+            </div>
         </div>
     </div>
-    <script src="{% static 'js/register.js' %}"></script>
+</div>
+
+<script src="{% static 'js/register.js' %}"></script>
 {% endblock %}
