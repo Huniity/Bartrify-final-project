@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f7f6; }
         h1, h2 { color: #333; }
@@ -76,12 +77,14 @@
         .form-group input[type="text"],
         .form-group input[type="email"],
         .form-group input[type="password"],
-        .form-group textarea {
+        .form-group textarea,
+        .form-group select { /* Added select to general input styles */
             width: calc(100% - 22px); /* Adjust for padding and border */
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
             font-size: 1em;
+            box-sizing: border-box; /* Ensures padding and border are included in the width */
         }
         .form-group textarea {
             min-height: 80px;
@@ -110,8 +113,28 @@
             background-color: #5a6268;
         }
 
+        /* Password toggle styles (added) */
+        .password-group {
+            position: relative;
+        }
+        .password-group input { /* To make space for the icon */
+            padding-right: 40px;
+        }
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 60%; /* Adjust to vertically center with the input, accounting for label */
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #555;
+        }
+        .password-toggle:hover {
+            color: #333;
+        }
+
         /* Hidden by default */
         #profile-update-section { display: none; }
+        #create-service-section { display: none; }
     </style>
 </head>
 <body>
@@ -122,7 +145,9 @@
         <button id="showMyRequestsBtn">Show My Service Requests</button>
         <button id="showMyServicesBtn">Show My Created Services</button>
         <button id="showProfileUpdateBtn">Update Profile</button>
-        <button id="showCreateServiceBtn">Create New Service</button> </div>
+        <button id="showCreateServiceBtn">Create New Service</button>
+        <button id="logoutBtn">Logout</button>
+    </div>
 
     <div class="status" id="status">Select an option above.</div>
 
@@ -134,7 +159,7 @@
         <h2>Update Profile</h2>
         <div id="profile-status" class="status"></div>
         <div class="form-section">
-            <h3>Personal Information</h3>
+            <h3>Personal Information & Password</h3>
             <form id="profileForm">
                 <div class="form-group">
                     <label for="firstName">First Name:</label>
@@ -156,31 +181,31 @@
                     <label for="avatar">Avatar (Base64 or URL):</label>
                     <input type="text" id="avatar" name="avatar" placeholder="Paste Base64 or URL if applicable">
                 </div>
+
+                <hr> <h4>Change Password (Optional)</h4>
+                <p class="status">Fill these fields ONLY if you want to change your password.</p>
+                <div class="form-group password-group">
+                    <label for="currentPassword">Current Password:</label>
+                    <input type="password" id="currentPassword" name="old_password">
+                    <span class="password-toggle" id="toggleCurrentPassword">
+                    </span>
+                </div>
+                <div class="form-group password-group">
+                    <label for="newPassword">New Password:</label>
+                    <input type="password" id="newPassword" name="new_password1">
+                    <span class="password-toggle" id="toggleNewPassword">
+                    </span>
+                </div>
+                <div class="form-group password-group">
+                    <label for="confirmNewPassword">Confirm New Password:</label>
+                    <input type="password" id="confirmNewPassword" name="new_password2">
+                    <span class="password-toggle" id="toggleConfirmNewPassword">
+                    </span>
+                </div>
+
                 <div class="form-actions">
                     <button type="submit">Update Profile</button>
-                    <button type="reset">Reset</button>
-                </div>
-            </form>
-        </div>
-        <div class="form-section">
-            <h3>Change Password</h3>
-            <div id="password-status" class="status"></div>
-            <form id="passwordForm">
-                <div class="form-group">
-                    <label for="currentPassword">Current Password:</label>
-                    <input type="password" id="currentPassword" name="old_password" required>
-                </div>
-                <div class="form-group">
-                    <label for="newPassword">New Password:</label>
-                    <input type="password" id="newPassword" name="new_password1" required>
-                </div>
-                <div class="form-group">
-                    <label for="confirmNewPassword">Confirm New Password:</label>
-                    <input type="password" id="confirmNewPassword" name="new_password2" required>
-                </div>
-                <div class="form-actions">
-                    <button type="submit">Change Password</button>
-                    <button type="reset">Reset</button>
+                    <button type="reset" id="resetProfileForm">Reset</button>
                 </div>
             </form>
         </div>
@@ -225,7 +250,7 @@
                         <label for="tokenPrice">Price (Tokens):</label>
                         <input type="text" id="tokenPrice" name="price" value="10" readonly>
                     </div>
-                     <div class="form-group">
+                    <div class="form-group">
                         <label for="tokenServiceCategory">Category (Service you are offering):</label>
                         <select id="tokenServiceCategory" name="category"></select>
                     </div>
@@ -240,35 +265,53 @@
     </div>
 
     <script>
-        const dashboardDataElement = document.getElementById('dashboard-data');
-        const statusElement = document.getElementById('status');
-        const profileUpdateSection = document.getElementById('profile-update-section');
-        const createServiceSection = document.getElementById('create-service-section'); // NEW
-        const profileForm = document.getElementById('profileForm');
-        const passwordForm = document.getElementById('passwordForm');
-        const createServiceForm = document.getElementById('createServiceForm'); // NEW
-        const profileStatusElement = document.getElementById('profile-status');
-        const passwordStatusElement = document.getElementById('password-status');
-        const createServiceStatusElement = document.getElementById('create-service-status'); // NEW
-
-        // Service creation form specific elements
-        const paymentTypeSelect = document.getElementById('paymentType'); // NEW
-        const barterFields = document.getElementById('barterFields'); // NEW
-        const tokenFields = document.getElementById('tokenFields'); // NEW
-        const serviceCategorySelect = document.getElementById('serviceCategory'); // NEW
-        const desiredCategorySelect = document.getElementById('desiredCategory'); // NEW
-        const tokenServiceCategorySelect = document.getElementById('tokenServiceCategory'); // NEW
-
-        // Buttons
-        const showDashboardDataBtn = document.getElementById('showDashboardDataBtn');
-        const showMyRequestsBtn = document.getElementById('showMyRequestsBtn');
-        const showMyServicesBtn = document.getElementById('showMyServicesBtn');
-        const showProfileUpdateBtn = document.getElementById('showProfileUpdateBtn');
-        const showCreateServiceBtn = document.getElementById('showCreateServiceBtn'); // NEW
-
-        const accessToken = localStorage.getItem('access_token');
+        // --- Utility Functions ---
+    
+        // Function to get CSRF token from cookies (essential for Django POST/PATCH requests)
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+    
+        // Removed setupPasswordToggle function as eye icons are no longer needed
+    
+        function clearAndShowSection(sectionToShow) {
+            document.getElementById('dashboard-data').style.display = 'none';
+            document.getElementById('profile-update-section').style.display = 'none';
+            document.getElementById('create-service-section').style.display = 'none';
+    
+            sectionToShow.style.display = 'block';
+    
+            // Reset status messages for all sections
+            setStatus(document.getElementById('status'), '', null);
+            setStatus(document.getElementById('profile-status'), '', null);
+            setStatus(document.getElementById('create-service-status'), '', null);
+        }
+    
+        function setStatus(element, message, type) {
+            element.textContent = message;
+            element.className = 'status'; // Reset classes
+            if (type) {
+                element.classList.add(type);
+            }
+        }
+    
+        // --- Global Constants ---
+        // IMPORTANT: Ensure this URL is correct and accessible from your frontend
         const API_BASE_URL = 'http://localhost:8000/api/';
-
+        const accessToken = localStorage.getItem('access_token');
+    
         // Categories (must match backend CATEGORY_CHOICES)
         const CATEGORIES = [
             { value: 'IT_SUPPORT', text: 'IT Support & Troubleshooting' },
@@ -284,351 +327,474 @@
             { value: 'EDUCATION', text: 'Education & Tutoring' },
             { value: 'HANDICRAFTS', 'text': 'Handicrafts & Custom Goods' },
         ];
-
-        // --- Utility Functions ---
-        function clearAndShowSection(sectionToShow) {
-            dashboardDataElement.style.display = 'none';
-            profileUpdateSection.style.display = 'none';
-            createServiceSection.style.display = 'none'; // NEW: Hide create service section
-
-            sectionToShow.style.display = 'block';
-
-            // Reset status messages for all sections
-            setStatus(statusElement, '', null);
-            setStatus(profileStatusElement, '', null);
-            setStatus(passwordStatusElement, '', null);
-            setStatus(createServiceStatusElement, '', null); // NEW
-        }
-
-        function setStatus(element, message, type) {
-            element.textContent = message;
-            element.className = 'status'; // Reset classes
-            if (type) {
-                element.classList.add(type);
+    
+    
+        // --- Main DOMContentLoaded Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Element References ---
+            const dashboardDataElement = document.getElementById('dashboard-data');
+            const statusElement = document.getElementById('status');
+            const profileUpdateSection = document.getElementById('profile-update-section');
+            const createServiceSection = document.getElementById('create-service-section');
+            const profileForm = document.getElementById('profileForm');
+            const createServiceForm = document.getElementById('createServiceForm');
+            const profileStatusElement = document.getElementById('profile-status');
+            const createServiceStatusElement = document.getElementById('create-service-status');
+    
+            // Password fields for update profile form
+            const currentPasswordField = document.getElementById('currentPassword');
+            const newPasswordField = document.getElementById('newPassword');
+            const confirmNewPasswordField = document.getElementById('confirmNewPassword');
+            const profileFormResetBtn = document.getElementById('resetProfileForm');
+    
+    
+            // Service creation form specific elements
+            const paymentTypeSelect = document.getElementById('paymentType');
+            const barterFields = document.getElementById('barterFields');
+            const tokenFields = document.getElementById('tokenFields');
+            const serviceCategorySelect = document.getElementById('serviceCategory');
+            const desiredCategorySelect = document.getElementById('desiredCategory');
+            const tokenServiceCategorySelect = document.getElementById('tokenServiceCategory');
+    
+            // Buttons
+            const showDashboardDataBtn = document.getElementById('showDashboardDataBtn');
+            const showMyRequestsBtn = document.getElementById('showMyRequestsBtn');
+            const showMyServicesBtn = document.getElementById('showMyServicesBtn');
+            const showProfileUpdateBtn = document.getElementById('showProfileUpdateBtn');
+            const showCreateServiceBtn = document.getElementById('showCreateServiceBtn');
+            const logoutBtn = document.getElementById('logoutBtn');
+    
+    
+            // --- Removed Initial Setup for Password Toggles ---
+    
+            // --- Dynamic Password Field Validation ---
+            // Function to check if any password field has content
+            function arePasswordFieldsTouched() {
+                return currentPasswordField.value !== '' ||
+                       newPasswordField.value !== '' ||
+                       confirmNewPasswordField.value !== '';
             }
-        }
-
-        // --- Data Fetching and Display (existing functionality) ---
-        async function fetchAndDisplayData(endpoint, title) {
-            clearAndShowSection(dashboardDataElement);
-            
-            if (!accessToken) {
-                setStatus(statusElement, 'Error: No access token found. Please log in.', 'error');
-                dashboardDataElement.innerHTML = '';
-                return;
+    
+            // Function to set/remove 'required' attribute
+            function updatePasswordRequirements() {
+                const touched = arePasswordFieldsTouched();
+                currentPasswordField.required = touched;
+                newPasswordField.required = touched;
+                confirmNewPasswordField.required = touched;
             }
-
-            try {
-                setStatus(statusElement, `Fetching ${title.toLowerCase()}... Last updated: ${new Date().toLocaleTimeString()}`);
-                dashboardDataElement.innerHTML = '<p>Loading...</p>';
-
-                const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${accessToken}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                if (!response.ok) {
-                    const errorText = await response.text();
-                    let errorMessage = `HTTP error! Status: ${response.status}`;
-                    try {
-                        const errorJson = JSON.parse(errorText);
-                        errorMessage += ` - ${JSON.stringify(errorJson, null, 2)}`;
-                    } catch (e) {
-                        errorMessage += ` - ${errorText}`;
-                    }
-                    throw new Error(errorMessage);
+    
+            // Add event listeners to password fields to trigger validation
+            currentPasswordField.addEventListener('input', updatePasswordRequirements);
+            newPasswordField.addEventListener('input', updatePasswordRequirements);
+            confirmNewPasswordField.addEventListener('input', updatePasswordRequirements);
+    
+            // --- Data Fetching and Display (existing functionality) ---
+            async function fetchAndDisplayData(endpoint, title) {
+                clearAndShowSection(dashboardDataElement);
+    
+                if (!accessToken) {
+                    setStatus(statusElement, 'Error: No access token found. Please log in.', 'error');
+                    dashboardDataElement.innerHTML = '';
+                    return;
                 }
-
-                const data = await response.json();
-                dashboardDataElement.innerHTML = `<h2>${title}</h2><pre>${JSON.stringify(data, null, 2)}</pre>`;
-                setStatus(statusElement, `${title} loaded successfully. Last updated: ${new Date().toLocaleTimeString()}`, 'success');
-
-            } catch (error) {
-                console.error(`Error fetching ${title.toLowerCase()} data:`, error);
-                dashboardDataElement.innerHTML = `<p class="error">Failed to load ${title.toLowerCase()}. Error: ${error.message}</p>`;
-                setStatus(statusElement, `Error fetching ${title.toLowerCase()}. Last attempt: ${new Date().toLocaleTimeString()}`, 'error');
-            }
-        }
-
-        // --- Profile Update Functionality ---
-        async function loadUserProfileForEditing() {
-            clearAndShowSection(profileUpdateSection);
-            
-            if (!accessToken) {
-                setStatus(profileStatusElement, 'Error: No access token found. Please log in.', 'error');
-                return;
-            }
-
-            setStatus(profileStatusElement, 'Loading profile data...', null);
-
-            try {
-                const response = await fetch(`${API_BASE_URL}me/`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${accessToken}`,
-                        'Content-Type': 'application/json'
+    
+                try {
+                    setStatus(statusElement, `Fetching ${title.toLowerCase()}... Last updated: ${new Date().toLocaleTimeString()}`);
+                    dashboardDataElement.innerHTML = '<p>Loading...</p>';
+    
+                    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${accessToken}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+    
+                    // *** CRITICAL CHANGE FOR THE "Unexpected token '<'" ERROR ***
+                    // Always try to read the response as text first, then try to parse as JSON.
+                    // This helps in debugging when the server sends HTML instead of JSON.
+                    const responseText = await response.text();
+    
+                    if (!response.ok) {
+                        let errorMessage = `HTTP error! Status: ${response.status}`;
+                        try {
+                            const errorJson = JSON.parse(responseText);
+                            errorMessage += ` - ${JSON.stringify(errorJson, null, 2)}`;
+                        } catch (e) {
+                            errorMessage += ` - Raw Response: ${responseText}`; // Fallback to raw text if not JSON
+                        }
+                        throw new Error(errorMessage);
                     }
-                });
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(`HTTP error! Status: ${response.status} - ${JSON.stringify(errorData, null, 2)}`);
+    
+                    const data = JSON.parse(responseText); // Now parse it explicitly after checking ok
+                    dashboardDataElement.innerHTML = `<h2>${title}</h2><pre>${JSON.stringify(data, null, 2)}</pre>`;
+                    setStatus(statusElement, `${title} loaded successfully. Last updated: ${new Date().toLocaleTimeString()}`, 'success');
+    
+                } catch (error) {
+                    console.error(`Error fetching ${title.toLowerCase()} data:`, error);
+                    dashboardDataElement.innerHTML = `<p class="error">Failed to load ${title.toLowerCase()}. Error: ${error.message}</p>`;
+                    setStatus(statusElement, `Error fetching ${title.toLowerCase()}. Last attempt: ${new Date().toLocaleTimeString()}`, 'error');
                 }
-
-                const userData = await response.json();
+            }
+    
+            // --- Profile Update Functionality (Modified for two API calls) ---
+            async function loadUserProfileForEditing() {
+                clearAndShowSection(profileUpdateSection);
                 
-                document.getElementById('firstName').value = userData.first_name || '';
-                document.getElementById('lastName').value = userData.last_name || '';
-                document.getElementById('bio').value = userData.bio || '';
-                document.getElementById('location').value = userData.location || '';
-                document.getElementById('avatar').value = userData.avatar || '';
-
-                setStatus(profileStatusElement, 'Profile data loaded.', 'success');
-
-            } catch (error) {
-                console.error('Error loading user profile:', error);
-                setStatus(profileStatusElement, `Error loading profile: ${error.message}`, 'error');
-            }
-        }
-
-        profileForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
-
-            setStatus(profileStatusElement, 'Updating profile...', null);
-
-            const formData = new FormData(profileForm);
-            const payload = {};
-            for (const [key, value] of formData.entries()) {
-                payload[key] = value;
-            }
-
-            try {
-                const response = await fetch(`${API_BASE_URL}me/`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Authorization': `Bearer ${accessToken}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(payload)
-                });
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(`HTTP error! Status: ${response.status} - ${JSON.stringify(errorData, null, 2)}`);
+                if (!accessToken) {
+                    setStatus(profileStatusElement, 'Error: No access token found. Please log in.', 'error');
+                    return;
                 }
-
-                const updatedUser = await response.json();
-                console.log('Profile updated successfully:', updatedUser);
-                setStatus(profileStatusElement, 'Profile updated successfully!', 'success');
-
-            } catch (error) {
-                console.error('Error updating profile:', error);
-                setStatus(profileStatusElement, `Error updating profile: ${error.message}`, 'error');
-            }
-        });
-
-        passwordForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
-
-            setStatus(passwordStatusElement, 'Changing password...', null);
-
-            const currentPassword = document.getElementById('currentPassword').value;
-            const newPassword = document.getElementById('newPassword').value;
-            const confirmNewPassword = document.getElementById('confirmNewPassword').value;
-
-            if (newPassword !== confirmNewPassword) {
-                setStatus(passwordStatusElement, 'New passwords do not match!', 'error');
-                return;
-            }
-
-            if (newPassword.length < 8) {
-                 setStatus(passwordStatusElement, 'New password must be at least 8 characters long.', 'error');
-                 return;
-            }
-
-            try {
-                const response = await fetch(`${API_BASE_URL}password/change/`, { 
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${accessToken}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        old_password: currentPassword,
-                        new_password1: newPassword,
-                        new_password2: confirmNewPassword
-                    })
-                });
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(`HTTP error! Status: ${response.status} - ${JSON.stringify(errorData, null, 2)}`);
+    
+                setStatus(profileStatusElement, 'Loading profile data...', null);
+    
+                // Reset password fields and their requirements when opening the form
+                currentPasswordField.value = '';
+                newPasswordField.value = '';
+                confirmNewPasswordField.value = '';
+                updatePasswordRequirements(); // Ensure fields are not required initially
+    
+                try {
+                    // CORRECTED URL based on your urls.py
+                    const response = await fetch(`${API_BASE_URL}me/`, { // Changed from users/me/ to me/
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${accessToken}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+    
+                    // *** CRITICAL CHANGE FOR THE "Unexpected token '<'" ERROR ***
+                    const responseText = await response.text();
+    
+                    if (!response.ok) {
+                        let errorData = {};
+                        try {
+                            errorData = JSON.parse(responseText);
+                        } catch (e) {
+                            errorData = { detail: "Server returned non-JSON response.", raw: responseText };
+                        }
+                        throw new Error(`HTTP error! Status: ${response.status} - ${JSON.stringify(errorData, null, 2)}`);
+                    }
+    
+                    const userData = JSON.parse(responseText); // Now parse it explicitly after checking ok
+                    
+                    document.getElementById('firstName').value = userData.first_name || '';
+                    document.getElementById('lastName').value = userData.last_name || '';
+                    document.getElementById('bio').value = userData.bio || '';
+                    document.getElementById('location').value = userData.location || '';
+                    document.getElementById('avatar').value = userData.avatar || ''; // Assuming avatar is a URL/Base64 string field
+    
+                    setStatus(profileStatusElement, 'Profile data loaded.', 'success');
+    
+                } catch (error) {
+                    console.error('Error loading user profile:', error);
+                    setStatus(profileStatusElement, `Error loading profile: ${error.message}`, 'error');
                 }
-
-                setStatus(passwordStatusElement, 'Password changed successfully!', 'success');
-                passwordForm.reset();
-
-            } catch (error) {
-                console.error('Error changing password:', error);
-                setStatus(passwordStatusElement, `Error changing password: ${error.message}`, 'error');
             }
-        });
-
-        // --- NEW: Create Service Functionality ---
-
-        // Function to populate category dropdowns
-        function populateCategoryDropdowns() {
-            // Clear existing options first
-            serviceCategorySelect.innerHTML = '<option value="">-- Select Category --</option>';
-            desiredCategorySelect.innerHTML = '<option value="">-- Select Desired Category --</option>';
-            tokenServiceCategorySelect.innerHTML = '<option value="">-- Select Category --</option>';
-
-            CATEGORIES.forEach(category => {
-                const option1 = document.createElement('option');
-                option1.value = category.value;
-                option1.textContent = category.text;
-                serviceCategorySelect.appendChild(option1);
-
-                const option2 = document.createElement('option');
-                option2.value = category.value;
-                option2.textContent = category.text;
-                desiredCategorySelect.appendChild(option2);
-
-                const option3 = document.createElement('option');
-                option3.value = category.value;
-                option3.textContent = category.text;
-                tokenServiceCategorySelect.appendChild(option3);
+    
+            profileForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+    
+                setStatus(profileStatusElement, 'Updating profile...', null);
+    
+                const profilePayload = {
+                    first_name: document.getElementById("firstName").value,
+                    last_name: document.getElementById("lastName").value,
+                    bio: document.getElementById("bio").value,
+                    location: document.getElementById("location").value,
+                    avatar: document.getElementById("avatar").value
+                };
+    
+                const updatePassword = arePasswordFieldsTouched();
+                let passwordChangeAttempted = false; // Flag to know if password change was part of this submission
+                let passwordChangeSuccessful = true; // Assume success for password part unless it fails
+    
+                try {
+                    // --- 1. Update Profile Information (PATCH /me/) ---
+                    // CORRECTED URL based on your urls.py
+                    const profileResponse = await fetch(`${API_BASE_URL}me/`, {
+                        method: 'PATCH', // Use PATCH for partial updates
+                        headers: {
+                            'Authorization': `Bearer ${accessToken}`,
+                            'Content-Type': 'application/json',
+                            "X-CSRFToken": csrftoken // Include CSRF token
+                        },
+                        body: JSON.stringify(profilePayload)
+                    });
+    
+                    const profileResponseText = await profileResponse.text(); // Read as text
+    
+                    if (!profileResponse.ok) {
+                        let errorData = {};
+                        try {
+                            errorData = JSON.parse(profileResponseText);
+                        } catch (e) {
+                            errorData = { detail: "Server returned non-JSON response for profile update.", raw: profileResponseText };
+                        }
+                        let errorMessage = `Error updating profile: HTTP status ${profileResponse.status}`;
+                        if (errorData) {
+                            for (const key in errorData) {
+                                errorMessage += `\n${key}: ${Array.isArray(errorData[key]) ? errorData[key].join(', ') : errorData[key]}`;
+                            }
+                        }
+                        throw new Error(errorMessage); // This will be caught by the outer catch
+                    }
+    
+                    // --- 2. Conditionally Change Password (POST /password/change/) ---
+                    if (updatePassword) {
+                        passwordChangeAttempted = true;
+                        const currentPassword = currentPasswordField.value;
+                        const newPassword = newPasswordField.value;
+                        const confirmNewPassword = confirmNewPasswordField.value;
+    
+                        // Client-side validation for password fields
+                        if (!currentPassword || !newPassword || !confirmNewPassword) {
+                            setStatus(profileStatusElement, 'Please fill all password fields or clear them to update only profile info.', 'error');
+                            passwordChangeSuccessful = false;
+                        } else if (newPassword !== confirmNewPassword) {
+                            setStatus(profileStatusElement, 'New passwords do not match!', 'error');
+                            passwordChangeSuccessful = false;
+                        } else if (newPassword.length < 8) { // Basic password length validation
+                            setStatus(profileStatusElement, 'New password must be at least 8 characters long.', 'error');
+                            passwordChangeSuccessful = false;
+                        }
+                        
+                        if (passwordChangeSuccessful) { // Only proceed to API call if client-side validation passed
+                            const passwordPayload = {
+                                old_password: currentPassword,
+                                new_password1: newPassword,
+                                new_password2: confirmNewPassword
+                            };
+    
+                            // CORRECTED URL based on your urls.py
+                            const passwordResponse = await fetch(`${API_BASE_URL}password/change/`, {
+                                method: 'POST',
+                                headers: {
+                                    'Authorization': `Bearer ${accessToken}`,
+                                    'Content-Type': 'application/json',
+                                    "X-CSRFToken": csrftoken
+                                },
+                                body: JSON.stringify(passwordPayload)
+                            });
+    
+                            const passwordResponseText = await passwordResponse.text(); // Read as text
+    
+                            if (!passwordResponse.ok) {
+                                let errorData = {};
+                                try {
+                                    errorData = JSON.parse(passwordResponseText);
+                                } catch (e) {
+                                    errorData = { detail: "Server returned non-JSON response for password change.", raw: passwordResponseText };
+                                }
+                                let errorMessage = `Error changing password: HTTP status ${passwordResponse.status}`;
+                                if (errorData) {
+                                    for (const key in errorData) {
+                                        errorMessage += `\n${key}: ${Array.isArray(errorData[key]) ? errorData[key].join(', ') : errorData[key]}`;
+                                    }
+                                }
+                                throw new Error(errorMessage); // This will be caught by the outer catch
+                            }
+                        }
+                    }
+    
+                    // --- Final Status Message ---
+                    if (passwordChangeAttempted && !passwordChangeSuccessful) {
+                        // Error message already set by the failed password validation
+                    } else if (passwordChangeAttempted && passwordChangeSuccessful) {
+                        setStatus(profileStatusElement, 'Profile updated and password changed successfully!', 'success');
+                    } else { // Profile updated, no password change attempted
+                        setStatus(profileStatusElement, 'Profile updated successfully!', 'success');
+                    }
+    
+                    // Always clear password fields and reset requirements after submission attempt
+                    currentPasswordField.value = '';
+                    newPasswordField.value = '';
+                    confirmNewPasswordField.value = '';
+                    updatePasswordRequirements();
+    
+                } catch (error) {
+                    console.error('Error during profile update or password change:', error);
+                    setStatus(profileStatusElement, `Error: ${error.message}`, 'error');
+                    // Ensure password fields are cleared even on error if they were part of the submission
+                    currentPasswordField.value = '';
+                    newPasswordField.value = '';
+                    confirmNewPasswordField.value = '';
+                    updatePasswordRequirements();
+                }
             });
-        }
-
-        // Logic to show/hide fields based on payment type selection
-        paymentTypeSelect.addEventListener('change', () => {
-            const selectedType = paymentTypeSelect.value;
-            if (selectedType === 'barter') {
-                barterFields.style.display = 'block';
-                tokenFields.style.display = 'none';
-                // Set required attribute for barter fields
-                serviceCategorySelect.setAttribute('required', 'required');
-                desiredCategorySelect.setAttribute('required', 'required');
-                tokenServiceCategorySelect.removeAttribute('required'); // Remove from token
-            } else if (selectedType === 'token') {
-                barterFields.style.display = 'none';
-                tokenFields.style.display = 'block';
-                // Set required attribute for token field
-                tokenServiceCategorySelect.setAttribute('required', 'required');
-                serviceCategorySelect.removeAttribute('required'); // Remove from barter
-                desiredCategorySelect.removeAttribute('required');
-            } else {
-                barterFields.style.display = 'none';
-                tokenFields.style.display = 'none';
-                // Remove required from all conditional fields if no type selected
-                serviceCategorySelect.removeAttribute('required');
-                desiredCategorySelect.removeAttribute('required');
-                tokenServiceCategorySelect.removeAttribute('required');
-            }
-        });
-
-        // Handle Create Service Form Submission
-        createServiceForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
-
-            setStatus(createServiceStatusElement, 'Creating service...', null);
-
-            const title = document.getElementById('serviceTitle').value;
-            const description = document.getElementById('serviceDescription').value;
-            const paymentType = document.getElementById('paymentType').value;
-            let category = '';
-            let desired_category = null;
-            let price = 0;
-
-            if (paymentType === 'barter') {
-                category = document.getElementById('serviceCategory').value;
-                desired_category = document.getElementById('desiredCategory').value;
-                price = 0; // Explicitly set for barter
-            } else if (paymentType === 'token') {
-                category = document.getElementById('tokenServiceCategory').value;
-                price = 10; // Fixed for tokens
-                // desired_category remains null for tokens
-            } else {
-                setStatus(createServiceStatusElement, 'Please select a payment type.', 'error');
-                return;
-            }
-
-            const payload = {
-                title: title,
-                description: description,
-                payment_type: paymentType, // Send this to serializer for validation logic
-                category: category,
-                desired_category: desired_category,
-                price: price
-            };
-
-            // Basic client-side validation for required fields
-            if (!title || !description || !paymentType || !category || (paymentType === 'barter' && !desired_category)) {
-                setStatus(createServiceStatusElement, 'Please fill in all required fields.', 'error');
-                return;
-            }
-            
-            try {
-                // Assuming you POST to /api/services/ for new service creation
-                const response = await fetch(`${API_BASE_URL}services/`, { 
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${accessToken}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(payload)
+    
+            // Handle the custom reset button to also clear password requirements
+            profileFormResetBtn.addEventListener('click', () => {
+                // Form's default reset will clear values, then manually reset requirements
+                setTimeout(() => { // Small delay to let browser's reset complete
+                    updatePasswordRequirements();
+                }, 0);
+            });
+    
+            // --- Logout Functionality ---
+            logoutBtn.addEventListener('click', () => {
+                localStorage.removeItem('access_token');
+                localStorage.removeItem('refresh_token');
+                alert('You have been logged out.');
+                window.location.href = '/'; // Redirect to home or login page
+            });
+    
+    
+            // --- NEW: Create Service Functionality ---
+    
+            // Function to populate category dropdowns
+            function populateCategoryDropdowns() {
+                serviceCategorySelect.innerHTML = '<option value="">-- Select Category --</option>';
+                desiredCategorySelect.innerHTML = '<option value="">-- Select Desired Category --</option>';
+                tokenServiceCategorySelect.innerHTML = '<option value="">-- Select Category --</option>';
+    
+                CATEGORIES.forEach(category => {
+                    const option1 = document.createElement('option');
+                    option1.value = category.value;
+                    option1.textContent = category.text;
+                    serviceCategorySelect.appendChild(option1);
+    
+                    const option2 = document.createElement('option');
+                    option2.value = category.value;
+                    option2.textContent = category.text;
+                    desiredCategorySelect.appendChild(option2);
+    
+                    const option3 = document.createElement('option');
+                    option3.value = category.value;
+                    option3.textContent = category.text;
+                    tokenServiceCategorySelect.appendChild(option3);
                 });
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(`HTTP error! Status: ${response.status} - ${JSON.stringify(errorData, null, 2)}`);
-                }
-
-                const newService = await response.json();
-                console.log('Service created successfully:', newService);
-                setStatus(createServiceStatusElement, 'Service created successfully!', 'success');
-                createServiceForm.reset(); // Clear the form
-                paymentTypeSelect.dispatchEvent(new Event('change')); // Trigger change to hide conditional fields
-
-                // Optionally, refresh "My Created Services" list
-                fetchAndDisplayData('my-services/', 'My Created Services');
-
-            } catch (error) {
-                console.error('Error creating service:', error);
-                setStatus(createServiceStatusElement, `Error creating service: ${error.message}`, 'error');
             }
-        });
-
-        // --- Initial Setup and Event Listeners ---
-        showDashboardDataBtn.addEventListener('click', () => {
+    
+            // Logic to show/hide fields based on payment type selection
+            paymentTypeSelect.addEventListener('change', () => {
+                const selectedType = paymentTypeSelect.value;
+                if (selectedType === 'barter') {
+                    barterFields.style.display = 'block';
+                    tokenFields.style.display = 'none';
+                    serviceCategorySelect.setAttribute('required', 'required');
+                    desiredCategorySelect.setAttribute('required', 'required');
+                    tokenServiceCategorySelect.removeAttribute('required');
+                } else if (selectedType === 'token') {
+                    barterFields.style.display = 'none';
+                    tokenFields.style.display = 'block';
+                    tokenServiceCategorySelect.setAttribute('required', 'required');
+                    serviceCategorySelect.removeAttribute('required');
+                    desiredCategorySelect.removeAttribute('required');
+                } else {
+                    barterFields.style.display = 'none';
+                    tokenFields.style.display = 'none';
+                    serviceCategorySelect.removeAttribute('required');
+                    desiredCategorySelect.removeAttribute('required');
+                    tokenServiceCategorySelect.removeAttribute('required');
+                }
+            });
+    
+            // Handle Create Service Form Submission
+            createServiceForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+    
+                setStatus(createServiceStatusElement, 'Creating service...', null);
+    
+                const title = document.getElementById('serviceTitle').value;
+                const description = document.getElementById('serviceDescription').value;
+                const paymentType = document.getElementById('paymentType').value;
+                let category = '';
+                let desired_category = null;
+                let price = 0;
+    
+                if (paymentType === 'barter') {
+                    category = document.getElementById('serviceCategory').value;
+                    desired_category = document.getElementById('desiredCategory').value;
+                    price = 0;
+                } else if (paymentType === 'token') {
+                    category = document.getElementById('tokenServiceCategory').value;
+                    price = 10;
+                } else {
+                    setStatus(createServiceStatusElement, 'Please select a payment type.', 'error');
+                    return;
+                }
+    
+                const payload = {
+                    title: title,
+                    description: description,
+                    payment_type: paymentType,
+                    category: category,
+                    desired_category: desired_category,
+                    price: price
+                };
+    
+                if (!title || !description || !paymentType || !category || (paymentType === 'barter' && !desired_category)) {
+                    setStatus(createServiceStatusElement, 'Please fill in all required fields.', 'error');
+                    return;
+                }
+                
+                try {
+                    const response = await fetch(`${API_BASE_URL}services/`, { // Assuming /api/services/
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${accessToken}`,
+                            'Content-Type': 'application/json',
+                            "X-CSRFToken": csrftoken // Include CSRF token
+                        },
+                        body: JSON.stringify(payload)
+                    });
+    
+                    const responseText = await response.text(); // Read as text
+    
+                    if (!response.ok) {
+                        let errorData = {};
+                        try {
+                            errorData = JSON.parse(responseText);
+                        } catch (e) {
+                            errorData = { detail: "Server returned non-JSON response for service creation.", raw: responseText };
+                        }
+                        let errorMessage = `HTTP error! Status: ${response.status} - ${JSON.stringify(errorData, null, 2)}`;
+                        throw new Error(errorMessage);
+                    }
+    
+                    const newService = JSON.parse(responseText); // Now parse it explicitly
+                    console.log('Service created successfully:', newService);
+                    setStatus(createServiceStatusElement, 'Service created successfully!', 'success');
+                    createServiceForm.reset();
+                    paymentTypeSelect.dispatchEvent(new Event('change'));
+    
+                    fetchAndDisplayData('my-services/', 'My Created Services');
+    
+                } catch (error) {
+                    console.error('Error creating service:', error);
+                    setStatus(createServiceStatusElement, `Error creating service: ${error.message}`, 'error');
+                }
+            });
+    
+            // --- Button Event Listeners ---
+            showDashboardDataBtn.addEventListener('click', () => {
+                fetchAndDisplayData('dashboard/', 'General Dashboard Data');
+            });
+    
+            showMyServicesBtn.addEventListener('click', () => {
+                fetchAndDisplayData('my-services/', 'My Created Services');
+            });
+    
+            showMyRequestsBtn.addEventListener('click', () => {
+                fetchAndDisplayData('requests/', 'My Service Requests');
+            });
+    
+            showProfileUpdateBtn.addEventListener('click', loadUserProfileForEditing);
+    
+            showCreateServiceBtn.addEventListener('click', () => {
+                clearAndShowSection(createServiceSection);
+                populateCategoryDropdowns();
+                paymentTypeSelect.value = "";
+                paymentTypeSelect.dispatchEvent(new Event('change'));
+                createServiceForm.reset();
+                setStatus(createServiceStatusElement, '', null);
+            });
+    
+            // Initial load
             fetchAndDisplayData('dashboard/', 'General Dashboard Data');
         });
-
-        showMyServicesBtn.addEventListener('click', () => {
-            fetchAndDisplayData('my-services/', 'My Created Services');
-        });
-
-        showMyRequestsBtn.addEventListener('click', () => {
-            fetchAndDisplayData('requests/', 'My Service Requests');
-        });
-
-        showProfileUpdateBtn.addEventListener('click', loadUserProfileForEditing);
-
-        showCreateServiceBtn.addEventListener('click', () => {
-            clearAndShowSection(createServiceSection); // Show create service section
-            populateCategoryDropdowns(); // Populate dropdowns when showing the form
-            paymentTypeSelect.value = ""; // Reset dropdown to default
-            paymentTypeSelect.dispatchEvent(new Event('change')); // Trigger change to hide conditional fields initially
-            createServiceForm.reset(); // Clear form on show
-            setStatus(createServiceStatusElement, '', null); // Clear status
-        });
-
-        // Initial load
-        fetchAndDisplayData('dashboard/', 'General Dashboard Data');
     </script>
 </body>
 </html>
