@@ -22,4 +22,8 @@ class DashboardView(TemplateView):
 
 class RegisterView(TemplateView):
     http_method_names = ["get"]
-    template_name = "core/Register.html"
+    template_name = "core/register.html"
+
+class FeedViews(TemplateView):
+    http_method_names = ["get"]
+    template_name = "core/feed.html"

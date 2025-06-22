@@ -1,7 +1,79 @@
-{% extends 'core/base.html' %}
-
+{% extends 'base.html' %}
+{% load static %}
 {% block title %}Feed{% endblock %}
 
 {% block content %}
-    <!-- Page content here -->
+<link rel="stylesheet" href="{% static 'css/feed.css' %}" />
+
+<!-- Hero -->
+<section class="hero-feed">
+    <div class="hero-text-feed">
+        <h1>
+            <span class="word">Trade What You Do <span class="span-h1-feed">Best.</span></span><br>
+            <span class="word delay">Gain What You Need <span class="span-h1-feed">Most.</span></span>
+        </h1>
+    </div>
+    <div class="hero-image-feed">
+        <img src="{% static 'img/feed.png'%}" alt="hero" />
+    </div>
+</section>
+
+<!-- Content -->
+<section class="content-feed">
+    <div class="filtros">
+        <div class="filter-controls">
+            <div class="filter-group search-group">
+                <label for="search-input" class="sr-only">Search</label>
+                <div class="search-box">
+                    <input type="text" id="search-input" placeholder="Search">
+                    <button type="submit" class="search-button">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="filter-group dropdown-group">
+                <label for="category-select" class="sr-only">Category</label>
+                <select id="category-select" class="custom-select">
+                    <option value="gardening">Gardening</option>
+                    <option value="plumbing">Plumbing</option>
+                    <option value="nanny">Nanny</option>
+                    <option value="furniture-assembler" selected>Furniture Assembler</option>
+                </select>
+            </div>
+
+            <div class="filter-group dropdown-group">
+                <label for="location-select" class="sr-only">Location</label>
+                <select id="location-select" class="custom-select">
+                    <option value="">Location</option>
+                    <option value="faro">Faro</option>
+                    <option value="lisboa">Lisboa</option>
+                    <option value="porto">Porto</option>
+                    <option value="albufeira" selected>Albufeira</option>
+                </select>
+            </div>
+
+            <div class="filter-group dropdown-group">
+                <label for="sort-select" class="sr-only">Sort By</label>
+                <select id="sort-select" class="custom-select">
+                    <option value="review-5-1">Review (1-5)</option>
+                    <option value="review-1-5">Review (5-1)</option>
+                    <option value="category-az">Category (A-Z)</option>
+                    <option value="category-za" selected>Category (Z-A)</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include 'core/service_detail_modal.html' %}
+
+
+<!-- Feed -->
+<section class="feed">
+    <div id="feed-container">
+    </div>
+</section>
+
+<script src="{% static 'js/feed.js' %}"></script>
 {% endblock %}
