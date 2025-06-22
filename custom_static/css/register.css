@@ -4,7 +4,6 @@
     height: 680px;
     perspective: 1500px;
     margin: 50px auto;
-
 }
 
 .card {
@@ -183,7 +182,6 @@ button {
     font-weight: 900;
 }
 
-
 .divider::before,
 .divider::after {
     content: '';
@@ -277,4 +275,30 @@ button {
     text-decoration: none;
     cursor: pointer;
     font-weight: bold;
+}
+
+@media (max-width: 768px) {
+
+    .Container {
+        width: 350px;
+    }
+
+    .card {
+        width: 350px;
+        height: 680px;
+    }
+
+    .left-panel {
+        display: none;
+    }
+
+    .social-buttons button {
+        flex-direction: column;
+    }
+
+    .social-buttons .fab {
+        margin-top: 5px;
+        font-size: 13px;
+    }
+
 }
