@@ -12,39 +12,65 @@
 </head>
 
 <body>
-    {% if 'dashboard' not in request.path %}
-  <!-- Header -->
+  {% if 'dashboard' in request.path %}
+  <!-- Header para dashboard -->
   <header class="header">
     <div class="logo">
       <a href="/">
         <img src="{% static 'img/Logo.png'%}" />
-        <span>Bartr</span>ify
+        <span class="Bartr">Bartr</span><span class="ify">ify</span>
       </a>
     </div>
-
     <nav>
-      <a href="{% url 'Register' %}">Sign In <i class="fa-solid fa-right-to-bracket"></i></a>
-      <a href="{% url 'Register' %}" class="header-btn">Join Us <i class="fa-solid fa-user-plus"></i></a>
+      <h3>Welcome John Doe!</h3>
+      <a href="{% url 'dashboard' %}" class="header-btn">DASHBOARD <i class="fa-solid fa-gauge-high"></i></a>
     </nav>
   </header>
-{% endif %}
-{% if 'dashboard' in request.path %}
-  <!-- Header -->
+
+  {% elif 'feed' in request.path %}
+  <!-- Header para dashboard -->
   <header class="header">
     <div class="logo">
       <a href="/">
         <img src="{% static 'img/Logo.png'%}" />
-        <span>Bartr</span>ify
+        <span class="Bartr">Bartr</span><span class="ify">ify</span>
       </a>
     </div>
-
     <nav>
-       <h3>Welcome John Doe!</h2>
-      <a href="{% url 'Register' %}" class="header-btn">DASHBOARD <i class="fa-solid fa-gauge-high"></i></a>
+      <h3>Welcome John Doe!</h3>
+      <a href="{% url 'dashboard' %}" class="header-btn">DASHBOARD <i class="fa-solid fa-gauge-high"></i></a>
     </nav>
   </header>
-{% endif %}
 
+  {% elif 'register' in request.path %}
+  <!-- Header para página de registro/login -->
+  <header class="header">
+    <div class="logo">
+      <a href="/">
+        <img src="{% static 'img/Logo.png'%}" />
+        <span class="Bartr">Bartr</span><span class="ify">ify</span>
+      </a>
+    </div>
+    <nav>
+      <a href="/" class="header-btn">Home <i class="fa-solid fa-house"></i></a>
+    </nav>
+  </header>
+
+  {% else %}
+  <!-- Header padrão (fora do dashboard ou register) -->
+  <header class="header">
+    <div class="logo">
+      <a href="/">
+        <img src="{% static 'img/Logo.png'%}" />
+        <span class="Bartr">Bartr</span><span class="ify">ify</span>
+      </a>
+    </div>
+    <nav>
+      <a href="{% url 'Register' %}?mode=signin">Sign In <i class="fa-solid fa-right-to-bracket"></i></a>
+      <a href="{% url 'Register' %}?mode=signup" class="header-btn">Join Us <i class="fa-solid fa-user-plus"></i></a>
+    </nav>
+  </header>
+  {% endif %}
 
   <!-- Main Content -->
   {% block content %}{% endblock %}
@@ -52,56 +78,56 @@
   <!-- Footer -->
   {% if 'dashboard' not in request.path %}
   <div class="wave-footer">
+    <footer class="footer">
+      <div class="footer-container">
+
+        <div class="footer-col">
+          <h3><i class="fa-solid fa-circle-info"></i> About Us</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+            labore
+            et dolore
+            magna aliqua. Quis ipsum suspendisse ultrices gravida.</p>
+        </div>
+
+        <div class="footer-col">
+          <h3><i class="fa-solid fa-link"></i> Quick Links</h3>
+          <ul>
+            <li><a href="{% url 'index' %}"><i class="fa-solid fa-house"></i> Home</a></li>
+            <li><a href="{% url 'Feed' %}"><i class="fa-solid fa-rss"></i> Feed</a></li>
+            <li><a href="{% url 'Register' %}?mode=signup"><i class="fa-solid fa-user-plus"></i> Signup</a></li>
+            <li><a href="{% url 'Register' %}?mode=signin"><i class="fa-solid fa-right-to-bracket"></i> Signin</a></li>
+            <li><a href="{% url 'dashboard' %}"><i class="fa-solid fa-gauge-high"></i> Dashboard</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h3><i class="fa-solid fa-shield-halved"></i> Privacy & Info</h3>
+          <ul>
+            <li><a href="#"><i class="fa-solid fa-file-contract"></i> Terms & Conditions</a></li>
+            <li><a href="#"><i class="fa-solid fa-user-shield"></i> Privacy Policy</a></li>
+            <li><a href="#"><i class="fa-solid fa-scale-balanced"></i> RGPD</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h3><i class="fa-solid fa-address-book"></i> Contacts</h3>
+          <ul class="contacts">
+            <li><i class="fa-solid fa-location-dot"></i> @ETIC_Algarve, PT</li>
+            <li><i class="fa-solid fa-envelope"></i> example1@gmail.com</li>
+            <li><i class="fa-solid fa-envelope"></i> example2@gmail.com</li>
+            <li><i class="fa-solid fa-envelope"></i> example3@gmail.com</li>
+
+          </ul>
+        </div>
+      </div>
+
+      <p class="footer-copy">
+        <i class="fa-regular fa-copyright"></i>
+        <span id="date"></span> Bartrify. All Rights Reserved.
+      </p>
+    </footer>
   </div>
-  <footer class="footer">
-    <div class="footer-container">
-
-      <div class="footer-col">
-        <h3><i class="fa-solid fa-circle-info"></i> About Us</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-          labore
-          et dolore
-          magna aliqua. Quis ipsum suspendisse ultrices gravida.</p>
-      </div>
-
-      <div class="footer-col">
-        <h3><i class="fa-solid fa-link"></i> Quick Links</h3>
-        <ul>
-          <li><a href="#"><i class="fa-solid fa-house"></i> Home</a></li>
-          <li><a href="#"><i class="fa-solid fa-rss"></i> Feed</a></li>
-          <li><a href="#"><i class="fa-solid fa-user-plus"></i> Signup</a></li>
-          <li><a href="#"><i class="fa-solid fa-right-to-bracket"></i> Signin</a></li>
-          <li><a href="#"><i class="fa-solid fa-gauge-high"></i> Dashboard</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h3><i class="fa-solid fa-shield-halved"></i> Privacy & Info</h3>
-        <ul>
-          <li><a href="#"><i class="fa-solid fa-file-contract"></i> Terms & Conditions</a></li>
-          <li><a href="#"><i class="fa-solid fa-user-shield"></i> Privacy Policy</a></li>
-          <li><a href="#"><i class="fa-solid fa-scale-balanced"></i> RGPD</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h3><i class="fa-solid fa-address-book"></i> Contacts</h3>
-        <ul class="contacts">
-          <li><i class="fa-solid fa-location-dot"></i> @ETIC_Algarve, PT</li>
-          <li><i class="fa-solid fa-envelope"></i> example1@gmail.com</li>
-          <li><i class="fa-solid fa-envelope"></i> example2@gmail.com</li>
-          <li><i class="fa-solid fa-envelope"></i> example3@gmail.com</li>
-
-        </ul>
-      </div>
-    </div>
-
-    <p class="footer-copy">
-      <i class="fa-regular fa-copyright"></i>
-      <span id="date"></span> Bartrify. All Rights Reserved.
-    </p>
-  </footer>
-    {% endif %}
+  {% endif %}
   <script>
     document.getElementById('date').textContent = new Date().getFullYear();
   </script>
