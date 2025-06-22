@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Available Services{% endblock %}
+
+{% block content %}
+  <h1>Available Services</h1>
+  <div class="service-list">
+    {% for service in services %}
+      {% if service.owner.id != current_user_id %}
+        <div class="card">
+          <h3>{{ service.title }}</h3>
+          <p>{{ service.description }}</p>
+          <p><strong>Offered by:</strong> {{ service.owner.username }}</p>
+          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#contactModal"
+                  data-username="{{ service.owner.username }}"
+                  data-userid="{{ service.owner.id }}">
+            Contact
+          </button>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  {% include "modals/contact_modal.html" %}
+
+  <script>
+    const contactModal = document.getElementById("contactModal");
+    contactModal.addEventListener("show.bs.modal", function (event) {
+      const button = event.relatedTarget;
+      const userId = button.getAttribute("data-userid");
+      const username = button.getAttribute("data-username");
+
+      document.getElementById("contact-user-id").value = userId;
+      document.getElementById("modal-username").textContent = username;
+    });
+  </script>
+{% endblock %}

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "core",
+    "channels",
     # "chat",
     # "reviews",
     # "users",
@@ -63,7 +64,7 @@ ROOT_URLCONF = "bartrify.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / "core/templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -77,6 +78,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "bartrify.wsgi.application"
 
+ASGI_APPLICATION = "bartrify.asgi.application"
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels_redis.core.RedisChannelLayer",
+#         "CONFIG": { "hosts": [("redis", 6379)] },
+#     }
+# }
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+        # Use Redis in production
+    }
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
@@ -146,6 +160,10 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-LOGIN_REDIRECT_URL = '/feed'
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGOUT_REDIRECT_URL = 'login'
 
-LOGOUT_REDIRECT_URL = '/homepage'
+# LOGIN_REDIRECT_URL = '/feed'
+
+# LOGOUT_REDIRECT_URL = '/homepage'

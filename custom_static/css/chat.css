@@ -1,0 +1,75 @@
+/* Dashboard bold + unread badge */
+.fw-bold { font-weight: 700 !important; }
+.badge { font-size: 0.9rem; }
+
+/* Chat room box */
+#chatBox {
+  background: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 0.375rem;
+}
+
+/* Blink effect for incoming messages */
+.blink {
+  animation: blink-animation 1s steps(2) 1;
+}
+@keyframes blink-animation {
+  50% { opacity: 0; }
+}
+
+/* Sender / receiver bubbles */
+.bg-light { background-color: #e9ecef !important; }
+.bg-primary { background-color: #0d6efd !important; color: white !important; }
+
+.fw-bold {
+  font-weight: bold !important;
+}
+
+  .chat-container {
+    height: 400px;
+    overflow-y: auto;
+    background: #121212;
+    border-radius: 8px;
+    padding: 10px;
+  }
+
+  .message {
+    display: flex;
+    margin-bottom: 10px;
+  }
+
+  .message.them {
+    justify-content: flex-start;
+  }
+
+  .message.me {
+    justify-content: flex-end;
+  }
+
+  .bubble {
+    max-width: 70%;
+    padding: 10px;
+    border-radius: 12px;
+    position: relative;
+    font-size: 14px;
+  }
+
+  .message.them .bubble {
+    background-color: #f1f0f0;
+    color: #000;
+  }
+
+  .message.me .bubble {
+    background-color: #b2f2bb;
+    color: #000;
+    text-align: right;
+  }
+
+  .sender {
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: #666;
+  }
+
+  .blink { animation: blink 1s linear; }
+  @keyframes blink { 50% { opacity: 0; } }

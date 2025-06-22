@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h2>Available Users</h2>
+  <ul>
+    {% for user in users %}
+      <li>
+        {{ user.username }}
+        <a href="{% url 'contact_user' user.id %}">Contact</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

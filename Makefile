@@ -102,3 +102,9 @@ create.env:
 # 	sleep 1
 # 	make open.browser
 # 	make compose.logs
+
+compose.test:
+	make down
+	make compose.start
+	docker compose run --rm web poetry run python manage.py migrate
+	docker compose run --rm web poetry run python manage.py create_fake_users
