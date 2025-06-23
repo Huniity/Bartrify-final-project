@@ -1,0 +1,21 @@
+from rest_framework import viewsets, permissions
+from core.models import Service
+from core.serializers.service import ServiceSerializer
+
+class ServiceViewSet(viewsets.ModelViewSet):
+    queryset = Service.objects.all().order_by('-created_at')
+    serializer_class = ServiceSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+class MyServiceViewSet(viewsets.ModelViewSet):
+    serializer_class = ServiceSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_authenticated:
+            return Service.objects.filter(owner=user).order_by('-created_at')
+        return Service.objects.none()

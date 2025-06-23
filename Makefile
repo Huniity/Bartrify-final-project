@@ -39,6 +39,10 @@ compose.fe:
 	docker compose up --build --force-recreate -d
 	docker compose run web poetry run python manage.py livereload
 
+compose.fe:
+	docker compose up --build --force-recreate -d
+	docker compose run web poetry run python manage.py livereload
+
 compose.migrate:
 	docker compose run --rm web poetry run python manage.py migrate
 
