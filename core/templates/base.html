@@ -12,21 +12,19 @@
 </head>
 
 <body>
-  {% if 'dashboard' in request.path %}
-  <!-- Header para dashboard -->
-  <header class="header">
-    <div class="logo">
-      <a href="/">
-        <img src="{% static 'img/Logo.png'%}" />
-        <span class="Bartr">Bartr</span><span class="ify">ify</span>
-      </a>
-    </div>
-    <nav>
-      <h3>Welcome John Doe!</h3>
-      <a href="{% url 'dashboard' %}" class="header-btn">DASHBOARD <i class="fa-solid fa-gauge-high"></i></a>
-    </nav>
-  </header>
-
+  {% if user.is_authenticated or 'dashboard' in request.path %}
+    <header class="header">
+      <div class="logo">
+        <a href="/">
+          <img src="{% static 'img/Logo.png'%}" />
+          <span class="Bartr">Bartr</span><span class="ify">ify</span>
+        </a>
+      </div>
+      <nav>
+        <a href="{% url 'dashboard' %}" class="header-btn">DASHBOARD <i class="fa-solid fa-gauge-high"></i></a>
+        <a href="{% url 'logout' %}" class="header-btn">LOGOUT <i class="fa-solid fa-right-from-bracket"></i></a>
+      </nav>
+    </header>
   {% elif 'feed' in request.path %}
   <!-- Header para dashboard -->
   <header class="header">
@@ -55,7 +53,6 @@
       <a href="/" class="header-btn">Home <i class="fa-solid fa-house"></i></a>
     </nav>
   </header>
-
   {% else %}
   <!-- Header padrão (fora do dashboard ou register) -->
   <header class="header">
@@ -66,8 +63,8 @@
       </a>
     </div>
     <nav>
-      <a href="{% url 'Register' %}?mode=signin">Sign In <i class="fa-solid fa-right-to-bracket"></i></a>
-      <a href="{% url 'Register' %}?mode=signup" class="header-btn">Join Us <i class="fa-solid fa-user-plus"></i></a>
+      <a href="{% url 'register' %}?mode=signin">Sign In <i class="fa-solid fa-right-to-bracket"></i></a>
+      <a href="{% url 'register' %}?mode=signup" class="header-btn">Join Us <i class="fa-solid fa-user-plus"></i></a>
     </nav>
   </header>
   {% endif %}
@@ -93,9 +90,9 @@
           <h3><i class="fa-solid fa-link"></i> Quick Links</h3>
           <ul>
             <li><a href="{% url 'index' %}"><i class="fa-solid fa-house"></i> Home</a></li>
-            <li><a href="{% url 'Feed' %}"><i class="fa-solid fa-rss"></i> Feed</a></li>
-            <li><a href="{% url 'Register' %}?mode=signup"><i class="fa-solid fa-user-plus"></i> Signup</a></li>
-            <li><a href="{% url 'Register' %}?mode=signin"><i class="fa-solid fa-right-to-bracket"></i> Signin</a></li>
+            <li><a href="{% url 'feed' %}"><i class="fa-solid fa-rss"></i> Feed</a></li>
+            <li><a href="{% url 'register' %}?mode=signup"><i class="fa-solid fa-user-plus"></i> Signup</a></li>
+            <li><a href="{% url 'register' %}?mode=signin"><i class="fa-solid fa-right-to-bracket"></i> Signin</a></li>
             <li><a href="{% url 'dashboard' %}"><i class="fa-solid fa-gauge-high"></i> Dashboard</a></li>
           </ul>
         </div>

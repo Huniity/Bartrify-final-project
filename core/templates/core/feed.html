@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block title %}Feed{% endblock %}
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/feed.css' %}" />
 
-<!-- Hero -->
 <section class="hero-feed">
     <div class="hero-text-feed">
         <h1>
@@ -14,64 +14,120 @@
         </h1>
     </div>
     <div class="hero-image-feed">
-        <img src="{% static 'img/feed.png'%}" alt="hero" />
+        <img src="{% static 'img/feed.png' %}" alt="hero" />
     </div>
 </section>
 
-<!-- Content -->
 <section class="content-feed">
     <div class="filtros">
-        <div class="filter-controls">
+        <form method="get" class="filter-controls">
+            {# Search group #}
             <div class="filter-group search-group">
                 <label for="search-input" class="sr-only">Search</label>
                 <div class="search-box">
-                    <input type="text" id="search-input" placeholder="Search">
+                    <input type="text" id="search-input" name="q" placeholder="Search" value="{{ request.GET.q|default:'' }}">
                     <button type="submit" class="search-button">
                         <i class="fas fa-search"></i>
                     </button>
                 </div>
             </div>
 
+            {# Category Filter #}
             <div class="filter-group dropdown-group">
                 <label for="category-select" class="sr-only">Category</label>
-                <select id="category-select" class="custom-select">
-                    <option value="gardening">Gardening</option>
-                    <option value="plumbing">Plumbing</option>
-                    <option value="nanny">Nanny</option>
-                    <option value="furniture-assembler" selected>Furniture Assembler</option>
+                <select name="category" id="category-select" class="custom-select">
+                    <option value="">All Categories</option>
+                    {% for value, label in service_categories %} {# Assuming service_categories from context #}
+                        <option value="{{ value }}" {% if selected_category == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                    {# If not using service_categories from context, hardcode as before, ensuring values match model #}
                 </select>
             </div>
 
+            {# Location Filter #}
             <div class="filter-group dropdown-group">
                 <label for="location-select" class="sr-only">Location</label>
-                <select id="location-select" class="custom-select">
-                    <option value="">Location</option>
-                    <option value="faro">Faro</option>
-                    <option value="lisboa">Lisboa</option>
-                    <option value="porto">Porto</option>
-                    <option value="albufeira" selected>Albufeira</option>
+                <select name="location" id="location-select" class="custom-select">
+                    <option value="">All Locations</option>
+                    <option value="Portugal" {% if selected_location == "Portugal" %}selected{% endif %}>Portugal</option>
+                    <option value="Lisboa" {% if selected_location == "Lisboa" %}selected{% endif %}>Lisboa</option>
+                    <option value="Porto" {% if selected_location == "Porto" %}selected{% endif %}>Porto</option>
+                    <option value="Albufeira" {% if selected_location == "Albufeira" %}selected{% endif %}>Albufeira</option>
+                    <option value="Faro" {% if selected_location == "Faro" %}selected{% endif %}>Faro</option>
                 </select>
             </div>
 
+            {# Sort By Filter #}
             <div class="filter-group dropdown-group">
                 <label for="sort-select" class="sr-only">Sort By</label>
-                <select id="sort-select" class="custom-select">
-                    <option value="review-5-1">Review (1-5)</option>
-                    <option value="review-1-5">Review (5-1)</option>
-                    <option value="category-az">Category (A-Z)</option>
-                    <option value="category-za" selected>Category (Z-A)</option>
+                <select name="sort_by" id="sort-select" class="custom-select">
+                    <option value="">Default Sort</option>
+                    <option value="newest" {% if request.GET.sort_by == "newest" %}selected{% endif %}>Newest First</option>
+                    <option value="oldest" {% if request.GET.sort_by == "oldest" %}selected{% endif %}>Oldest First</option>
+                    <option value="category_asc" {% if request.GET.sort_by == "category_asc" %}selected{% endif %}>Category (A-Z)</option>
+                    <option value="category_desc" {% if request.GET.sort_by == "category_desc" %}selected{% endif %}>Category (Z-A)</option>
+                    {# Removed rating sorts since no field, or hardcode here if you add one later #}
                 </select>
             </div>
-        </div>
+
+            <div class="filter-group">
+                <button type="submit" class="header-btn">Apply Filters</button>
+            </div>
+        </form>
     </div>
 </section>
 
+{# Include your provided modal HTML file #}
 {% include 'core/service_detail_modal.html' %}
 
 
-<!-- Feed -->
 <section class="feed">
-    <div id="feed-container">
+    <div id="feed-container" class="card-grid">
+        {% for service in services %}
+            {# Store essential data in data attributes for JS access #}
+            <div class="card"
+                 data-service-id="{{ service.id }}"
+                 data-owner-id="{{ service.owner.id }}"
+                 data-title="{{ service.title }}"
+                 data-description="{{ service.description }}"
+                 data-category="{{ service.get_category_display }}" {# Human-readable category #}
+                 data-desired-category="{{ service.get_desired_category_display|default_if_none:'' }}" {# Human-readable desired category #}
+                 data-price="{{ service.price|floatformat:'0' }}" {# Tokens, 0 for barter #}
+                 data-owner-name="{{ service.owner.first_name }} {{ service.owner.last_name }}"
+                 data-owner-avatar="{% if service.owner.avatar %}{{ service.owner.avatar.url }}{% else %}{% static 'img/default-avatar.png' %}{% endif %}" {# Assuming avatar field on User #}
+                 data-owner-bio="{{ service.owner.bio|default_if_none:'' }}" {# Assuming bio field on User #}
+                 data-owner-location="{{ service.owner.location|default_if_none:'' }}"> {# Assuming location field on User #}
+                 
+                <div class="card-left">
+                    <h3 class="category-h3">{{ service.get_category_display|default:"N/A" }}</h3>
+                    <img src="{% static 'img/default-service.png' %}" alt="{{ service.get_category_display }}">
+                </div>
+                <div class="card-right">
+                    {# Make owner name clickable to open profile modal #}
+                    <h4 class="open-profile-modal-btn" data-owner-id="{{ service.owner.id }}" style="cursor: pointer;">
+                        {{ service.owner.first_name|default:"Unknown" }} {{ service.owner.last_name|default:"User" }}
+                    </h4>
+                    <div class="stars">
+                        {# Hardcode 4 stars as default, adjust as desired #}
+                        ★★★★☆
+                    </div>
+                    <p class="card-title-display">{{ service.title }}</p>
+                    <p class="card-description-display">{{ service.description|truncatechars:100 }}</p>
+
+                    {# Display payment type and price/desired category #}
+                    {% if service.price > 0 %}
+                        <p class="price-tokens">{{ service.price|floatformat:"0" }} Tokens</p>
+                    {% else %}
+                        <p class="barter-info">Seeking: {{ service.get_desired_category_display|default:"N/A" }}</p>
+                    {% endif %}
+
+                    {# This button opens the contact modal specific to the service #}
+                    <button class="contact-btn open-contact-modal-btn" data-service-id="{{ service.id }}">CONTACT 📩</button>
+                </div>
+            </div>
+        {% empty %}
+            <p>No services found, yo. Try changing your filters.</p>
+        {% endfor %}
     </div>
 </section>
 

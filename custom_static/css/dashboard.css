@@ -94,7 +94,7 @@ width: 2.5rem;
     }
     .dashboard-header-left{
       display:flex;
-      align-items: flex-end;
+      align-items: center;
       gap: 1.5rem;
     }
     .panel {
@@ -121,7 +121,7 @@ width: 2.5rem;
     }
     
     .profile-image {
-        width: 100%;
+        width: 60%;
         border-radius: 50%;
         border: 3px solid var(--text);
     }
@@ -946,7 +946,7 @@ width: 2.5rem;
     
       .chat-input-area {
         border-top: 1px solid rgba(0, 0, 0, 0.1);
-        padding: 1rem 1.5rem;
+        padding: 1rem 1rem;
         display: flex;
         gap: 1rem;
         align-items: center;
