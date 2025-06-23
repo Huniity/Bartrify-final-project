@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 modalUserName.textContent = serviceCard.dataset.ownerName;
                 modalUserRating.innerHTML = '★★★★☆'; // Hardcoded default rating
                 modalUserDescription.textContent = serviceCard.dataset.description; // Service description
-                modalTrade1Icon.src = '{% static "img/default-service-icon.png" %}'; // Placeholder for icon
+                modalTrade1Icon.src = serviceCard.dataset.categoryImage || '{% static "img/Img-content.png" %}';
                 modalTrade1Title.textContent = serviceCard.dataset.category; // Service category
                 
                 // You might want to pass serviceId to the contact form's submit handler

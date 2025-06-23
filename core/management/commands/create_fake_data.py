@@ -82,9 +82,9 @@ class Command(BaseCommand):
                     password=u_data['password'],
                     first_name=u_data['first_name'],
                     last_name=u_data['last_name'],
-                    bio=random_bio,      # Assign the random bio
+                    bio=random_bio,
                     location=u_data['location'],
-                    avatar=random_avatar, # Assign the random avatar
+                    avatar_url=random_avatar,
                 )
                 self.stdout.write(self.style.SUCCESS(f"Created user: {u_data['username']} (Bio: '{random_bio[:30]}...', Avatar: {random_avatar})"))
             else:
@@ -119,7 +119,7 @@ class Command(BaseCommand):
                     desired_category = random.choice(other_categories)
 
             # Assign a fixed price for simplicity as per your original request
-            service_price = Decimal(100.00) 
+            service_price = 0
 
             # Only create if it doesn't already exist to prevent duplicates on subsequent runs
             service, created = Service.objects.get_or_create(

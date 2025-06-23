@@ -338,9 +338,9 @@
 }
 
 .user-avatar {
-    width: 120px;
-    height: 120px;
+    width: 20%;
     border-radius: 50%;
+    border: 3px solid var(--text-dark);
     object-fit: cover;
 }
 
@@ -486,7 +486,7 @@ textarea {
     height: 120px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid #ffffff;
+    border: 3px solid var(--text-dark);
 }
 
 .align-text-profile {
@@ -731,11 +731,6 @@ textarea {
         font-size: 0.95rem;
     }
 
-    /* Modal Profile */
-    .profile-avatar {
-        height: 100px;
-        width: 100px;
-    }
 
     .align-text-profile {
         position: absolute;

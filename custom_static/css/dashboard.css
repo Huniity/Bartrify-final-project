@@ -909,6 +909,7 @@ width: 2.5rem;
         border-top-left-radius: 10px;
         background: white;
         border: 1px solid var(--border);
+        gap: 48rem;
       }
 
       .message-left,
@@ -1018,4 +1019,9 @@ width: 2.5rem;
           padding: 0.5rem 1rem;
           font-size: 0.7rem;
         }
+      }
+
+      .chat-header.btn-action {
+        display: flex;
+        flex-direction: row;
       }

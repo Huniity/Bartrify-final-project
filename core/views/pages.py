@@ -100,6 +100,10 @@ class FeedView(TemplateView):
         )
 
         return self.render_to_response(context)
+    
+
+
+
 
 @login_required
 def user_list(request):
@@ -131,12 +135,11 @@ def create_chat(request, receiver_id):
 
             message_type = "new_room" if created else "unread_count_update"
 
-            # ✅ Helper function
+
             def get_avatar_url(user, request):
                 return request.build_absolute_uri(user.avatar.url) if user.avatar else ""
 
-            # ✅ Choose correct avatar: other_user from receiver's perspective
-            other_user = request.user  # The person *not* receiving the event
+            other_user = request.user
             other_user_avatar = get_avatar_url(other_user, request)
 
             async_to_sync(channel_layer.group_send)(

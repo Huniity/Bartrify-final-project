@@ -8,11 +8,20 @@ def user_avatar_path(instance, filename):
     return f'avatars/user_{instance.id}/{filename}'
 
 class User(AbstractUser):
+    avatar_upload = models.ImageField(upload_to='media/avatars/', blank=True, null=True)
+    avatar_url = models.URLField(blank=True, null=True)
     avatar = models.ImageField(upload_to=user_avatar_path, blank=True, null=True)
     first_name = models.CharField(max_length=150, blank=True)
     last_name = models.CharField(max_length=150, blank=True)
     bio = models.TextField(blank=True, default='')
     location = models.CharField(max_length=100, blank=True, default='')
+
+    def get_avatar(self):
+        if self.avatar_upload:
+            return self.avatar_upload.url
+        elif self.avatar_url:
+            return self.avatar_url
+        return '/media/avatars/img/default.png'
 
 
 class Service(models.Model):
@@ -30,6 +39,23 @@ class Service(models.Model):
         ('EDUCATION', 'Education & Tutoring'), 
         ('HANDICRAFTS', 'Handicrafts & Custom Goods'),
     ]
+    def get_category_image(self):
+        """Returns the image path for the category."""
+        category_images = {
+            'IT_SUPPORT': 'img/3.png',
+            'GRAPHIC_DESIGN': 'img/3.png',
+            'WEB_DEV': 'img/3.png',
+            'LANG_TUTOR': 'img/Img-content.png',
+            'HOME_REPAIR': 'img/7.png',
+            'CLEANING': 'img/2.png',
+            'PET_SITTING': 'img/4.png',
+            'PHOTOGRAPHY': 'img/3.png',
+            'CONSULTING': 'img/8.png',
+            'FITNESS_COACH': 'img/6.png',
+            'EDUCATION': 'img/1.png',
+            'HANDICRAFTS': 'img/5.png',
+        }
+        return category_images.get(self.category, 'img/Img-content.png')
 
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='services')
     title = models.CharField(max_length=255)

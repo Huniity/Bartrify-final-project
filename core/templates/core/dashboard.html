@@ -19,7 +19,7 @@
             </div>
             <div class="profile-info">
                 <h2>{{ request.user.username }}</h2>
-                <p id="editableText">I'm a New Bartr</p>
+                <p id="editableText">{{ request.user.bio}}</p>
                 <button class="btn-edit" id="editPopupBtn">
                     <i class="fas fa-edit"></i> Edit Bio
                 </button>
@@ -343,7 +343,7 @@
                     <div class="dashboard-card-side dashboard-card-back" id="dashboard-card-back">
                         <header class="chat-header d-flex justify-content-between align-items-center">
                             <span id="chatWithLabel">Chat</span>
-                            <button onclick="flipToDashboard()" class="btn btn-sm btn-outline-secondary">
+                            <button onclick="flipToDashboard()" class="btn-action">
                                 <i class="fas fa-arrow-left"></i> Back
                             </button>
                         </header>
