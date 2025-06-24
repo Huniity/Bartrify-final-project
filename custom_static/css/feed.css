@@ -6,7 +6,7 @@
     justify-content: center;
 
     padding: 0rem 3%;
-    background: linear-gradient(to right, var(--gradient-start-color)35%, var(--gradient-end-color));
+    background: var(--primary-color);
     gap: 3rem;
 }
 
@@ -22,11 +22,11 @@
     font-weight: 900;
     line-height: 1.3;
     margin-bottom: 4rem;
-    color: var(--secundary-text);
+    color: var(--text);
 }
 
 .span-h1-feed {
-    color: var(--text);
+    color: var(--tertiary-text);
 }
 
 .word {
@@ -183,7 +183,7 @@
 }
 
 .card-left {
-    background: linear-gradient(to right, var(--gradient-end-color)1%, var(--gradient-start-color));
+    background: var(--primary-color);
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
@@ -278,7 +278,7 @@
 }
 
 .left-panel {
-    background: linear-gradient(to right, var(--gradient-end-color)1%, var(--gradient-start-color));
+    background: var(--primary-color);
     padding: 40px;
     flex: 1;
     display: flex;
@@ -290,11 +290,11 @@
 .left-panel h2 {
     font-size: 35px;
     font-weight: 900;
-    color: #1d1d1d;
+    color: var(--text);
 }
 
 .left-panel p {
-    color: #333;
+    color: var(--text);
     text-align: center;
     margin-bottom: 30px;
 }
@@ -319,14 +319,14 @@
     right: 25px;
     font-size: 28px;
     font-weight: bold;
-    color: var(--gradient-start-color);
+    color: var(--secundary-text);
     cursor: pointer;
     z-index: 10;
     transition: color 0.2s;
 }
 
 .close-btn:hover {
-    color: var(--gradient-end-color)
+    color: var(--secundary-color)
 }
 
 .form-group {
@@ -347,7 +347,7 @@
 .align-text-rating {
     position: absolute;
     top: 50%;
-    left: 43%;
+    left: 45%;
     transform: translate(-50%, -50%);
 }
 
@@ -445,7 +445,7 @@ textarea {
 .submit-btn {
     width: 100%;
     padding: 12px;
-    background: var(--gradient);
+    background: var(--primary-color);
     color: white;
     font-weight: bold;
     border: none;
@@ -474,7 +474,7 @@ textarea {
 }
 
 .modal-header {
-    background: linear-gradient(to right, var(--gradient-end-color)1%, var(--gradient-start-color));
+    background: var(--primary-color);
     padding: 0.75rem 1.5rem;
     display: flex;
     flex-direction: column;
@@ -499,13 +499,12 @@ textarea {
 .profile-name {
     font-size: 30px;
     font-weight: 900;
-    color: var(--secundary-text);
+    color: var(--text);
 }
 
 .profile-description {
     font-size: 18px;
     max-width: 500px;
-
     color: var(--text);
 }
 
@@ -560,8 +559,8 @@ textarea {
 */
 .close-btn-profile {
     position: absolute;
-    top: 240px;
-    right: 710px;
+    top: 220px;
+    right: 640px;
     font-size: 16px;
     font-weight: bold;
     color: var(--secundary-text);
@@ -573,7 +572,7 @@ textarea {
 }
 
 .close-btn-profile:hover {
-    color: var(--text);
+    color: var(--secundary-color);
 }
 
 .bottom-panel {
@@ -602,7 +601,7 @@ textarea {
 }
 
 .tab.active {
-    border-bottom: 2px solid var(--gradient-end-color);
+    border-bottom: 2px solid var(--secundary-color);
     font-weight: bold;
 }
 

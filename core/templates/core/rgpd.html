@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}RGPD – Regulamento Geral sobre a Proteção de Dados{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/policy.css' %}">
+
+<div class="policy-wrapper">
+    <h1>General Data Protection Regulation (GDPR)</h1>
+    <p>We are committed to protecting your privacy and complying with the General Data Protection Regulation (EU
+        2016/679).</p>
+
+    <h2><span class="icon">📘</span> Legal Grounds</h2>
+    <p>We process personal data based on legal grounds such as: consent, contract performance, compliance with legal
+        obligations, and legitimate interests.</p>
+
+    <h2><span class="icon">👤</span> Data Subject Rights</h2>
+    <ul>
+        <li>Right of access;</li>
+        <li>Right to rectification;</li>
+        <li>Right to erasure (right to be forgotten);</li>
+        <li>Right to restrict processing;</li>
+        <li>Right to data portability;</li>
+        <li>Right to object;</li>
+        <li>Right to lodge a complaint with a supervisory authority.</li>
+    </ul>
+
+    <h2><span class="icon">🔐</span> Security and Confidentiality</h2>
+    <p>We have implemented technical and organizational measures to ensure adequate protection of personal data against
+        unauthorized or unlawful access.</p>
+
+    <h2><span class="icon">📅</span> Data Retention Periods</h2>
+    <p>Data is retained only for as long as necessary for the purposes for which it was collected, in accordance with
+        legal obligations or until the data subject requests its deletion.</p>
+
+    <h2><span class="icon">📬</span> Exercising Your Rights</h2>
+    <p>To exercise your rights, please send an email to <a href="mailto:suporte@example.com">suporte@example.com</a>. We
+        will respond within the legal period of 30 days.</p>
+
+    <p class="last-updated"><strong>Last updated:</strong> June 23, 2025</p>
+</div>
+
+{% endblock %}

@@ -18,7 +18,7 @@
     <div class="logo">
       <a href="/">
         <img src="{% static 'img/Logo.png'%}" />
-        <span class="Bartr">Bartr</span><span class="ify">ify</span>
+        <span class="logo_text">Bartrify</span>
       </a>
     </div>
     <nav>
@@ -83,10 +83,10 @@
 
         <div class="footer-col">
           <h3><i class="fa-solid fa-circle-info"></i> About Us</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-            labore
-            et dolore
-            magna aliqua. Quis ipsum suspendisse ultrices gravida.</p>
+          <p>We’re your go-to space for sharing skills, solving problems, and helping each other out.
+            From fixing stuff to teaching or creating together this is where good vibes and real help meet.
+            No stress, just people connecting, learning, and growing.
+          </p>
         </div>
 
         <div class="footer-col">
@@ -103,9 +103,10 @@
         <div class="footer-col">
           <h3><i class="fa-solid fa-shield-halved"></i> Privacy & Info</h3>
           <ul>
-            <li><a href="#"><i class="fa-solid fa-file-contract"></i> Terms & Conditions</a></li>
-            <li><a href="#"><i class="fa-solid fa-user-shield"></i> Privacy Policy</a></li>
-            <li><a href="#"><i class="fa-solid fa-scale-balanced"></i> RGPD</a></li>
+            <li><a href="{% url 'TermsConditions' %}"><i class="fa-solid fa-file-contract"></i> Terms & Conditions</a>
+            </li>
+            <li><a href="{% url 'PrivacyPolicy' %}"><i class="fa-solid fa-user-shield"></i> Privacy Policy</a></li>
+            <li><a href="{% url 'RGPD' %}"><i class="fa-solid fa-scale-balanced"></i> RGPD</a></li>
           </ul>
         </div>
 
@@ -113,9 +114,9 @@
           <h3><i class="fa-solid fa-address-book"></i> Contacts</h3>
           <ul class="contacts">
             <li><i class="fa-solid fa-location-dot"></i> @ETIC_Algarve, PT</li>
-            <li><i class="fa-solid fa-envelope"></i> example1@gmail.com</li>
-            <li><i class="fa-solid fa-envelope"></i> example2@gmail.com</li>
-            <li><i class="fa-solid fa-envelope"></i> example3@gmail.com</li>
+            <li><i class="fa-solid fa-envelope"></i> adrien_dejonc@eticalgarve.com</li>
+            <li><i class="fa-solid fa-envelope"></i> lucas_cleminson@eticalgarve.com</li>
+            <li><i class="fa-solid fa-envelope"></i> tomas_miguel@eticalgarve.com</li>
 
           </ul>
         </div>

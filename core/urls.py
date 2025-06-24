@@ -1,5 +1,5 @@
 from django.urls import path
-from core.views import RegisterView ,  IndexView, DashboardView, FeedViews
+from core.views import RegisterView,  IndexView, DashboardView, FeedViews, TermsConditions, PrivacyPolicy, RGPD
 from django.conf import settings
 
 """
@@ -11,4 +11,8 @@ urlpatterns = [
     path("dashboard/", DashboardView.as_view(), name="dashboard"),
     path("register/", RegisterView.as_view(), name="Register"),
     path("feed/", FeedViews.as_view(), name="Feed"),
+    path("termsconditions/", TermsConditions.as_view(), name="TermsConditions"),
+    path("privacypolicy/", PrivacyPolicy.as_view(), name="PrivacyPolicy"),
+    path("rgpd/", RGPD.as_view(), name="RGPD"),
+
 ]

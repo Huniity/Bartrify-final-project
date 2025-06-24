@@ -13,6 +13,7 @@ logger = logging.getLogger(__name__)
 Index view for index.html.
 """
 
+
 class IndexView(TemplateView):
     http_method_names = ["get"]
     template_name = "core/index.html"
@@ -31,3 +32,18 @@ class RegisterView(TemplateView):
 class FeedViews(TemplateView):
     http_method_names = ["get"]
     template_name = "core/feed.html"
+    
+
+class TermsConditions(TemplateView):
+    http_method_names = ["get"]
+    template_name = "core/termsconditions.html"
+    
+
+class PrivacyPolicy(TemplateView):
+    http_method_names = ["get"]
+    template_name = "core/privacypolicy.html"
+    
+
+class RGPD(TemplateView):
+    http_method_names = ["get"]
+    template_name = "core/rgpd.html"
