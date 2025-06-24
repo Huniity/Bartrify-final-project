@@ -31,7 +31,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2rem 5%;
+  padding: 1.5rem 5%;
   background-color: white;
 }
 
@@ -88,6 +88,11 @@ nav a:hover {
   font-size: 1.1rem;
   cursor: pointer;
   transition: all 0.3s ease;
+  
+  /* Add this line for fixed width */
+  width: 170px; 
+  display: inline-block; /* Ensure it behaves like a block for width to apply */
+  text-align: center; /* Center the text horizontally within the fixed width */
 }
 
 .header-btn:hover {

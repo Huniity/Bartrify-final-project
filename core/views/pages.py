@@ -1,5 +1,6 @@
 import logging
 import os
+import json
 from decimal import Decimal
 
 
@@ -16,6 +17,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
+from django.db import transaction
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.timezone import localtime
@@ -138,8 +140,6 @@ class FeedView(TemplateView):
     
 
 
-
-
 @login_required
 def user_list(request):
     users = User.objects.exclude(id=request.user.id)
@@ -149,49 +149,97 @@ def user_list(request):
 @login_required
 def create_chat(request, receiver_id):
     if request.method == "POST":
-        text = request.POST.get("message", "").strip()
+        # Check if it's an AJAX request
+        is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+
+        # Get message content. For AJAX, it will be in JSON body. For form POST, it will be in request.POST.
+        if is_ajax:
+            try:
+                body_data = json.loads(request.body)
+                text = body_data.get("message_content", "").strip()
+            except json.JSONDecodeError:
+                if is_ajax:
+                    return JsonResponse({"success": False, "detail": "Invalid JSON"}, status=400)
+                text = "" # Fallback for non-ajax if body is empty
+        else:
+            text = request.POST.get("message", "").strip()
+
         receiver = get_object_or_404(User, id=receiver_id)
+
+        # Prevent a user from chatting with themselves
+        if request.user.id == receiver.id:
+            if is_ajax:
+                return JsonResponse({"success": False, "detail": "Cannot create chat with yourself."}, status=400)
+            return redirect("dashboard")
 
         user1_obj = min(request.user, receiver, key=lambda u: u.id)
         user2_obj = max(request.user, receiver, key=lambda u: u.id)
 
-        room, created = ChatRoom.objects.get_or_create(
-            user1=user1_obj,
-            user2=user2_obj
-        )
+        try:
+            with transaction.atomic():
+                room, created = ChatRoom.objects.get_or_create(
+                    user1=user1_obj,
+                    user2=user2_obj
+                )
 
-        if text:
-            Message.objects.create(room=room, sender=request.user, text=text)
-
-        if created or text:
-            channel_layer = get_channel_layer()
-            receiver_group_name = f"user_{receiver.id}"
-            unread_count = room.messages.filter(read=False).exclude(sender=receiver).count()
-
-            message_type = "new_room" if created else "unread_count_update"
+                if text:
+                    Message.objects.create(room=room, sender=request.user, text=text)
+                    logger.info(f"Message created in room {room.id} by {request.user.username}")
 
 
-            def get_avatar_url(user, request):
-                return request.build_absolute_uri(user.avatar.url) if user.avatar else ""
+                if created or text:
+                    channel_layer = get_channel_layer()
+                    receiver_group_name = f"user_{receiver.id}"
+                    
+                    unread_count = Message.objects.filter(
+                        room=room,
+                        read=False
+                    ).exclude(sender=receiver).count()
 
-            other_user = request.user
-            other_user_avatar = get_avatar_url(other_user, request)
+                    message_type = "new_room" if created else "unread_count_update"
 
-            async_to_sync(channel_layer.group_send)(
-                receiver_group_name,
-                {
-                    "type": message_type,
-                    "room_id": room.id,
-                    "other_user_username": other_user.username,
-                    "other_user_avatar": other_user_avatar,
-                    "unread_count": unread_count,
-                }
-            )
-            logger.info(f"Sent {message_type} notification to user_{receiver.id} for room {room.id}")
 
-        response = redirect(f"/dashboard/?room_id={room.id}")
-        response.set_cookie("openRoomOnce", "1", max_age=5)  # just 5s lifetime
-        return response
+                    def get_avatar_url_for_ws(user_obj, request_obj):
+
+                        if hasattr(user_obj, 'avatar') and user_obj.avatar:
+                            try:
+                                return request_obj.build_absolute_uri(user_obj.avatar.url)
+                            except ValueError:
+                                return ""
+
+                        username_for_avatar = user_obj.username if hasattr(user_obj, 'username') else 'Unknown'
+                        return f"https://ui-avatars.com/api/?name={username_for_avatar}&background=567C8D&color=fff"
+
+                    other_user_for_ws = request.user
+                    other_user_avatar = get_avatar_url_for_ws(other_user_for_ws, request)
+                    
+
+                    async_to_sync(channel_layer.group_send)(
+                        receiver_group_name,
+                        {
+                            "type": message_type,
+                            "room_id": room.id,
+                            "other_user_username": other_user_for_ws.username,
+                            "other_user_avatar": other_user_avatar,
+                            "unread_count": unread_count,
+                            "last_message": text,
+                        }
+                    )
+                    logger.info(f"Sent {message_type} notification to user_{receiver.id} for room {room.id}")
+
+            if is_ajax:
+                return JsonResponse({"success": True, "room_id": room.id, "created": created, "message_sent": bool(text)})
+            else:
+                response = redirect(f"/dashboard/?room_id={room.id}")
+                response.set_cookie("openRoomOnce", "1", max_age=5)
+                return response
+
+        except Exception as e:
+            logger.error(f"Error in create_chat view: {e}")
+            if is_ajax:
+                return JsonResponse({"success": False, "detail": "An internal server error occurred."}, status=500)
+            return redirect("dashboard")
+    
     return redirect("service_detail", service_id=receiver_id)
 
 

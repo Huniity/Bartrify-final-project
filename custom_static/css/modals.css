@@ -416,6 +416,7 @@ button[type="submit"]:hover {
     position: relative;
     z-index: 2;
     pointer-events: all!important;
+    margin-right: 2rem;
   }
 
   .avatar-label img {

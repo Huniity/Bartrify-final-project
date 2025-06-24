@@ -7,8 +7,8 @@
             <div class="align-text-profile">
                 <h3 id="profile-name" class="profile-name"></h3>
                 <p id="profile-description" class="profile-description"></p>
+                <p ><a onclick="openContactModal()"><span style="margin-top: 0.5rem; color: white; font-weight: 700;">Contact Me Now! <i class="fa-solid fa-envelope"></i></span></a></p>
             </div>
-            <a class="btn-profile" onclick="openContactModal()"><span>Contact</span></a>
         </div>
 
         <div class="bottom-panel">
@@ -49,11 +49,10 @@
                     </div>
                     <p id="modal-user-description" class="user-description">Descrição do utilizador...</p>
                 </div>
-                <form id="contact-form">
+                <form id="contact-form" data-receiver-id="{{ user_profile.id }}">
                     <div class="form-group">
                         <textarea id="message" placeholder=" " required></textarea>
                         <label for="message">Write your message</label>
-
                         <button type="submit" class="submit-btn">Send message</button>
                     </div>
                 </form>
@@ -61,3 +60,608 @@
         </div>
     </div>
 </div>
+<style>
+
+/* === Modal Overlay === */
+.Modal-Container {
+    /* CHANGED: Initial state is now display: none */
+    display: none; 
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.724);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    /* REMOVED: visibility and opacity from initial state */
+    /* If you want fade-in/fade-out, we'll add it back to the .active state */
+}
+
+/* When active, show the modal */
+#contact-modal.active,
+#profile-feed-modal.active { 
+    /* ENSURED: display: flex is explicitly set when active */
+    display: flex;
+
+    /* If you want a fade-in effect, uncomment these lines: */
+    /*
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out, visibility 0s;
+    */
+}
+
+.modal-card {
+    /* Adjusted for better responsiveness */
+    position: relative; /* Ensure absolute children are relative to this */
+    width: 90%; /* Start with a larger percentage */
+    max-width: 1000px; /* Maximum width for larger screens */
+    height: 90%; /* Start with a larger percentage */
+    max-height: 700px; /* Maximum height for larger screens */
+    display: flex;
+    background: white;
+    border-radius: 15px;
+    /* Removed overflow: hidden from here */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+
+    /* Allow content to scroll if it exceeds max-height */
+    /* If you still want to clip horizontally, you can add overflow-x: hidden; */
+    overflow-y: auto;
+}
+
+.left-panel {
+    background: linear-gradient(to right, var(--gradient-end-color)1%, var(--gradient-start-color));
+    padding: 40px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* Ensure left panel shrinks if content pushes it */
+    min-width: 250px; /* Prevent it from becoming too small */
+    overflow-y: auto; /* Allow scrolling if content is too tall */
+}
+
+.left-panel h2 {
+    font-size: 2.2rem; /* Using rem for better scaling */
+    font-weight: 900;
+    color: #1d1d1d;
+    text-align: center; /* Ensure text is centered */
+}
+
+.left-panel p {
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1rem; /* Using rem */
+}
+
+.left-panel img {
+    /* Make image responsive */
+    width: 90%; /* Adjust to fill most of the panel */
+    max-width: 350px; /* Original max width */
+    height: auto;
+    object-fit: contain; /* Ensure image scales down properly */
+}
+
+.right-panel {
+    flex: 1.1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%; /* Ensure it takes available width within flex container */
+    /* Added to allow scrolling if content overflows */
+    overflow-y: auto;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px; /* Adjusted slightly */
+    right: 20px; /* Adjusted slightly */
+    font-size: 2rem; /* Using rem */
+    font-weight: bold;
+    color: var(--gradient-start-color);
+    cursor: pointer;
+    z-index: 10;
+    transition: color 0.2s;
+    background: none; /* Ensure no background */
+    border: none; /* Ensure no border */
+}
+
+.close-btn:hover {
+    color: var(--gradient-end-color);
+}
+
+.form-group {
+    display: flex;
+    flex-wrap: wrap;
+    /* Use gap for spacing between items instead of margin-bottom on each item */
+    gap: 1rem;
+    align-items: center; /* Align items vertically */
+    margin-bottom: 1rem;
+    position: relative; /* For absolute positioning of label/icon */
+}
+.user-info {
+    /* This wraps the entire user detail section (avatar, name, rating, description, etc.) */
+    display: flex;
+    flex-direction: column; /* Stack the groups of user info vertically */
+    gap: 20px; /* Space between the avatar/name group and other groups (category, description, form) */
+    margin-bottom: 20px;
+}
+.user-info .form-group:first-child { /* Specific styling for avatar/name group */
+    display: flex;
+    align-items: center; /* Vertically center the avatar and the text block */
+    flex-wrap: nowrap; /* Prevents wrapping onto a new line if space is tight */
+    gap: 15px; /* Spacing between the avatar and the text block */
+    position: relative; /* Good practice for immediate parent if any child is absolutely positioned */
+    z-index: 1; /* Ensures this group is on top if other elements conflict */
+    /* Ensure no hidden conflicting margins */
+    margin: 0;
+    padding: 0;
+    flex-direction: column;
+}
+.user-info .form-group:last-of-type {
+    /* Your styles here */
+    margin-bottom: 0; /* Example: Remove bottom margin from the last group */
+    border-top: 1px solid #eee; /* Example: Add a top border */
+    padding-top: 20px; /* Example: Add some padding */
+    display: flex;
+    flex-direction: column;
+}
+
+.user-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid var(--text-dark);
+    object-fit: cover;
+    flex-shrink: 0; /* Prevent the avatar from shrinking */
+    z-index: 2; /* Ensures the avatar is visibly above any text it might accidentally overlap */
+    /* Resetting any potential conflicting styles */
+    position: static;
+    margin: 0;
+}
+
+.align-text-rating {
+    position: static;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    transform: none;
+    z-index: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+
+.user-name {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #333;
+    position: static;
+    margin: 0;
+    padding: 0;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-stars {
+    font-size: 1.25rem;
+    color: #f5c518;
+    display: flex;
+    flex-direction: row;
+    margin-top: 5px;
+    position: static;
+    margin-left: 0;
+    justify-content: flex-start;
+}
+
+.category-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap; /* Allow wrapping if space is tight */
+}
+
+.category-trade-icon {
+    width: 60px; /* Slightly smaller for better fit */
+    height: 60px;
+    object-fit: cover;
+    flex-shrink: 0; /* Prevent shrinking */
+}
+
+.category-trade-title {
+    font-weight: 800;
+    font-size: 1rem;
+    flex-grow: 1; /* Allow text to grow */
+}
+
+.user-description {
+    /* Removed relative positioning, let it flow naturally */
+    font-size: 1rem; /* Using rem */
+    margin-bottom: 20px;
+    max-width: 100%; /* Ensure it doesn't overflow horizontally */
+    word-wrap: break-word; /* Prevent long words from overflowing */
+}
+
+.form-group textarea {
+    width: 100%;
+    min-height: 100px; /* Use min-height, so it can grow */
+    padding: 14px;
+    font-size: 1rem; /* Using rem */
+    border: 1.5px solid #bfc9d1;
+    border-radius: 12px;
+    outline: none;
+    transition: border-color 0.2s;
+    resize: vertical; /* Allow user to resize vertically */
+}
+
+.form-group textarea:focus {
+    border-color: var(--primary-color);
+    background-color: #fff;
+}
+
+.form-group label {
+    position: absolute;
+    left: 16px;
+    top: 4rem; /* Keep initial position relative to textarea top */
+    font-size: 0.9rem;
+    color: #888;
+    transition: top 0.18s linear, left 0.18s linear, font-size 0.18s linear, color 0.18s linear;
+    pointer-events: none; /* Ensure label doesn't block clicks */
+}
+
+.form-group textarea:focus+label,
+.form-group textarea:not(:placeholder-shown)+label {
+    top: 1.1rem; /* Move label above the field */
+    left: 12px;
+    font-size: 0.8rem; /* Smaller when activated */
+    color: var(--primary-color);
+    padding: 0 4px;
+    background-color: white;
+    z-index: 2; /* Ensure label is above other content */
+}
+
+.form-group .fas {
+    position: absolute;
+    right: 15px;
+    top: 45%;
+    color: #888;
+    font-size: 1rem;
+    z-index: 3;
+}
+
+.form-group .password-toggle-icon {
+    cursor: pointer;
+}
+
+textarea {
+    margin-top: 10px; /* Keep margin for textarea */
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 12px;
+    background: var(--gradient);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 15px;
+    margin-top: 10px;
+    cursor: pointer;
+    font-size: 1rem; /* Using rem */
+}
+
+/* ===== Profile Feed Modal ===== */
+
+.modal-card-profile {
+    display: flex;
+    flex-direction: column;
+    /* Removed fixed width/height to allow for better scaling */
+    width: 90%; /* Max width for general screens */
+    max-width: 700px; /* Limit max width */
+    height: 90%; /* Max height for general screens */
+    max-height: 550px; /* Limit max height */
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    /* Allow internal scrolling if content exceeds height */
+    overflow-y: auto;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    position: relative; /* For absolute positioning of close button */
+}
+
+.modal-header {
+    background: linear-gradient(to right, var(--gradient-end-color)1%, var(--gradient-start-color));
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    flex-direction: column; /* Keep as column for stacking avatar/text */
+    align-items: flex-start; /* Align content to the start */
+    padding-bottom: 4rem; /* Add some space below the content */
+    position: relative; /* For the profile details overlay */
+    flex-shrink: 0; /* Prevent header from shrinking */
+}
+
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--text-dark);
+    flex-shrink: 0; /* Prevent it from shrinking */
+    margin-bottom: 15px;
+    margin-top:2rem; /* Space below avatar */
+}
+
+/* Reworking align-text-profile: make it flow normally or use flexbox */
+.align-text-profile {
+    /* Removed absolute positioning */
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Space between name and description */
+    width: 60%; /* Take full width */
+    /* Adjusted to be below avatar */
+    position: absolute;
+    top: 100px; /* Adjust based on avatar height and desired overlap */
+    /* Remove transform translate unless very specific alignment is needed */
+    z-index: 1; /* Ensure text is above background but below avatar overlay if any */
+}
+
+.profile-name {
+    font-size: 2rem; /* Using rem */
+    font-weight: 900;
+    color: var(--secundary-text);
+    /* No text-align: center; as it's part of a flex column now */
+}
+
+.profile-description {
+    font-size: 1rem; /* Using rem */
+    max-width: 80%; /* Ensure it fits within its container */
+    color: var(--text);
+    word-wrap: break-word; /* Prevent long words from overflowing */
+}
+
+.btn-profile {
+    width: fit-content; /* Adjust width to content */
+    min-width: 120px; /* Minimum width to ensure it's not too small */
+    padding: 8px 15px; /* Adjusted padding */
+    background: var(--secundary-color);
+    color: rgb(255, 255, 255);
+    border-radius: 15px;
+    margin-top: 15px;
+    cursor: pointer;
+    text-align: center;
+    transition: color 0.4s ease-in-out, border-color 0.4s ease-in-out;
+    position: relative;
+    overflow: hidden;
+    z-index: 1; /* Ensure text is above pseudo-element */
+    align-self: flex-end; /* Align to the right within the flex header */
+    margin-left: auto; /* Push to the right */
+    margin-top: -80px; /* Pull it up next to profile info */
+}
+
+.btn-profile span {
+    position: relative;
+    z-index: 2;
+    display: inline-block;
+}
+
+.btn-profile::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    transition: top 0.4s ease-in-out;
+    z-index: 1;
+}
+
+.btn-profile:hover {
+    color: black;
+    border-color: transparent; /* Assuming a border might be added */
+}
+
+.btn-profile:hover::before {
+    border: none;
+    top: 0;
+    background: #fff;
+}
+
+/* --- Fix for close-btn-profile --- */
+.close-btn-profile {
+    position: absolute; /* Position relative to .modal-card-profile */
+    top: 15px; /* Consistent with other close button */
+    right: 20px; /* Consistent with other close button */
+    font-size: 1.5rem; /* Using rem */
+    font-weight: bold;
+    color: var(--secundary-text);
+    cursor: pointer;
+    z-index: 10;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    transition: color 0.2s;
+}
+
+.close-btn-profile:hover {
+    color: var(--text);
+}
+
+.bottom-panel {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Allow it to take remaining height */
+    flex-grow: 1; /* Allow it to grow and fill space */
+    min-height: 0; /* Important for flex items with overflow */
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    padding: 15px 0;
+    flex-shrink: 0; /* Prevent tabs from shrinking */
+    border-bottom: 1px solid #eee; /* Visual separation */
+}
+
+.tab {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-size: 1rem; /* Using rem */
+    white-space: nowrap; /* Prevent tab text from wrapping */
+    overflow: hidden; /* Hide overflow if text is too long */
+    text-overflow: ellipsis; /* Add ellipsis if text is too long */
+}
+
+.tab:last-child {
+    margin-right: 0;
+}
+
+.tab.active {
+    border-bottom: 2px solid var(--gradient-end-color);
+    font-weight: bold;
+}
+
+.tab-content {
+    display: none;
+    padding: 20px;
+    flex-grow: 1; /* Allow content to grow and fill available space */
+    overflow-y: auto; /* This is key for scrollable content */
+    -webkit-overflow-scrolling: touch; /* For smoother scrolling on iOS */
+}
+
+.tab-content.active {
+    display: block; /* Use block for content display */
+}
+
+#tab-needed,
+#tab-services {
+    /* Styles specific to these tabs if needed */
+    /* Removed align-items and text-align as they are block-level now */
+}
+
+#tab-services p {
+    font-size: 1.25rem; /* Using rem */
+    font-weight: 600;
+}
+
+#tab-services img {
+    width: 80px; /* Slightly smaller for icons/thumbnails */
+    height: 80px;
+    object-fit: cover;
+    margin-bottom: 10px; /* Space below image */
+}
+
+.review {
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
+    position: relative;
+    max-height: 150px; /* Allow reviews to be taller if needed */
+    overflow-y: auto; /* Ensure individual reviews can scroll if very long */
+    margin-bottom: 10px;
+    background-color: #f9f9f9; /* Slight background for distinction */
+    border-radius: 8px;
+}
+
+/* --- Media Queries for smaller screens (optional but good practice) --- */
+@media (max-width: 768px) {
+    .modal-card,
+    .modal-card-profile {
+        width: 95%;
+        height: 95%;
+        max-width: none; /* Remove max-width on smaller screens */
+        max-height: none; /* Remove max-height on smaller screens */
+        flex-direction: column; /* Stack panels vertically on smaller screens */
+    }
+
+    .left-panel {
+        min-height: 150px; /* Give left panel a min-height when stacked */
+        padding: 20px;
+    }
+
+    .left-panel h2 {
+        font-size: 1.8rem;
+    }
+
+    .left-panel p {
+        font-size: 0.9rem;
+    }
+
+    .left-panel img {
+        width: 70%;
+        max-width: 250px;
+    }
+
+    .right-panel {
+        padding: 20px;
+    }
+
+    .close-btn,
+    .close-btn-profile {
+        top: 10px;
+        right: 10px;
+        font-size: 1.8rem;
+    }
+
+    .profile-avatar {
+        width: 80px;
+        height: 80px;
+    }
+
+
+    .profile-name {
+        font-size: 1.6rem;
+    }
+
+    .profile-description {
+        font-size: 0.9rem;
+    }
+
+    .btn-profile {
+        margin: 10px auto; /* Center button when stacked */
+        align-self: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .left-panel h2 {
+        font-size: 1.5rem;
+    }
+    .left-panel p {
+        font-size: 0.8rem;
+    }
+    .profile-name {
+        font-size: 1.4rem;
+    }
+    .profile-description {
+        font-size: 0.8rem;
+    }
+    .tab {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+    .profile-avatar {
+        width: 70px;
+        height: 70px;
+    }
+}
+</style>

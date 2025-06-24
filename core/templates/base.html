@@ -12,44 +12,95 @@
 </head>
 
 <body>
-  {% if user.is_authenticated or 'dashboard' in request.path %}
-    <header class="header">
+<!-- DASHBOARD NAVBAR IF AUTHENTICATED -->
+  {% if user.is_authenticated and 'dashboard' in request.path %}
+  <header class="header">
       <div class="logo">
         <a href="/">
           <div class="header-logo-brand">
-            <img src="{% static 'img/Logo.png'%}" />
+            <img src="{% static 'img/logo2.png'%}" />
+            <img src="{% static 'img/title3.png'%}" />
           </div>
-          <span class="Bartr">Bartr</span><span class="ify">ify</span>
         </a>
       </div>
       <nav>
-        <a href="{% url 'dashboard' %}" class="header-btn">DASHBOARD <i class="fa-solid fa-gauge-high"></i></a>
-        <a href="{% url 'logout' %}" class="header-btn">LOGOUT <i class="fa-solid fa-right-from-bracket"></i></a>
+        <a href="{% url 'feed' %}">Feed <i class="fa-solid fa-signs-post"></i></a>
+        <a href="{% url 'logout' %}" class="header-btn">Logout <i class="fa-solid fa-right-from-bracket"></i></a>
       </nav>
     </header>
-  {% elif 'feed' in request.path %}
-  <!-- Header para dashboard -->
+<!-- FEED NAVBAR IF AUTHENTICATED -->
+  {% elif user.is_authenticated and 'feed' in request.path %}
   <header class="header">
-    <div class="logo">
-      <a href="/">
-        <img src="{% static 'img/Logo.png'%}" />
-        <span class="Bartr">Bartr</span><span class="ify">ify</span>
-      </a>
-    </div>
-    <nav>
-      <h3>Welcome John Doe!</h3>
-      <a href="{% url 'dashboard' %}" class="header-btn">DASHBOARD <i class="fa-solid fa-gauge-high"></i></a>
+      <div class="logo">
+        <a href="/">
+          <div class="header-logo-brand">
+            <img src="{% static 'img/logo2.png'%}" />
+            <img src="{% static 'img/title3.png'%}" />
+          </div>
+        </a>
+      </div>
+      <nav>
+        <a href="{% url 'dashboard' %}">Dashboard <i class="fa-solid fa-gauge-high"></i></a>
+        <a href="{% url 'logout' %}" class="header-btn">Logout <i class="fa-solid fa-right-from-bracket"></i></a>
+      </nav>
+    </header>
+<!-- FEED NAVBAR IF NOT AUTHENTICATED -->
+  {% elif not user.is_authenticated and 'feed' in request.path %}
+  <header class="header">
+      <div class="logo">
+        <a href="/">
+          <div class="header-logo-brand">
+            <img src="{% static 'img/logo2.png'%}" />
+            <img src="{% static 'img/title3.png'%}" />
+          </div>
+        </a>
+      </div>
+      <nav>
+        <a href="{% url 'register' %}?mode=signin">Sign In <i class="fa-solid fa-right-to-bracket"></i></a>
+        <a href="{% url 'register' %}?mode=signup" class="header-btn">Join Us <i class="fa-solid fa-user-plus"></i></a>
+      </nav>
+    </header>
+<!-- FEED NAVBAR IF NOT AUTHENTICATED -->
+  {% elif user.is_authenticated and 'rgpd' in request.path %}
+  <header class="header">
+      <div class="logo">
+        <a href="/">
+          <div class="header-logo-brand">
+            <img src="{% static 'img/logo2.png'%}" />
+            <img src="{% static 'img/title3.png'%}" />
+          </div>
+        </a>
+      </div>
+      <nav>
+        <a href="/" class="header-btn">Home <i class="fa-solid fa-house"></i></a>
+        <a href="{% url 'logout' %}" class="header-btn">Logout <i class="fa-solid fa-right-from-bracket"></i></a>
+      </nav>
+    </header>
+  {% elif user.is_authenticated %}
+  <header class="header">
+      <div class="logo">
+        <a href="/">
+          <div class="header-logo-brand">
+            <img src="{% static 'img/logo2.png'%}" />
+            <img src="{% static 'img/title3.png'%}" />
+          </div>
+        </a>
+      </div>
+      <nav>
+        <a href="{% url 'feed' %}">Feed <i class="fa-solid fa-signs-post"></i></a>
+        <a href="{% url 'dashboard' %}" class="header-btn">Dashboard <i class="fa-solid fa-gauge-high"></i></a>
     </nav>
-  </header>
-
+    </header>
   {% elif 'register' in request.path %}
   <!-- Header para página de registro/login -->
   <header class="header">
     <div class="logo">
       <a href="/">
-        <img src="{% static 'img/Logo.png'%}" />
-        <span class="Bartr">Bartr</span><span class="ify">ify</span>
-      </a>
+          <div class="header-logo-brand">
+            <img src="{% static 'img/logo2.png'%}" />
+            <img src="{% static 'img/title3.png'%}" />
+          </div>
+        </a>
     </div>
     <nav>
       <a href="/" class="header-btn">Home <i class="fa-solid fa-house"></i></a>
@@ -60,9 +111,11 @@
   <header class="header">
     <div class="logo">
       <a href="/">
-        <img src="{% static 'img/Logo.png'%}" />
-        <span class="Bartr">Bartr</span><span class="ify">ify</span>
-      </a>
+          <div class="header-logo-brand">
+            <img src="{% static 'img/logo2.png'%}" />
+            <img src="{% static 'img/title3.png'%}" />
+          </div>
+        </a>
     </div>
     <nav>
       <a href="{% url 'register' %}?mode=signin">Sign In <i class="fa-solid fa-right-to-bracket"></i></a>

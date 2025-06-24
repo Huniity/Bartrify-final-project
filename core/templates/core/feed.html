@@ -124,7 +124,7 @@
                     {% endif %}
 
                     {# This button opens the contact modal specific to the service #}
-                    <button class="contact-btn open-contact-modal-btn" data-service-id="{{ service.id }}">CONTACT 📩</button>
+                    <button class="contact-btn open-contact-modal-btn" data-service-id="{{ service.id }}">Let's Barter! <i class="fa-solid fa-envelope"></i></button>
                 </div>
             </div>
         {% empty %}
@@ -133,5 +133,6 @@
     </div>
 </section>
 
+<script src="{% static 'js/chat.js' %}"></script>
 <script src="{% static 'js/feed.js' %}"></script>
 {% endblock %}

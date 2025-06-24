@@ -20,7 +20,7 @@ class User(AbstractUser):
             return self.avatar_upload.url
         elif self.avatar_url:
             return self.avatar_url
-        return '/media/avatars/img/default.png'
+        return '/media/avatars/img/new_default.png'
 
 
 class Service(models.Model):
