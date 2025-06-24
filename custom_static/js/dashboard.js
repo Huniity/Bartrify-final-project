@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-  // --- Chart.js setup ---
   const ctx = document.getElementById('servicesChart').getContext('2d');
   const gradient = ctx.createLinearGradient(0, 0, 0, 180);
   gradient.addColorStop(0, '#f87d6f');
@@ -37,7 +36,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  // --- Tabs ---
   const tabButtons = document.querySelectorAll('.tab-btn');
   const tabPanes = document.querySelectorAll('.tab-pane');
 
@@ -50,14 +48,268 @@ document.addEventListener('DOMContentLoaded', function () {
 
       tabPanes.forEach(pane => pane.classList.remove('active'));
       document.getElementById(tabId).classList.add('active');
+
+      if (tabId === 'active') {
+        fetchActiveRequests();
+      } else if (tabId === 'completed') {
+        fetchCompletedRequests();
+      } else if (tabId === 'services') {
+        fetchUserServices();
+      }
     });
   });
 
-  // --- Scroll legacy container if present ---
-  const el = document.getElementById('scrollable');
-  if (el) el.scrollTop = el.scrollHeight;
+  function fetchSenderUsername(senderId) {
+    return fetch(`/api/users/${senderId}/`)  
+        .then(response => response.json())
+        .then(user => user.username)
+        .catch(err => {
+            console.error('Error fetching sender details:', err);
+            return 'Unknown';
+        });
+}
 
-  // --- Auto-load chat room from URL or first one ---
+  function fetchActiveRequests() {
+    const activeTabContent = document.getElementById('active');
+    activeTabContent.innerHTML = '';
+
+    fetch('/api/requests/')
+        .then(response => response.json())
+        .then(data => {
+            if (data.length > 0) {
+                data.forEach(request => {
+                    if (request.status === "pending") {
+                        fetch(`/api/services/${request.service}/`)
+                            .then(serviceResponse => serviceResponse.json())
+                            .then(serviceData => {
+                                const exchangeItem = document.createElement('div');
+                                exchangeItem.classList.add('exchange-item');
+
+                                const exchangeInfo = document.createElement('div');
+                                exchangeInfo.classList.add('exchange-info');
+
+                                const serviceAvatar = document.createElement('div');
+                                serviceAvatar.classList.add('service-avatar');
+                                serviceAvatar.style.backgroundColor = '#4caf50';
+                                const icon = document.createElement('i');
+                                icon.classList.add('fa-solid', 'fa-leaf');
+                                serviceAvatar.appendChild(icon);
+
+                                const serviceDetails = document.createElement('div');
+                                const serviceTitle = document.createElement('h4');
+                                serviceTitle.textContent = serviceData.title;
+
+                                const serviceDate = document.createElement('p');
+                                const formattedDate = new Date(request.created_at).toLocaleDateString();
+
+                                fetchSenderUsername(request.sender)
+                                    .then(username => {
+                                        serviceDate.textContent = `With: ${username} · ${formattedDate}`;
+                                    });
+
+                                serviceDetails.appendChild(serviceTitle);
+                                serviceDetails.appendChild(serviceDate);
+
+                                exchangeInfo.appendChild(serviceAvatar);
+                                exchangeInfo.appendChild(serviceDetails);
+
+                                const exchangeStatus = document.createElement('div');
+                                exchangeStatus.classList.add('exchange-status');
+                                const status = document.createElement('span');
+                                status.classList.add('status', 'in-progress');
+                                status.textContent = request.status || 'In Progress';
+                                exchangeStatus.appendChild(status);
+
+                                exchangeItem.appendChild(exchangeInfo);
+                                exchangeItem.appendChild(exchangeStatus);
+
+                                activeTabContent.appendChild(exchangeItem);
+                            })
+                            .catch(err => console.error('Error fetching service details:', err));
+                    }
+                });
+            } else {
+                activeTabContent.innerHTML = '<p>No active requests.</p>';
+            }
+        })
+        .catch(err => console.error('Error fetching active requests:', err));
+}
+
+  function fetchCompletedRequests() {
+    const completedTabContent = document.getElementById('completed');
+    completedTabContent.innerHTML = '';
+
+    fetch('/api/requests/')
+        .then(response => response.json())
+        .then(data => {
+            if (data.length > 0) {
+                data.forEach(request => {
+                    if (request.status === "completed") {
+                        fetch(`/api/services/${request.service}/`)
+                            .then(serviceResponse => serviceResponse.json())
+                            .then(serviceData => {
+                                const exchangeItem = document.createElement('div');
+                                exchangeItem.classList.add('exchange-item');
+
+                                const exchangeInfo = document.createElement('div');
+                                exchangeInfo.classList.add('exchange-info');
+
+                                const serviceAvatar = document.createElement('div');
+                                serviceAvatar.classList.add('service-avatar');
+                                serviceAvatar.style.backgroundColor = '#00bcd4';
+                                const icon = document.createElement('i');
+                                icon.classList.add('fa-solid', 'fa-broom');
+                                serviceAvatar.appendChild(icon);
+
+                                const serviceDetails = document.createElement('div');
+                                const serviceTitle = document.createElement('h4');
+                                serviceTitle.textContent = serviceData.title;
+
+                                const serviceDate = document.createElement('p');
+                                const formattedDate = new Date(request.created_at).toLocaleDateString();
+
+                                fetchSenderUsername(request.sender)
+                                    .then(username => {
+                                        serviceDate.textContent = `With: ${username} · ${formattedDate}`;
+                                    });
+
+                                serviceDetails.appendChild(serviceTitle);
+                                serviceDetails.appendChild(serviceDate);
+
+                                exchangeInfo.appendChild(serviceAvatar);
+                                exchangeInfo.appendChild(serviceDetails);
+
+                                const exchangeStatus = document.createElement('div');
+                                exchangeStatus.classList.add('exchange-status');
+                                const status = document.createElement('span');
+                                status.classList.add('status', 'completed');
+                                status.textContent = request.status || 'Completed';
+                                exchangeStatus.appendChild(status);
+
+                                const rating = document.createElement('span');
+                                rating.classList.add('time-remaining');
+                                rating.textContent = `Rated 4/5`;
+                                exchangeStatus.appendChild(rating);
+
+                                exchangeItem.appendChild(exchangeInfo);
+                                exchangeItem.appendChild(exchangeStatus);
+
+                                completedTabContent.appendChild(exchangeItem);
+                            })
+                            .catch(err => console.error('Error fetching service details:', err));
+                    }
+                });
+            } else {
+                completedTabContent.innerHTML = '<p>No completed requests.</p>';
+            }
+        })
+        .catch(err => console.error('Error fetching completed requests:', err));
+}
+
+  const categoryMapping = {
+    'IT_SUPPORT': 'IT Support & Troubleshooting',
+    'GRAPHIC_DESIGN': 'Graphic Design & Branding',
+    'WEB_DEV': 'Web Development & Design',
+    'LANG_TUTOR': 'Language Tutoring',
+    'HOME_REPAIR': 'Home Repair & Maintenance',
+    'CLEANING': 'Cleaning Services',
+    'PET_SITTING': 'Pet Sitting & Walking',
+    'PHOTOGRAPHY': 'Photography & Editing',
+    'CONSULTING': 'Business Consulting',
+    'FITNESS_COACH': 'Fitness Coaching',
+    'EDUCATION': 'Education & Tutoring',
+    'HANDICRAFTS': 'Handicrafts & Custom Goods',
+  };
+
+  function fetchUserServices() {
+    const servicesTabContent = document.getElementById('services');
+    servicesTabContent.innerHTML = '';
+
+    fetch('/api/my-services/')
+      .then(response => response.json())
+      .then(data => {
+        if (data.length > 0) {
+          data.forEach(service => {
+            const exchangeItem = document.createElement('div');
+            exchangeItem.classList.add('exchange-item');
+            
+            const exchangeInfo = document.createElement('div');
+            exchangeInfo.classList.add('exchange-info');
+            
+            const serviceAvatar = document.createElement('div');
+            serviceAvatar.classList.add('service-avatar');
+            serviceAvatar.style.backgroundColor = '#4caf50';
+            
+            const icon = document.createElement('i');
+            icon.classList.add('fa-solid', 'fa-leaf');
+            serviceAvatar.appendChild(icon);
+            
+            const serviceDetails = document.createElement('div');
+            
+            const serviceTitle = document.createElement('h4');
+            serviceTitle.textContent = service.title;
+            
+            const serviceCategory = document.createElement('p');
+            const categoryName = categoryMapping[service.category];
+            serviceCategory.textContent = `${categoryName}`;
+            
+            serviceDetails.appendChild(serviceTitle);
+            serviceDetails.appendChild(serviceCategory);
+            
+            exchangeInfo.appendChild(serviceAvatar);
+            exchangeInfo.appendChild(serviceDetails);
+            
+            const exchangeStatus = document.createElement('div');
+            exchangeStatus.classList.add('exchange-status');
+            
+            const status = document.createElement('span');
+            status.classList.add('status', 'in-progress');
+            status.textContent = 'Active';
+            
+            const editButton = document.createElement('button');
+            editButton.classList.add('btn-small');
+            editButton.textContent = 'Edit';
+            
+            exchangeStatus.appendChild(status);
+            exchangeStatus.appendChild(editButton);
+            
+            exchangeItem.appendChild(exchangeInfo);
+            exchangeItem.appendChild(exchangeStatus);
+            
+            servicesTabContent.appendChild(exchangeItem);
+          });
+        } else {
+          servicesTabContent.innerHTML = '<p>You haven\'t created any services yet.</p>';
+        }
+      })
+      .catch(err => console.error('Error fetching user services:', err));
+  }
+
+  function updateCompletedCount() {
+    const completedCountStat = document.getElementById('completedCountStat');
+    
+    if (!completedCountStat) {
+      console.error('Completed count stat element not found.');
+      return;
+    }
+
+    fetch('/api/requests/')
+      .then(response => response.json())
+      .then(data => {
+        const completedRequests = data.filter(request => request.status === "completed");
+        const activeRequests = data.filter(request => request.status === "pending");
+        const completedCount = completedRequests.length;
+        const activeCount = activeRequests.length;
+
+        const completedValue = completedCountStat.querySelector('.stat-value');
+        const activeValue = document.getElementById('activeCountStat').querySelector('.stat-value');
+        completedValue.textContent = completedCount;  
+        activeValue.textContent = activeCount;
+      })
+      .catch(err => console.error('Error fetching requests:', err));
+  }
+  
+
   const params = new URLSearchParams(window.location.search);
   const roomId = params.get("room_id");
   if (roomId) {
@@ -67,5 +319,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const firstRoom = document.querySelector('#roomList .chat-button');
     if (firstRoom) firstRoom.click();
   }
-});
 
+  fetchActiveRequests();
+  updateCompletedCount();
+});
