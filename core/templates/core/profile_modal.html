@@ -9,58 +9,59 @@
         <img src="{% static 'img/login.png'%}" alt="Illustration" />
       </div>
       <div class="right-panel">
-        <form method="POST">
+        <form method="POST" action="{% url 'edit_profile_ajax' %}" enctype="multipart/form-data" id="profileEditForm"> {# Changed action and added id #}
+          {% csrf_token %}
           <div class="avatar-upload">
             <label for="avatarInput" class="avatar-label" aria-label="Upload avatar" tabindex="0">
-              <img src="https://placehold.co/600x400/black/white" alt="Current Avatar" id="avatarPreview" />
+              <img src="{{ user.get_avatar }}" alt="Current Avatar" id="modalAvatarPreview" />
               <span>Click to upload avatar</span>
             </label>
-            <input type="file" id="avatarInput" name="avatar" accept="image/*" placeholder=" " required />
+            <input type="file" id="avatarInput" name="avatar_upload" accept="image/*" placeholder=" " />
           </div>
           <div class="form-row">
             <div class="form-group half-width">
-              <input type="text" id="firstname" placeholder=" " required />
+              <input type="text" id="firstname" name="firstname" placeholder=" " required value="{{ user.first_name }}">
               <label for="firstname">Firstname</label>
               <i class="fas fa-user icon-input"></i>
             </div>
             <div class="form-group half-width">
-              <input type="text" id="lastName" placeholder=" " required />
+              <input type="text" id="lastName" name="lastName" placeholder=" " required value="{{ user.last_name }}">
               <label for="lastName">Last Name</label>
               <i class="fas fa-user icon-input"></i>
             </div>
           </div>
           <div class="form-row">
             <div class="form-group half-width">
-              <input type="text" id="username" placeholder=" " required />
+              <input type="text" id="username" name="username" placeholder=" " required value="{{ user.username }}">
               <label for="username">Username</label>
               <i class="fas fa-user icon-input"></i>
             </div>
             <div class="form-group half-width">
               <select id="location" name="location">
-                <option value="Select a location">Select your location</option>
-                <option value="Sul">Sul</option>
-                <option value="Centro">Centro</option>
-                <option value="Norte">Norte</option>
-                <option value="International">International</option>
+                <option value="Select a location"{% if not user.location %} selected {% endif %}>Select your location</option>
+                <option value="Sul"{% if user.location == "Sul" %} selected {% endif %}>Sul</option>
+                <option value="Centro"{% if user.location == "Centro" %} selected {% endif %}>Centro</option>
+                <option value="Norte"{% if user.location == "Norte" %} selected {% endif %}>Norte</option>
+                <option value="International"{% if user.location == "International" %} selected {% endif %}>International</option>
               </select>
               <label for="location">Location</label>
               <i class="fas fa-map-marker-alt icon-input"></i>
             </div>
           </div>
           <div class="form-group">
-            <input type="password" id="actual_password" placeholder=" " required />
+            <input type="password" id="actual_password" name="actual_password" placeholder=" " required />
             <label for="actual_password">Actual Password</label>
-            <i class="fas fa-eye icon-input"></i>
+            <i class="fas fa-eye icon-input password-toggle-icon" data-target="actual_password"></i>
           </div>
           <div class="form-group">
-            <input type="password" id="new_password" placeholder=" "/>
+            <input type="password" id="new_password" name="new_password" placeholder=" " />
             <label for="new_password">New Password</label>
-            <i class="fas fa-eye icon-input"></i>
+            <i class="fas fa-eye icon-input password-toggle-icon" data-target="new_password"></i>
           </div>
           <div class="form-group">
-            <input type="password" id="confirm_new_password" placeholder=" "/>
+            <input type="password" id="confirm_new_password" name="confirm_new_password" placeholder=" " />
             <label for="confirm_new_password">Confirm New Password</label>
-            <i class="fas fa-eye icon-input"></i>
+            <i class="fas fa-eye icon-input password-toggle-icon" data-target="confirm_new_password"></i>
           </div>
           <button type="submit" class="update_profile">UPDATE PROFILE</button>
         </form>

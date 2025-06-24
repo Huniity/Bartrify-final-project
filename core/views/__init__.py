@@ -4,10 +4,9 @@ from core.views.auth import RegisterView as APIRegisterView
 from core.views.service import ServiceViewSet, MyServiceViewSet
 from core.views.request import ServiceRequestViewSet
 from core.views.password import PasswordChangeView
-from .pages import create_chat, dashboard, user_list
+from .pages import create_chat, user_list
 from .auth import custom_login_view, custom_logout_view
-from core.views.pages import ChatRoomMessagesView
-from core.views.pages import MarkMessagesReadView
+from core.views.pages import ChatRoomMessagesView, MarkMessagesReadView, UpdateBioView, EditProfileAjaxView, ProfileEditForm, CreateServiceView
 
 # Page (HTML) views
 from core.views.pages import (
@@ -16,7 +15,6 @@ from core.views.pages import (
     RegisterView as PageRegisterView,
     FeedView as PageFeedView,
     create_chat,
-    dashboard,
     user_list,
 )
 
@@ -32,6 +30,10 @@ __all__ = [
     "PasswordChangeView",
     "ChatRoomMessagesView",
     "MarkMessagesReadView",
+    "UpdateBioView",
+    "EditProfileAjaxView",
+    "ProfileEditForm",
+    "CreateServiceView",
 
     # Page views
     "IndexView",
@@ -39,8 +41,8 @@ __all__ = [
     "PageRegisterView",
     "PageFeedView",
     "create_chat",
-    "dashboard",
     "user_list",
     "custom_login_view",
-    "custom_logout_view"
+    "custom_logout_view",
+    "DashboardView"
 ]

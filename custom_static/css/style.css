@@ -94,6 +94,11 @@ nav a:hover {
   color: #333;
 }
 
+.header-logo-brand {
+  display: flex;
+  align-items: center;
+}
+
 /* ===== Hero Section ===== */
 .hero {
   display: flex;

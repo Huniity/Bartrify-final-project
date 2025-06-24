@@ -1,10 +1,10 @@
-########################### CHATROOM AND MESSAGES ###########################
 
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 from django.contrib.auth import get_user_model
 from .models import ChatRoom, Message
+from django.utils.timezone import localtime
 from django.utils.timezone import localtime
 
 User = get_user_model()
@@ -27,7 +27,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def get_room_and_users(self):
-        # Retrieve room and prefetch user objects to avoid later async issues
         room = ChatRoom.objects.select_related('user1', 'user2').get(id=self.room_id)
         return room
 
@@ -36,10 +35,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
         return Message.objects.create(room=room, sender=sender, text=text)
 
     @database_sync_to_async
-    def get_unread_count(self, room, receiver):
+    def get_unread_count_for_receiver(self, room, receiver):
         return Message.objects.filter(
             room=room,
-            read=False,
+            read=False
         ).exclude(sender=receiver).count()
 
     async def receive(self, text_data):
@@ -63,32 +62,29 @@ class ChatConsumer(AsyncWebsocketConsumer):
             return
 
         msg = await self.create_message(room, sender, text)
-        timestamp = localtime(msg.timestamp).strftime('%H:%M')
-
+        formatted_timestamp = localtime(msg.timestamp).isoformat()
         receiver = room.get_other_user(sender)
-        unread_count = await self.get_unread_count(room, receiver)
 
-        # Notify the receiver's dashboard about the unread count update
-        # This will now always be an 'unread_count_update' as 'new_room' is handled by create_chat view
+        receiver_unread_count = await self.get_unread_count_for_receiver(room, receiver)
         print(f"[ChatConsumer] Notifying user_{receiver.id} about unread count update for room {room.id}")
         await self.channel_layer.group_send(
             f"user_{receiver.id}",
             {
-                "type": "unread_count_update", # Always unread_count_update from here
+                "type": "unread_count_update",
                 "room_id": room.id,
                 "other_user_username": sender.username,
-                "unread_count": unread_count,
+                "unread_count": receiver_unread_count,
+                "last_message": text
             }
         )
 
-        # Send the message to all clients in the current chat room
         await self.channel_layer.group_send(
             self.group_name,
             {
                 "type": "chat_message",
                 "message": text,
                 "sender_username": sender.username,
-                "timestamp": timestamp,
+                "timestamp": formatted_timestamp,
                 "room_id": self.room_id,
                 "sender_id": sender.id
             }
@@ -96,6 +92,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     async def chat_message(self, event):
         await self.send(text_data=json.dumps(event))
+
 
 
 class RoomNotificationConsumer(AsyncWebsocketConsumer):

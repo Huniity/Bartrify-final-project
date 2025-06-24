@@ -54,7 +54,6 @@ class Command(BaseCommand):
             "Building connections one conversation at a time."
         ]
 
-        # Sample users data (you can keep this as is or expand)
         users_template_data = [
             {'username': 'userA', 'email': 'a@example.com', 'password': 'testpass123', 'first_name': 'John', 'last_name': 'Doe', 'location': 'Faro'},
             {'username': 'userB', 'email': 'b@example.com', 'password': 'testpass123', 'first_name': 'Jane', 'last_name': 'Smith', 'location': 'Lisboa'},
@@ -64,15 +63,13 @@ class Command(BaseCommand):
             {'username': 'userF', 'email': 'f@example.com', 'password': 'testpass123', 'first_name': 'Sara', 'last_name': 'Garcia', 'location': 'Braga'},
         ]
         
-        # --- Create Users with Random Avatars and Bios ---
         self.stdout.write(self.style.HTTP_INFO("Creating test users..."))
         for u_data in users_template_data:
             if not get_user_model().objects.filter(username=u_data['username']).exists():
-                # Get a random avatar URL
+
                 random_avatar = random.choice(avatar_urls)
                 
-                # Construct a random bio using a few sentences
-                num_sentences = random.randint(1, 3) # Bio with 1 to 3 sentences
+                num_sentences = random.randint(1, 3)
                 random_bio_parts = random.sample(bio_sentences, min(num_sentences, len(bio_sentences)))
                 random_bio = " ".join(random_bio_parts)
                 
@@ -90,42 +87,36 @@ class Command(BaseCommand):
             else:
                 self.stdout.write(self.style.WARNING(f"User {u_data['username']} already exists. Skipping user creation."))
         
-        # --- Categories for Services ---
         categories = [
             'IT_SUPPORT', 'GRAPHIC_DESIGN', 'WEB_DEV', 'LANG_TUTOR', 'HOME_REPAIR', 'CLEANING',
             'PET_SITTING', 'PHOTOGRAPHY', 'CONSULTING', 'FITNESS_COACH', 'EDUCATION', 'HANDICRAFTS'
         ]
 
-        # Get all existing users to assign services
+
         users = get_user_model().objects.all()
 
         if not users.exists():
             self.stdout.write(self.style.ERROR("No users found to assign services to. Please ensure users are created."))
-            return # Exit if no users are available
+            return
 
-        # --- Create Services ---
         self.stdout.write(self.style.HTTP_INFO("\nCreating test services..."))
-        for i in range(15): # Create 15 services
-            owner = users[i % len(users)] # Cycle through created users
+        for i in range(15):
+            owner = users[i % len(users)]
 
-            category = categories[i % len(categories)] # Cycle through categories
-            desired_category = categories[(i + 1) % len(categories)] # A different desired category
+            category = categories[i % len(categories)]
+            desired_category = categories[(i + 1) % len(categories)]
 
-            # Ensure the desired_category is not the same as the main category, if possible
             if desired_category == category and len(categories) > 1:
-                # If they are the same, pick another random one that's different
                 other_categories = [c for c in categories if c != category]
                 if other_categories:
                     desired_category = random.choice(other_categories)
 
-            # Assign a fixed price for simplicity as per your original request
             service_price = 0
 
-            # Only create if it doesn't already exist to prevent duplicates on subsequent runs
             service, created = Service.objects.get_or_create(
                 owner=owner,
                 title=f"Service {i+1} by {owner.username}",
-                defaults={ # These fields are only set if a new object is created
+                defaults={
                     "description": f"This is a comprehensive description for Service {i+1}. It provides expert assistance in {category.replace('_', ' ')}. The owner, {owner.first_name}, is looking to barter for services in {desired_category.replace('_', ' ')}.",
                     "category": category,
                     "desired_category": desired_category,

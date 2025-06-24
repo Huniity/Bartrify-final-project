@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from django.contrib.auth import get_user_model
-from core.models import ChatRoom, Message  # Adjust if your models are in a different app
+from core.models import ChatRoom, Message
 from django.utils import timezone
 import random
 
@@ -35,7 +35,6 @@ class Command(BaseCommand):
             else:
                 self.stdout.write(f"Room already exists between {user_a.username} and {user.username}")
 
-            # Create 6 fake messages
             sender_sequence = [user_a, user] * 3
             for i, sender in enumerate(sender_sequence):
                 Message.objects.create(
