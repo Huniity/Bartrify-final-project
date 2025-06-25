@@ -17,7 +17,7 @@
                 <img src="{{ request.user.get_avatar }}" alt="Profile" class="profile-image avatar" id="avatarPreview1" />
             </div>
             <div class="profile-info">
-                <h2>{{ request.user.username }}{{ request.user.last_name }}</h2>
+                <h2>{{ request.user.first_name }} {{ request.user.last_name }}</h2>
                 <p>{{ request.user.location }}</p>
                 <p id="editableText">{{ request.user.bio}}</p>
                 <button class="btn-edit" id="editPopupBtn">
@@ -110,7 +110,7 @@
                     <i class="fa-solid fa-star"></i>
                 </div>
                 <div class="stat-content">
-                    <span class="stat-value">4.8</span>
+                    <span class="stat-value" id="ratingsAverage1">0</span>
                     <span class="stat-title">Rating</span>
                 </div>
             </div>
@@ -255,10 +255,10 @@
     <div class="panel">
         <div class="stats-content">
             <div class="stats-card">
-                <h3><i class="fa-solid fa-star"></i> Reviews & Ratings</h3>
+                <h3><i class="fa-solid fa-star"></i> Ratings</h3>
                 <div class="rating-summary">
                     <div class="average-rating">
-                        4.8
+                        <p id="ratingsAverage2">0</p>
                         <div class="stars">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
@@ -273,14 +273,14 @@
                             <div class="bar-container">
                                 <div class="bar-fill" style="width: 85%"></div>
                             </div>
-                            <span>85%</span>
+                            <span class="fiveStarAverage">0%</span>
                         </div>
                         <div class="rating-bar">
-                            <span>4 stars</span>
+                            <span class="fourStarAverage">4 stars</span>
                             <div class="bar-container">
                                 <div class="bar-fill" style="width: 12%"></div>
                             </div>
-                            <span>12%</span>
+                            <span>0%</span>
                         </div>
                     </div>
                 </div>
@@ -319,7 +319,7 @@
 <script src="{% static 'js/profile_modal.js' %}"></script>
 <script src="{% static 'js/bio_modal.js' %}"></script>
 <script>
-    const CURRENT_USER_ID = {{ request.user.id }};
+    const CURRENT_USER_ID = "{{ request.user.id }}";
     const CURRENT_USERNAME = "{{ request.user.username }}";
 </script>
 {% if open_room_cookie %}

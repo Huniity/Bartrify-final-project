@@ -63,3 +63,23 @@ class CheckReviewAPIView(APIView):
             return Response({'reviewed': True, 'rating': review.rating})
         else:
             return Response({'reviewed': False})
+
+class UserReceivedReviewsAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        reviews = Review.objects.filter(reviewee=user)
+
+        data = [
+            {
+                'id': review.id,
+                'reviewer_id': review.user.id,
+                'rating': review.rating,
+                'comment': getattr(review, 'comment', ''),
+                'created_at': review.created_at.isoformat(),
+            }
+            for review in reviews
+        ]
+
+        return Response(data)

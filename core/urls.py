@@ -27,6 +27,7 @@ from core.views import (
     PasswordChangeView,
     SubmitReviewAPIView,
     CheckReviewAPIView,
+    UserReceivedReviewsAPIView,
 )
 
 router = DefaultRouter()
@@ -59,6 +60,8 @@ urlpatterns = [
     path('api/chat/<int:room_id>/mark_read/', MarkMessagesReadView.as_view(), name='mark-messages-read'),
     path('api/reviews/', SubmitReviewAPIView.as_view(), name='submit_review'),
     path('api/check-review/', CheckReviewAPIView.as_view(), name='check_review'),
+    path('api/my-reviews/', UserReceivedReviewsAPIView.as_view(), name='my-reviews'),
+
 
     # Routers
     path('api/', include(router.urls)),

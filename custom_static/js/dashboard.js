@@ -344,6 +344,51 @@ function fetchCompletedRequests() {
   }
   
 
+  function fetchUserRatings() {
+    const ratingsAverage1 = document.getElementById('ratingsAverage1');
+    const ratingsAverage2 = document.getElementById('ratingsAverage2');
+  
+    if (!ratingsAverage1 || !ratingsAverage2) {
+      console.error('Ratings elements not found.');
+      return;
+    }
+  
+    fetch('/api/my-reviews/')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (!Array.isArray(data)) {
+          console.error('Unexpected data format for reviews:', data);
+          ratingsAverage1.textContent = 'No ratings yet';
+          ratingsAverage2.textContent = 'No ratings yet';
+          return;
+        }
+  
+        if (data.length === 0) {
+          ratingsAverage1.textContent = 'No ratings yet';
+          ratingsAverage2.textContent = 'No ratings yet';
+          return;
+        }
+  
+        // Calculate average rating
+        const total = data.reduce((sum, review) => sum + review.rating, 0);
+        const average = (total / data.length).toFixed(1);
+  
+        ratingsAverage1.textContent = ` ${average}/5`;
+        ratingsAverage2.textContent = ` ${average}/5`;
+      })
+      .catch(err => {
+        console.error('Error fetching user ratings:', err);
+        ratingsAverage1.textContent = 'Error loading';
+        ratingsAverage2.textContent = 'Error loading';
+      });
+  }
+  
+
   const params = new URLSearchParams(window.location.search);
   const roomId = params.get("room_id");
   if (roomId) {
@@ -356,4 +401,5 @@ function fetchCompletedRequests() {
 
   fetchActiveRequests();
   updateCompletedCount();
+  fetchUserRatings();
 });
