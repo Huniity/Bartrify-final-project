@@ -16,6 +16,9 @@ from core.views.pages import (
     FeedView as PageFeedView,
     create_chat,
     user_list,
+    RGPD,
+    TermsConditions,
+    PrivacyPolicy,
 )
 
 __all__ = [
@@ -44,5 +47,8 @@ __all__ = [
     "user_list",
     "custom_login_view",
     "custom_logout_view",
-    "DashboardView"
+    "DashboardView",
+    "RGPD",
+    "TermsConditions",
+    "PrivacyPolicy",
 ]

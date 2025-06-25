@@ -1,21 +1,4 @@
 
-    /* Compact Dashboard Styles */
-    :root {
-        --primary: #f87d6f;
-        --secondary: #2F4156;
-        --tertiary: #567C8D;
-        --test-color1:#f87d6f;
-        --test-color2:  #cb6089;
-        --light-bg: #f8fafb;
-        --text: #2d3748;
-        --darker: #14181e;
-        --text-light: #718096;
-        --success: #48bb78;
-        --warning: #ecc94b;
-        --danger: #e53e3e;
-        --border: #e2e8f0;
-        --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-    }
     .header a {
       justify-content: center;
     }
@@ -25,8 +8,8 @@
     align-items: center;
     gap: 8px;
     padding: 10px 20px;
-    background-color: var(--darker);
-    color: white;
+    background-color: var(--primary-color);
+    color: var(--text);
     border: 1px solid transparent;
     text-decoration: none;
     overflow: hidden;
@@ -43,7 +26,7 @@ nav .header-btn::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: linear-gradient(90deg, rgba(248, 125, 111, 1) 50%, rgba(203, 96, 137, 1) 100%);
+    background-color: var(--secundary-color);
     transition: top 0.4s ease-in-out;
     z-index: 0; /* Behind everything */
 }
@@ -55,8 +38,7 @@ nav .header-btn:hover::before {
 
 /* Hover effect for the text/icon color */
 nav .header-btn:hover {
-    color: var(--darker);
-    background-color: var(--darker);
+    color: var(--alternative-color1);
 }
 
 /* Keep text and icon ABOVE the background */
@@ -70,7 +52,7 @@ nav .header-btn i {
 /* Spin effect on icon */
 nav .header-btn:hover i {
     transform: rotateY(360deg);
-    color: var(--darker);
+    color: var(--alternative-color1);
 }
 .avatar-dashboard-header {
 width: 2.5rem;
@@ -82,10 +64,10 @@ width: 2.5rem;
         display: grid;
         grid-template-columns: 260px 1fr 300px;
         gap: 15px;
-        height: calc(100vh - 6.4rem); /* Adjusted height */
-        max-height: calc(100vh - 6.4rem);
+        height: calc(100vh - 7.5rem); /* Adjusted height */
+        max-height: calc(100vh - 7.4rem);
         padding: 1rem;
-        background: linear-gradient(135deg, #e6f0f6 0%, #d0e0e8 100%);
+        background-color: var(--background-color);
     }
     .dashboard-header-left{
       display:flex;
@@ -93,7 +75,7 @@ width: 2.5rem;
       gap: 1.5rem;
     }
     .panel {
-        background: white;
+        background: var(--primary-color);
         border-radius: 16px;
         box-shadow: var(--card-shadow);
         overflow: hidden;
@@ -104,7 +86,7 @@ width: 2.5rem;
     /* Left panel styling */
     .profile-section {
         padding: 1rem;
-        background: linear-gradient(135deg, var(--test-color1) 50%, var(--test-color2) 100%);
+        background: var(--primary-color);
         color: var(--text);
         text-align: center;
     }
@@ -124,16 +106,6 @@ width: 2.5rem;
         border: 3px solid var(--text);
     }
     
-    .online-status {
-        position: absolute;
-        bottom: 5px;
-        right: 5px;
-        width: 12px;
-        height: 12px;
-        background-color: var(--success);
-        border: 2px solid white;
-        border-radius: 50%;
-    }
     
     .profile-info h2 {
         font-size: 1.2rem;
@@ -147,8 +119,8 @@ width: 2.5rem;
     }
     
     .btn-edit {
-        background: var(--light-bg);
-        color: var(--text);
+        background: var(--text);
+        color: var(--alternative-color1);
         border: none;
         padding: 5px 10px;
         border-radius: 16px;
@@ -159,6 +131,7 @@ width: 2.5rem;
     .search-container {
         position: relative;
         padding: 0.5rem 1rem;
+        background-color: var(--text)
     }
     
     .search-container i {
@@ -166,7 +139,7 @@ width: 2.5rem;
         left: 30px;
         top: 50%;
         transform: translateY(-50%);
-        color: var(--text-light);
+        color: var(--alternative-color1);
         font-size: 0.8rem;
     }
     
@@ -174,8 +147,8 @@ width: 2.5rem;
         width: 100%;
         padding: 7px 15px 7px 32px;
         border-radius: 16px;
-        border: 1px solid var(--border);
-        background: var(--light-bg);
+        border: 1px solid var(--alternative-color1);
+        background: var(--text);
         font-size: 0.75rem;
     }
     
@@ -183,11 +156,12 @@ width: 2.5rem;
         flex: 1;
         overflow-y: auto;
         padding: 0.5rem 1rem 0.5rem;
+        background-color: var(--text);
     }
     
     .chat-section h3 {
         font-size: 0.9rem;
-        color: var(--secondary);
+        color: var(--alternative-color1);
         padding: 5px 0;
         margin-bottom: 5px;
         border-bottom: 1px solid var(--border);
@@ -206,7 +180,7 @@ width: 2.5rem;
     }
     
     .chat-button:hover {
-        background: var(--light-bg);
+        background: var(--borders-color);
     }
     
     .chat-info {
@@ -239,24 +213,20 @@ width: 2.5rem;
         border-radius: 50%;
     }
     
-    .online-indicator.active {
-        background-color: var(--success);
-    }
-    
     .chat-details {
         text-align: left;
     }
     
     .chat-name {
         font-weight: 600;
-        color: var(--secondary);
+        color: var(--alternative-color1);
         display: block;
         font-size: 0.8rem;
     }
     
     .last-msg {
         font-size: 0.7rem;
-        color: var(--text-light);
+        color: var(--primary-color);
         margin-top: 2px;
         white-space: nowrap;
         overflow: hidden;
@@ -273,7 +243,7 @@ width: 2.5rem;
         display: flex;
         gap: 1rem;
         padding: 1rem;
-        border-top: 1px solid var(--border);
+        border-top: 1px solid var(--alternative-color1);
     }
     
     .btn-action {
@@ -283,12 +253,12 @@ width: 2.5rem;
         align-items: center;
         justify-content: center;
         gap: 3px;
-        background: white;
-        border: 1px solid var(--border);
+        background: var(--text);
+        border: 1px solid var(--alternative-color1);
         border-radius: 12px;
         padding: 6px 5px;
         cursor: pointer;
-        color: var(--secondary);
+        color: var(--alternative-color1);
         font-size: 0.7rem;
     }
     
@@ -379,6 +349,7 @@ width: 2.5rem;
         overflow: hidden;
         height: 100%;
         width: 100%;
+        background-color: var(--primary-color);
     }
     
     .content-column-left {
@@ -391,7 +362,7 @@ width: 2.5rem;
         border: 1px solid var(--border);
     }
     .content-column-right {
-        background: linear-gradient(135deg, var(--test-color1) 50%, var(--test-color2) 100%);
+        background: white;
         border-radius: 12px;
         overflow: hidden;
         box-shadow: var(--card-shadow);

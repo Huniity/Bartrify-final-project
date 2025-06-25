@@ -1,4 +1,7 @@
 /* ===== Flip Card + Form ===== */
+body{
+    background-color: var(--background-color);
+}
 .Container {
     width: 1200px;
     height: 680px;
@@ -23,10 +26,10 @@
     width: 100%;
     height: 100%;
     display: flex;
-    background: white;
+    background: var(--text);
     border-radius: 15px;
     overflow: hidden;
-    backface-visibility: hidden;
+    backface-visibility: hidden; /* Keep this so individual sides disappear when facing away */
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
@@ -35,12 +38,12 @@
 }
 
 .card-back {
-    /* flex-direction: row-reverse;    deixar ou tirar perguntar na aula */
-    transform: rotateY(180deg);
+    transform: rotateY(180deg); /* This is correct for its initial state */
+    /* When the parent '.card' flips 180deg, this side's rotation will effectively become 360deg (0deg) relative to the viewer, making it appear correctly. */
 }
 
 .left-panel {
-    background: var(--gradient);
+    background: var(--primary-color);
     padding: 40px;
     flex: 1;
     display: flex;
@@ -56,14 +59,14 @@
 }
 
 .left-panel h2 {
-    font-size: 30px;
+    font-size: 3rem;
     font-weight: 600;
-    color: #1d1d1d;
+    color: var(--text);
     margin-top: 8px;
 }
 
 .left-panel p {
-    color: #333;
+    color: var(--text);
     text-align: center;
 }
 
@@ -113,15 +116,15 @@
     width: 100%;
     padding: 18px 14px 10px 14px;
     font-size: 16px;
-    border: 1.5px solid #bfc9d1;
+    border: 1.5px solid var(--alternative-color4);
     border-radius: 12px;
     outline: none;
     transition: border-color 0.2s;
 }
 
 .form-group input:focus {
-    border-color: var(--primary-color);
-    background-color: #fff;
+    border-color: var(--alternative-color4);
+    background-color: var(--alternative-color4);
 }
 
 .form-group label {
@@ -129,7 +132,7 @@
     left: 16px;
     top: 25px;
     font-size: 14px;
-    color: #888;
+    color: var(--labels-color);
     transition: top 0.18s linear, left 0.18s linear, font-size 0.18s linear, color 0.18s linear;
 }
 
@@ -140,14 +143,16 @@
     font-size: 13px;
     color: var(--primary-color);
     padding: 0 4px;
-    background-color: white;
+    background-color: var(--text);
+    border: 1px solid var(--text);
+    border-radius: 0.5rem;
 }
 
 .form-group .fas {
     position: absolute;
     right: 15px;
     top: 45%;
-    color: #888;
+    color: var(--labels-color);
     font-size: 16px;
     z-index: 3;
 }
@@ -161,17 +166,53 @@ input {
 }
 
 button {
+    font-size: medium;
     width: 100%;
     padding: 12px;
-    color: white;
+    color: var(--text);
     font-weight: bold;
     border: none;
-    border-radius: 15px;
+    border-radius: 0.5rem;
     margin-top: 10px;
     cursor: pointer;
-
-    background: var(--gradient);
+    background: var(--primary-color);
+    position: relative;
+    overflow: hidden;
 }
+
+button::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--secundary-color);
+    transition: top 0.4s ease-in-out;
+    z-index: 0;
+}
+
+
+button:hover::before {
+    top: 0;
+}
+
+
+button:hover {
+    color: var(--alternative-color1);
+}
+
+button > *,
+button i {
+    position: relative;
+    z-index: 1;
+    transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+button:hover i {
+    transform: rotateY(360deg);
+}
+
 
 .divider {
     display: flex;
@@ -208,7 +249,7 @@ button {
     align-items: center;
     background: none;
     border: 1px solid #bfc9d1;
-    color: var(--secundary-color);
+    color: var(--alternative-color1);
     cursor: pointer;
     transition: color 0.4s ease-in-out, border-color 0.4s ease-in-out;
     position: relative;

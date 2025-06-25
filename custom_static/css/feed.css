@@ -6,7 +6,7 @@
     justify-content: center;
 
     padding: 0rem 3%;
-    background: linear-gradient(to right, var(--gradient-start-color)35%, var(--gradient-end-color));
+    background-color: var(--primary-color);
     gap: 3rem;
 }
 
@@ -22,11 +22,11 @@
     font-weight: 900;
     line-height: 1.3;
     margin-bottom: 4rem;
-    color: var(--secundary-text);
+    color: var(--text);
 }
 
 .span-h1-feed {
-    color: var(--text);
+    color: var(--secundary-color);
 }
 
 .word {
@@ -90,15 +90,16 @@
 
 .search-box {
     display: flex;
-    border: 1px solid #ccc;
+    border: 1px solid var(--borders-color);
     border-radius: 6px;
     overflow: hidden;
-    background-color: #f8f8f8;
+    background-color: var(--text);
     cursor: pointer;
 }
 
+
 .search-box:hover {
-    border-color: var(--primary-color);
+    border-color: var(--secundary-color);
 }
 
 .search-box input[type="text"] {
@@ -107,7 +108,7 @@
     border: none;
     outline: none;
     font-size: 1rem;
-    color: #333;
+    color: var(--labels-color2);
     background-color: transparent;
 }
 
@@ -117,21 +118,21 @@
     padding: 0.75rem 1rem;
     cursor: pointer;
     font-size: 1.1rem;
-    color: #666;
+    color: var(--labels-color2);
 }
 
 .search-button:hover {
-    color: var(--primary-color);
+    color: var(--alternative-color1);
 }
 
 .custom-select {
     width: 100%;
     padding: 0.85rem 1rem;
-    border: 1px solid #ccc;
+    border: 1px solid var(--borders-color);
     border-radius: 6px;
-    background-color: #f8f8f8;
+    background-color: var(--text);
     font-size: 1rem;
-    color: #333;
+    color: var(--labels-color2);
     cursor: pointer;
 
     /* Paar tirar o arrow default */
@@ -145,7 +146,7 @@
 }
 
 .custom-select:hover {
-    border-color: var(--primary-color);
+    border-color: var(--secundary-color);
 }
 
 .sr-only {
@@ -169,9 +170,9 @@
 
 .card {
     display: flex;
-    background-color: white;
+    background-color: var(--text);
     border-radius: 12px;
-    overflow: hidden;
+    /* overflow: hidden; */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease;
 
@@ -183,7 +184,7 @@
 }
 
 .card-left {
-    background: linear-gradient(to right, var(--gradient-end-color)1%, var(--gradient-start-color));
+    background-color: var(--primary-color);
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
@@ -217,17 +218,17 @@
 .card-right h4 {
     margin: 0;
     font-size: 1.1rem;
-    color: #1a1a1a;
+    color: var(--alternative-color1);
 }
 
 .stars {
-    color: #f5c518;
+    color: var(--tertiary-text);
     font-size: 1rem;
     margin: 0.3rem 0;
 }
 
 .card-right p {
-    color: #555;
+    color: var(--primary-color);
     font-size: 0.9rem;
     flex-grow: 1;
     display: -webkit-box;
@@ -240,13 +241,17 @@
 .contact-btn {
     background: none;
     border: none;
-    color: #1a1a1a;
+    color: var(--alternative-color1);
     font-weight: bold;
     cursor: pointer;
     align-self: flex-end;
     padding: 0;
 }
 
+#reset-filters-btn {
+    width: 13rem;
+    height: 2.9rem;
+}
 /* === Modal Overlay === */
 .Modal-Container {
     display: none;
@@ -270,7 +275,7 @@
     width: 55%;
     height: 55%;
     display: flex;
-    background: white;
+    background-color: var(--borders-color);
     border-radius: 15px;
     overflow: hidden;
     backface-visibility: hidden;
@@ -278,7 +283,7 @@
 }
 
 .left-panel {
-    background: linear-gradient(to right, var(--gradient-end-color)1%, var(--gradient-start-color));
+    background: var(--primary-color);
     padding: 40px;
     flex: 1;
     display: flex;
@@ -290,7 +295,7 @@
 .left-panel h2 {
     font-size: 35px;
     font-weight: 900;
-    color: #1d1d1d;
+    color: var(--text);
 }
 
 .left-panel p {
@@ -560,20 +565,18 @@ textarea {
 */
 .close-btn-profile {
     position: absolute;
-    top: 240px;
-    right: 710px;
-    font-size: 16px;
-    font-weight: bold;
-    color: var(--secundary-text);
-    cursor: pointer;
-    z-index: 10;
-    background-color: transparent;
+    top: 10px;
+    right: 10px;
+    background: none;
     border: none;
-    outline: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--alternative-color1);
+    z-index: 10;
 }
 
 .close-btn-profile:hover {
-    color: var(--text);
+    color: var(--secundary-color);
 }
 
 .bottom-panel {
@@ -731,6 +734,11 @@ textarea {
         font-size: 0.95rem;
     }
 
+    /* Modal Profile */
+    .profile-avatar {
+        height: 100px;
+        width: 100px;
+    }
 
     .align-text-profile {
         position: absolute;

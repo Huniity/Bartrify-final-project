@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from core import views
 from core.views import custom_login_view, custom_logout_view
-from core.views.pages import create_chat, user_list
+from core.views.pages import create_chat, user_list, RGPD, TermsConditions, PrivacyPolicy
 from core.views.pages import ChatRoomMessagesView, MarkMessagesReadView, UpdateBioView, EditProfileAjaxView, CreateServiceView
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
@@ -39,6 +39,9 @@ urlpatterns = [
     path("dashboard/", login_required(PageDashboardView.as_view()), name="dashboard"),
     path('register/', PageRegisterView.as_view(), name='register'),
     path('feed/', PageFeedView.as_view(), name='feed'),
+    path("termsconditions/", TermsConditions.as_view(), name="TermsConditions"),
+    path("privacypolicy/", PrivacyPolicy.as_view(), name="PrivacyPolicy"),
+    path("rgpd/", RGPD.as_view(), name="RGPD"),
 
     # Auth
     path('api/auth/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
@@ -62,4 +65,5 @@ urlpatterns = [
     # Other URLs can be included here as needed
     path("chat/create/<int:receiver_id>/", views.create_chat, name="create_chat"),
     path('create-service/', CreateServiceView.as_view(), name='create_service'),
+
 ]

@@ -41,6 +41,20 @@ class IndexView(TemplateView):
         logger.info("Rendering IndexView")
         return super().get(request, *args, **kwargs)
 
+class TermsConditions(TemplateView):
+    http_method_names = ["get"]
+    template_name = "core/termsconditions.html"
+    
+
+class PrivacyPolicy(TemplateView):
+    http_method_names = ["get"]
+    template_name = "core/privacypolicy.html"
+    
+
+class RGPD(TemplateView):
+    http_method_names = ["get"]
+    template_name = "core/rgpd.html"
+
 class DashboardView(LoginRedirectMixin, TemplateView):
     permission_classes = [IsAuthenticated]
     template_name = "core/dashboard.html"
