@@ -8,8 +8,8 @@
     align-items: center;
     gap: 8px;
     padding: 10px 20px;
-    background-color: var(--primary-color);
-    color: var(--text);
+    background-color: var(--text);
+    color: var(--primary-color);
     border: 1px solid transparent;
     text-decoration: none;
     overflow: hidden;
@@ -113,7 +113,7 @@ width: 2.5rem;
     }
     
     .profile-info p {
-        font-size: 0.75rem;
+        font-size: 0.9rem;
         margin-bottom: 10px;
         opacity: 0.9;
     }
@@ -176,7 +176,7 @@ width: 2.5rem;
         margin-bottom: 5px;
         cursor: pointer;
         background: white;
-        font-size: 0.8rem;
+        font-size: 1rem;
     }
     
     .chat-button:hover {
@@ -202,16 +202,6 @@ width: 2.5rem;
         border-radius: 50%;
     }
     
-    .online-indicator {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        width: 8px;
-        height: 8px;
-        background-color: #ccc;
-        border: 2px solid white;
-        border-radius: 50%;
-    }
     
     .chat-details {
         text-align: left;
@@ -221,11 +211,11 @@ width: 2.5rem;
         font-weight: 600;
         color: var(--alternative-color1);
         display: block;
-        font-size: 0.8rem;
+        font-size: 1rem;
     }
     
     .last-msg {
-        font-size: 0.7rem;
+        font-size: 0.9rem;
         color: var(--primary-color);
         margin-top: 2px;
         white-space: nowrap;
@@ -236,7 +226,7 @@ width: 2.5rem;
     
     .chat-time {
         font-size: 0.65rem;
-        color: var(--text-light);
+        color: var(--alternative-color1);
     }
     
     .action-buttons {
@@ -259,7 +249,7 @@ width: 2.5rem;
         padding: 6px 5px;
         cursor: pointer;
         color: var(--alternative-color1);
-        font-size: 0.7rem;
+        font-size: 0.9rem;
     }
     
     .btn-action i {
@@ -269,7 +259,6 @@ width: 2.5rem;
     /* Center panel styling */
     .dashboard-header {
       padding: 15px 20px 10px;
-      border-bottom: 1px solid var(--border);
       display: flex;
       flex-direction: row;
       justify-content: space-between;
@@ -286,13 +275,13 @@ width: 2.5rem;
     
     .dashboard-header h1 {
         font-size: 1.3rem;
-        color: var(--secondary);
+        color: var(--text);
         margin-bottom: 3px;
     }
     
     .dashboard-header p {
-        color: var(--text-light);
-        font-size: 0.8rem;
+        color: var(--text);
+        font-size: 0.9rem;
     }
     
     .stats-grid {
@@ -303,7 +292,7 @@ width: 2.5rem;
     }
     
     .stat-card {
-        background: white;
+        background: var(--text);
         border-radius: 10px;
         padding: 10px;
         display: flex;
@@ -315,14 +304,14 @@ width: 2.5rem;
     }
     
     .stat-icon {
-        width: 32px;
-        height: 32px;
+        width: 48px;
+        height: 48px;
         border-radius: 8px;
         background: rgba(124, 155, 149, 0.1);
         display: flex;
         align-items: center;
         justify-content: center;
-        color: var(--primary);
+        color: var(--secundary-color);
         font-size: 1rem;
     }
     
@@ -336,8 +325,9 @@ width: 2.5rem;
     }
     
     .stat-title {
-        font-size: 0.7rem;
-        color: var(--text-light);
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--alternative-color1);
     }
     
     .main-content {
@@ -353,22 +343,20 @@ width: 2.5rem;
     }
     
     .content-column-left {
-        background: white;
+        background: var(--text);
         border-radius: 12px;
         overflow: hidden;
         box-shadow: var(--card-shadow);
         display: flex;
         flex-direction: column;
-        border: 1px solid var(--border);
     }
     .content-column-right {
-        background: white;
+        background: var(--text);
         border-radius: 12px;
         overflow: hidden;
         box-shadow: var(--card-shadow);
         display: flex;
         flex-direction: column;
-        border: 1px solid var(--border);
     }
     .tabs-container {
         display: flex;
@@ -378,7 +366,7 @@ width: 2.5rem;
     
     .tabs-header {
         display: flex;
-        border-bottom: 1px solid var(--border);
+        border-bottom: 1px solid var(--borders-color);
     }
     
     .tab-btn {
@@ -389,12 +377,13 @@ width: 2.5rem;
         font-weight: 600;
         color: var(--text-light);
         cursor: pointer;
-        font-size: 0.75rem;
+        font-size: 1rem;
         position: relative;
     }
     
     .tab-btn.active {
-        color: var(--primary);
+        color: var(--secundary-color);
+        background-color: var(--background-color);
     }
     
     .tab-btn.active::after {
@@ -404,7 +393,7 @@ width: 2.5rem;
         left: 0;
         width: 100%;
         height: 3px;
-        background: var(--primary);
+        background: var(--primary-color);
     }
     
     .tab-content {
@@ -448,21 +437,21 @@ width: 2.5rem;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: white;
+        color: var(--alternative-color1);
         font-weight: bold;
-        font-size: 0.8rem;
+        font-size: 0.9rem;
         flex-shrink: 0;
     }
     
     .exchange-info h4 {
-        font-size: 0.8rem;
-        color: var(--secondary);
+        font-size: 0.9rem;
+        color: var(--alternative-color1);
         margin-bottom: 2px;
     }
     
     .exchange-info p {
-        font-size: 0.7rem;
-        color: var(--text-light);
+        font-size: 0.8rem;
+        color: var(--alternative-color1);
     }
     
     .exchange-status {
@@ -493,13 +482,13 @@ width: 2.5rem;
         color: var(--success);
     }
     
-    .time-remaining {
+    /* .time-remaining {
         font-size: 0.65rem;
         color: var(--text-light);
-    }
+    } */
     
     .btn-small {
-        background: var(--primary);
+        background: var(--alternative-color1);
         color: white;
         border: none;
         padding: 3px 8px;
@@ -510,7 +499,6 @@ width: 2.5rem;
     
     .subscription-card {
         padding: 12px;
-
     }
     
     .subscription-header {
@@ -521,16 +509,16 @@ width: 2.5rem;
     }
     
     .subscription-header h3 {
-        font-size: 0.9rem;
+        font-size: 1.5rem;
         color: var(--secondary);
     }
     
     .status-badge {
-        background: var(--light-bg);
-        color: var(--success);
+        background: var(--secundary-color);
+        color: var(--alternative-color1);
         padding: 2px 6px;
         border-radius: 10px;
-        font-size: 0.7rem;
+        font-size: 1.2rem;
         font-weight: 600;
     }
     
@@ -540,29 +528,29 @@ width: 2.5rem;
         gap: 8px;
         margin-bottom: 10px;
         padding: 8px;
-        background: rgba(124, 155, 149, 0.08);
+        background: var(--background-color);
         border-radius: 8px;
     }
     
     .premium-icon {
         font-size: 1.3rem;
-        color: gold;
+        color: var(--tertiary-text);
     }
     
     .plan-name {
         font-weight: 700;
-        font-size: 0.85rem;
-        color: var(--secondary);
+        font-size: 0.9rem;
+        color: var(--alternative-color1);
         margin-bottom: 2px;
     }
     
     .plan-features {
         font-size: 0.7rem;
-        color: var(--text);
+        color: var(--alternative-color1);
     }
     
     .renewal-info {
-        background: var(--light-bg);
+        background: var(--background-color);
         padding: 8px;
         border-radius: 8px;
         margin-bottom: 10px;
@@ -570,6 +558,7 @@ width: 2.5rem;
     }
     
     .renewal-info p {
+        font-size: 0.8rem;;
         margin-bottom: 6px;
         display: flex;
         align-items: center;
@@ -577,7 +566,7 @@ width: 2.5rem;
     }
     
     .renewal-info i {
-        color: var(--primary);
+        color: var(--alternative-color1);
     }
     
     .subscription-actions {
@@ -591,19 +580,19 @@ width: 2.5rem;
         border-radius: 6px;
         font-weight: 600;
         cursor: pointer;
-        font-size: 0.75rem;
+        font-size: 1.2rem;
     }
     
     .btn-primary {
         background: var(--primary);
-        color: white;
+        color: var(--alternative-color1);
         border: none;
     }
     
     .btn-secondary {
-        background: white;
+        background: var(--text);
         color: var(--primary);
-        border: 1px solid var(--primary);
+        border: 1px solid var(--borders-color);
     }
     
     .token-card {
@@ -613,13 +602,13 @@ width: 2.5rem;
     
     .token-card h3 {
         font-size: 0.9rem;
-        color: var(--secondary);
+        color: var(--alternative-color1);
     }
     
     .token-balance {
         font-size: 1.6rem;
         font-weight: 700;
-        color: var(--secondary);
+        color: var(--alternative-color1);
         margin-bottom: 3px;
         display: flex;
         align-items: center;
@@ -628,18 +617,18 @@ width: 2.5rem;
     }
     
     .token-balance i {
-        color: gold;
+        color: var(--tertiary-text);
         font-size: 1.3rem;
     }
     
     .token-card p {
-        color: var(--text-light);
+        color: var(--alternative-color1);
         margin-bottom: 8px;
         font-size: 0.75rem;
     }
     
     .btn-icon {
-        background: var(--secondary);
+        background: var(--alternative-color1);
         color: white;
         border: none;
         padding: 6px 14px;
@@ -663,16 +652,16 @@ width: 2.5rem;
     }
     
     .stats-card {
-        background: white;
+        background: var(--text);
         border-radius: 10px;
         padding: 1rem;
         box-shadow: var(--card-shadow);
-        border: 1px solid var(--border);
+        border: 1px solid var(--borders-color);
     }
     
     .stats-card h3 {
-        font-size: 0.9rem;
-        color: var(--secondary);
+        font-size: 1.2rem;
+        color: var(--alternative-color1);
         margin-bottom: 0.6rem;
         display: flex;
         align-items: center;
@@ -680,7 +669,7 @@ width: 2.5rem;
     }
     
     .stats-card h3 i {
-        color: var(--primary);
+        color: var(--alternative-color1);
     }
     
     .rating-summary {
@@ -692,14 +681,14 @@ width: 2.5rem;
     .average-rating {
         font-size: 1.6rem;
         font-weight: 700;
-        color: var(--secondary);
+        color: var(--alternative-color1);
         text-align: center;
         min-width: 55px;
     }
     
     .stars {
-        color: gold;
-        font-size: 0.85rem;
+        color: var(--tertiary-text);
+        font-size: 1rem;
         letter-spacing: 1px;
     }
     
@@ -708,32 +697,32 @@ width: 2.5rem;
         align-items: center;
         margin-bottom: 6px;
         gap: 5px;
-        font-size: 0.7rem;
+        font-size: 0.9rem;
     }
     
     .rating-bar span:first-child {
         width: 45px;
-        color: var(--text-light);
+        color: var(--alternative-color1);
     }
     
     .bar-container {
         flex: 1;
         height: 5px;
-        background: var(--light-bg);
+        background: var(--alternative-color1);
         border-radius: 3px;
         overflow: hidden;
     }
     
     .bar-fill {
         height: 100%;
-        background: var(--primary);
+        background: var(--alternative-color1);
         border-radius: 3px;
     }
     
     .rating-bar span:last-child {
         width: 25px;
         text-align: right;
-        color: var(--text-light);
+        color: var(--alternative-color1);
     }
     
     .chart-container {
@@ -756,8 +745,8 @@ width: 2.5rem;
     
     .badge i {
         font-size: 1.3rem;
-        color: var(--primary);
-        background: rgba(124, 155, 149, 0.1);
+        color: var(--secundary-color);
+        background: var(--alternative-color1);
         width: 40px;
         height: 40px;
         border-radius: 50%;
@@ -767,8 +756,8 @@ width: 2.5rem;
     }
     
     .badge span {
-        font-size: 0.7rem;
-        color: var(--text-light);
+        font-size: 0.9rem;
+        color: var(--alternative-color1);
         text-align: center;
     }
     
@@ -805,6 +794,9 @@ width: 2.5rem;
   display: flex;
   flex-grow: 1;
   flex-direction: column;
+}
+.card:hover {
+    transform: none;
 }
 
 .card-content {
@@ -1021,3 +1013,73 @@ width: 2.5rem;
           font-size: 0.7rem;
         }
       }
+
+      .stats-card:nth-of-type(2) {
+        position: relative;
+        overflow: hidden;
+      }
+      
+      /* Blur all children except overlay in 2nd card only */
+      .stats-card:nth-of-type(2) > :not(.overlay) {
+        filter: blur(3px);
+      }
+      
+      /* Overlay styling for 2nd card */
+      .stats-card:nth-of-type(2) .overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        
+        font-size: 2rem;
+        font-weight: bold;
+        color: var(--text);
+        background: rgba(0, 0, 0, 0.6);
+        padding: 1rem 2rem;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        z-index: 10;
+      }
+      
+      /* Icon size inside overlay */
+      .stats-card:nth-of-type(2) .overlay i {
+        font-size: 2.5rem;
+        color: var(--tertiary-text);
+      }
+      .subscription-card {
+        position: relative;
+        overflow: hidden;
+      }
+      
+      /* Blur all children except overlay */
+      .subscription-card > :not(.overlay) {
+        filter: blur(3px);
+      }
+      
+      /* Overlay styling */
+      .subscription-card .overlay {
+        position: absolute;
+        top: 80%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        
+        font-size: 2rem;
+        font-weight: bold;
+        color: var(--text);
+        background: rgba(0, 0, 0, 0.6);
+        padding: 1rem 2rem;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        z-index: 10;
+      }
+      
+      /* Icon size inside overlay */
+      .subscription-card .overlay i {
+        font-size: 2.5rem;
+        color: var(--tertiary-text);
+      }
+      

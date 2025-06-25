@@ -37,8 +37,8 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 5%;
-  background-color: var(--text);
+  padding: 1.5rem 7%;
+  background-color: var(--primary-color);
 }
 
 .logo {
@@ -48,7 +48,7 @@ body {
 
 
 .logo img {
-  height: 4rem;
+  height: 3.5rem;
   vertical-align: middle;
   margin-right: 5px;
   margin-bottom: 5px;
@@ -78,7 +78,7 @@ nav a:hover {
 }
 
 .nav-text-link {
-    color: var(--primary-color);
+    color: var(--text);
     text-decoration: none;
     padding: 0.75rem 1.8rem;
     font-weight: 600;
@@ -87,7 +87,7 @@ nav a:hover {
     transition: color 0.3s ease; 
 
     display: inline-block;
-    width: 170px;
+    width: 180px;
     text-align: center;
     background: transparent; 
     border: none;
@@ -108,8 +108,8 @@ nav a:hover {
 }
 
 .header-btn {
-  background: var(--primary-color);
-  color: var(--text);
+  background: var(--text);
+  color: var(--alternative-color1);
   padding: 0.75rem 1.8rem;
   border-radius: 10px;
   border: none;
@@ -118,7 +118,7 @@ nav a:hover {
   cursor: pointer;
   transition: all 0.3s ease;
 
-  width: 170px;
+  width: 180px;
   display: inline-block;
   text-align: center;
 
@@ -159,14 +159,23 @@ nav a:hover {
 .header-btn:hover i {
   transform: rotateY(360deg);
 }
-
+.wave-header {
+  /* top: -20rem; */
+  background-image: url("data:image/svg+xml;utf8,<svg width='100%' height='100%' viewBox='0 0 1440 390' xmlns='http://www.w3.org/2000/svg'><path d='M 0,400 L 0,150 C 130.8,186.13333333333333 261.6,222.26666666666668 409,217 C 556.4,211.73333333333332 720.4000000000001,165.06666666666666 895,147 C 1069.6,128.93333333333334 1254.8,139.46666666666667 1440,150 L 1440,400 L 0,400 Z' fill='%23102542' transform='rotate(-180 720 200)'/></svg>");
+  z-index: -1;
+  position: relative;
+  height: 200px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
 /* ===== Hero Section ===== */
 .hero {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  padding: 5rem 7%;
+  padding: 6rem 7%;
   background: var(--primary-color);
   color: var(--secundary-color);
   gap: 3rem;

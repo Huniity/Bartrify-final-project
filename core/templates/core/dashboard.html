@@ -17,7 +17,7 @@
                 <img src="{{ request.user.get_avatar }}" alt="Profile" class="profile-image avatar" id="avatarPreview1" />
             </div>
             <div class="profile-info">
-                <h2>{{ request.user.first_name }}{{ request.user.last_name }}</h2>
+                <h2>{{ request.user.first_name }} {{ request.user.last_name }}</h2>
                 <p>{{ request.user.location }}</p>
                 <p id="editableText">{{ request.user.bio}}</p>
                 <button class="btn-edit" id="editPopupBtn">
@@ -227,6 +227,9 @@
                                         <span>150</span>
                                     </div>
                                 </div>
+                                <div class="overlay">
+                                    <i class="fa-solid fa-hourglass-half"></i> COMING SOON!
+                                  </div>
                             </div>
                         </div>
                     </div>
@@ -289,7 +292,11 @@
             <div class="stats-card">
                 <h3><i class="fa-solid fa-chart-line"></i> Monthly Activity</h3>
                 <div class="chart-container">
-                    <canvas id="servicesChart"></canvas>
+                  <canvas id="servicesChart"></canvas>
+                </div>
+                
+                <div class="overlay">
+                  <i class="fa-solid fa-hourglass-half"></i> COMING SOON!
                 </div>
             </div>
 
