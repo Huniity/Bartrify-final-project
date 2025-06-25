@@ -4,6 +4,7 @@ from core.views.auth import RegisterView as APIRegisterView
 from core.views.service import ServiceViewSet, MyServiceViewSet
 from core.views.request import ServiceRequestViewSet
 from core.views.password import PasswordChangeView
+from core.views.review import SubmitReviewAPIView,CheckReviewAPIView
 from .pages import create_chat, user_list
 from .auth import custom_login_view, custom_logout_view
 from core.views.pages import ChatRoomMessagesView, MarkMessagesReadView, UpdateBioView, EditProfileAjaxView, ProfileEditForm, CreateServiceView
@@ -34,6 +35,8 @@ __all__ = [
     "EditProfileAjaxView",
     "ProfileEditForm",
     "CreateServiceView",
+    "SubmitReviewAPIView",
+    "CheckReviewAPIView",
 
     # Page views
     "IndexView",

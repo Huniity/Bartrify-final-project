@@ -82,6 +82,16 @@ class ServiceRequest(models.Model):
     message = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+class Review(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews_written')  # The reviewer
+    reviewee = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, related_name='reviews_received')  # Temporarily allow null
+    rating = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'Review from {self.user} to {self.reviewee} - Rating: {self.rating}'
+
+
 ########################### CHATROOM AND MESSAGES ###########################
 
 

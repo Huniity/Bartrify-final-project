@@ -135,76 +135,110 @@ document.addEventListener('DOMContentLoaded', function () {
         .catch(err => console.error('Error fetching active requests:', err));
 }
 
-  function fetchCompletedRequests() {
-    const completedTabContent = document.getElementById('completed');
-    completedTabContent.innerHTML = '';
+function fetchCompletedRequests() {
+  const completedTabContent = document.getElementById('completed');
+  completedTabContent.innerHTML = ''; // Clear previous content
 
-    fetch('/api/requests/')
-        .then(response => response.json())
-        .then(data => {
-            if (data.length > 0) {
-                data.forEach(request => {
-                    if (request.status === "completed") {
-                        fetch(`/api/services/${request.service}/`)
-                            .then(serviceResponse => serviceResponse.json())
-                            .then(serviceData => {
-                                const exchangeItem = document.createElement('div');
-                                exchangeItem.classList.add('exchange-item');
+  fetch('/api/requests/')
+      .then(response => response.json())
+      .then(data => {
+          if (data.length > 0) {
+              data.forEach(request => {
+                  if (request.status === "completed") {
+                      fetch(`/api/services/${request.service}/`)
+                          .then(serviceResponse => serviceResponse.json())
+                          .then(serviceData => {
+                              const exchangeItem = document.createElement('div');
+                              exchangeItem.classList.add('exchange-item');
+                              exchangeItem.setAttribute('data-request-id', request.id);
+                              const exchangeInfo = document.createElement('div');
+                              exchangeInfo.classList.add('exchange-info');
 
-                                const exchangeInfo = document.createElement('div');
-                                exchangeInfo.classList.add('exchange-info');
+                              const serviceAvatar = document.createElement('div');
+                              serviceAvatar.classList.add('service-avatar');
+                              serviceAvatar.style.backgroundColor = '#00bcd4';
+                              const icon = document.createElement('i');
+                              icon.classList.add('fa-solid', 'fa-broom');
+                              serviceAvatar.appendChild(icon);
 
-                                const serviceAvatar = document.createElement('div');
-                                serviceAvatar.classList.add('service-avatar');
-                                serviceAvatar.style.backgroundColor = '#00bcd4';
-                                const icon = document.createElement('i');
-                                icon.classList.add('fa-solid', 'fa-broom');
-                                serviceAvatar.appendChild(icon);
+                              const serviceDetails = document.createElement('div');
+                              const serviceTitle = document.createElement('h4');
+                              serviceTitle.textContent = serviceData.title;
 
-                                const serviceDetails = document.createElement('div');
-                                const serviceTitle = document.createElement('h4');
-                                serviceTitle.textContent = serviceData.title;
+                              const serviceDate = document.createElement('p');
+                              const formattedDate = new Date(request.created_at).toLocaleDateString();
 
-                                const serviceDate = document.createElement('p');
-                                const formattedDate = new Date(request.created_at).toLocaleDateString();
+                              fetchSenderUsername(request.sender)
+                                  .then(username => {
+                                      serviceDate.textContent = `With: ${username} · ${formattedDate}`;
+                                  });
 
-                                fetchSenderUsername(request.sender)
-                                    .then(username => {
-                                        serviceDate.textContent = `With: ${username} · ${formattedDate}`;
-                                    });
+                              serviceDetails.appendChild(serviceTitle);
+                              serviceDetails.appendChild(serviceDate);
 
-                                serviceDetails.appendChild(serviceTitle);
-                                serviceDetails.appendChild(serviceDate);
+                              exchangeInfo.appendChild(serviceAvatar);
+                              exchangeInfo.appendChild(serviceDetails);
 
-                                exchangeInfo.appendChild(serviceAvatar);
-                                exchangeInfo.appendChild(serviceDetails);
+                              const exchangeStatus = document.createElement('div');
+                              exchangeStatus.classList.add('exchange-status');
+                              const status = document.createElement('span');
+                              status.classList.add('status');
+                              status.textContent = request.status || 'Completed';
+                              exchangeStatus.appendChild(status);
 
-                                const exchangeStatus = document.createElement('div');
-                                exchangeStatus.classList.add('exchange-status');
-                                const status = document.createElement('span');
-                                status.classList.add('status', 'completed');
-                                status.textContent = request.status || 'Completed';
-                                exchangeStatus.appendChild(status);
+                              // Initial "Leave a Review" button (before review is left)
+                              const reviewButton = document.createElement('button');
+                              reviewButton.classList.add('mark-completed-btn');
+                              reviewButton.textContent = 'Leave a Review';
+                              reviewButton.dataset.serviceId = request.service;
+                              reviewButton.dataset.serviceTitle = serviceData.title;
+                              reviewButton.dataset.requestId = request.id;
+                              reviewButton.dataset.revieweeUserId = request.sender;  // Review the sender (user who completed the service)
+                              
+                              reviewButton.addEventListener('click', (event) => {
+                                  const serviceId = event.target.dataset.serviceId;
+                                  const serviceTitle = event.target.dataset.serviceTitle;
+                                  const requestId = event.target.dataset.requestId;
+                                  const revieweeUserId = event.target.dataset.revieweeUserId;
+                                  openReviewModal(serviceId, serviceTitle, requestId, revieweeUserId); // Pass revieweeUserId to modal
+                              });
 
-                                const rating = document.createElement('span');
-                                rating.classList.add('time-remaining');
-                                rating.textContent = `Rated 4/5`;
-                                exchangeStatus.appendChild(rating);
+                              fetch(`/api/check-review/?reviewee_user_id=${request.sender}`)
+                                .then(res => res.json())
+                                .then(reviewData => {
+                                  if (reviewData.reviewed) {
+                                    const rating = document.createElement('span');
+                                    rating.classList.add('time-remaining');
+                                    rating.textContent = `⭐ ${reviewData.rating}/5`;
+                                    exchangeStatus.appendChild(rating);
+                                  } else {
+                                    exchangeStatus.appendChild(reviewButton);
+                                  }
 
-                                exchangeItem.appendChild(exchangeInfo);
-                                exchangeItem.appendChild(exchangeStatus);
-
-                                completedTabContent.appendChild(exchangeItem);
-                            })
-                            .catch(err => console.error('Error fetching service details:', err));
-                    }
-                });
-            } else {
-                completedTabContent.innerHTML = '<p>No completed requests.</p>';
-            }
-        })
-        .catch(err => console.error('Error fetching completed requests:', err));
+                                  exchangeItem.appendChild(exchangeInfo);
+                                  exchangeItem.appendChild(exchangeStatus);
+                                  completedTabContent.appendChild(exchangeItem);
+                                })
+                                .catch(err => {
+                                  console.error('Error checking review status:', err);
+                                  // Fallback: still show the review button if check fails
+                                  exchangeStatus.appendChild(reviewButton);
+                                  exchangeItem.appendChild(exchangeInfo);
+                                  exchangeItem.appendChild(exchangeStatus);
+                                  completedTabContent.appendChild(exchangeItem);
+                                });
+                          })
+                          .catch(err => console.error('Error fetching service details:', err));
+                  }
+              });
+          } else {
+              completedTabContent.innerHTML = '<p>No completed requests.</p>';
+          }
+      })
+      .catch(err => console.error('Error fetching completed requests:', err));
 }
+
+
 
   const categoryMapping = {
     'IT_SUPPORT': 'IT Support & Troubleshooting',

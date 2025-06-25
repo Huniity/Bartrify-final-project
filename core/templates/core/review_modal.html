@@ -1,0 +1,149 @@
+{% load static %}
+<div id="reviewPopupOverlay" class="modal-overlay" >
+    <div id="reviewPopupModal" class="popup-modal" role="dialog" aria-modal="true" tabindex="-1">
+        <button class="close-btn" id="closeReviewBtn" aria-label="Close">&times;</button>
+        <div class="popup-modal-content">
+            <h2>Leave a Rating</h2>
+            <div class="rating">
+                <input type="radio" name="rating" id="rating-5" value="5"><label for="rating-5">5</label>
+                <input type="radio" name="rating" id="rating-4" value="4"><label for="rating-4">4</label>
+                <input type="radio" name="rating" id="rating-3" value="3"><label for="rating-3">3</label>
+                <input type="radio" name="rating" id="rating-2" value="2"><label for="rating-2">2</label>
+                <input type="radio" name="rating" id="rating-1" value="1"><label for="rating-1">1</label>
+            </div>
+            <input type="hidden" id="service-id">
+            <input type="hidden" id="reviewee-user-id">
+            <div class="popup-buttons">
+                <button id="submit-review-btn">Submit Review</button>
+                <button id="cancelReviewBtn">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* General Modal Styling */
+.popup-modal {
+    width: 35rem;
+    height: 22rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    overflow: hidden;
+    animation: fadeIn 0.3s ease;
+}
+
+.popup-modal.active {
+    display: flex;
+}
+
+/* Modal Content */
+.popup-modal-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+}
+
+.popup-modal-content h2 {
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+/* Rating Section */
+.rating {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.rating input[type="radio"]:checked + label {
+    color: #f39c12;  /* Highlight checked rating with yellow */
+}
+
+.rating input[type="radio"]:hover + label {
+    color: #f39c12;  /* Highlight hover with yellow */
+}
+
+/* Buttons Styling */
+.popup-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.popup-buttons button {
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#submit-review-btn {
+    background-color: #2c3e50;
+    color: white;
+}
+
+#submit-review-btn:hover {
+    background-color: #1a252f;
+}
+
+#cancelReviewBtn {
+    background-color: #ffffff;
+    color: #333;
+}
+
+#cancelReviewBtn:hover {
+    background-color: #f5f5f5;
+}
+
+/* Close Button Styling */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+/* Overlay Background */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+</style>

@@ -17,7 +17,7 @@
                 <img src="{{ request.user.get_avatar }}" alt="Profile" class="profile-image avatar" id="avatarPreview1" />
             </div>
             <div class="profile-info">
-                <h2>{{ request.user.first_name }}{{ request.user.last_name }}</h2>
+                <h2>{{ request.user.username }}{{ request.user.last_name }}</h2>
                 <p>{{ request.user.location }}</p>
                 <p id="editableText">{{ request.user.bio}}</p>
                 <button class="btn-edit" id="editPopupBtn">
@@ -311,9 +311,11 @@
     </div>
 </div>
 {% include "core/profile_modal.html" %}
+{% include "core/review_modal.html" %}
 {% include "core/service_modal.html" %}
 {% include "core/bio_modal.html" %}
 <script src="{% static 'js/service_modal.js' %}"></script>
+<script src="{% static 'js/review_modal.js' %}"></script>
 <script src="{% static 'js/profile_modal.js' %}"></script>
 <script src="{% static 'js/bio_modal.js' %}"></script>
 <script>
