@@ -9,19 +9,41 @@
                 <p id="profile-description" class="profile-description"></p>
             </div>
             <a class="btn-profile" onclick="openContactModal()"><span>Contact</span></a>
+
         </div>
 
         <div class="bottom-panel">
             <button onclick="closeProfileModal()" class="close-btn-profile">✖</button>
             <div class="tabs">
-                <button class="tab active" onclick="showTab('tab-services')">Serviços Fornecidos</button>
-                <button class="tab" onclick="showTab('tab-needed')">Serviços Necessários</button>
-                <button class="tab" onclick="showTab('tab-reviews')">Reviews</button>
+                <button class="tab active" onclick="showTab('tab-services', event)">Serviços Fornecidos</button>
+                <button class="tab" onclick="showTab('tab-reviews', event)">Reviews</button>
             </div>
-            <div id="tab-services" class="tab-content"></div>
-            <div id="tab-needed" class="tab-content"></div>
-            <div id="tab-reviews" class="tab-content"></div>
+            <div id="tab-services" class="tab-content">
+                <div class="service-tab">
+                    <div class="header-text-tab">
+                        <h4 class="service-title-h4">Service 15 by userC</h4>
+                        <p class="service-title-p">Web Development &amp; Design</p>
+                    </div>
+                    <div class="service-description-tab">
+                        <p>This is a comprehensive description for Service 15. It provides expert assistance in WEB DEV.
+                            The owner, Jake, is looking to barter for services in LANG TUTOR.
+                        </p>
+                    </div>
+                </div>
+                <div class="service-tab">
+                    <div class="header-text-tab">
+                        <h4 class="service-title-h4">Service 15 by userC</h4>
+                        <p class="service-title-p">Web Development &amp; Design</p>
+                    </div>
+                    <div class="service-description-tab">
+                        <p>This is a comprehensive description for Service 15. It provides expert assistance in WEB DEV.
+                            The owner, Jake, is looking to barter for services in LANG TUTOR.
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
+        <div id="tab-reviews" class="tab-content"></div>
     </div>
 </div>
 
