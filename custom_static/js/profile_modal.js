@@ -40,7 +40,7 @@ document.addEventListener('keydown', e => {
 
 const avatarInput = document.getElementById('avatarInput');
 
-const modalAvatarPreview = document.getElementById('modalAvatarPreview'); 
+const modalAvatarPreview = document.getElementById('modalAvatarPreview');
 
 avatarInput.addEventListener('change', function() {
     const file = this.files[0];
@@ -78,16 +78,15 @@ document.addEventListener("DOMContentLoaded", function() {
             .then(response => {
                 if (!response.ok) {
                     return response.json().then(errorData => {
-                        throw new Error(errorData.message || JSON.stringify(errorData) || 'Server error occurred.');
+                        throw new Error('Server error.');
                     }).catch(() => {
-                        throw new Error(`HTTP error! status: ${response.status}`);
+                        throw new Error(`${response.status}`);
                     });
                 }
                 return response.json();
             })
             .then(data => {
                 if (data.success) {
-                    alert(data.message);
                     closeModal2();
 
                     if (mainProfileAvatar1) {
@@ -113,22 +112,18 @@ document.addEventListener("DOMContentLoaded", function() {
 
                     profileEditForm.reset();
 
-
-                } else {
-                    if (data.errors) {
-                        let errorMessages = [];
-                        for (const field in data.errors) {
-                            errorMessages.push(`${field}: ${data.errors[field].join(', ')}`);
-                        }
-                        alert('Validation Error:\n' + errorMessages.join('\n'));
-                    } else {
-                        alert('Error: ' + data.message);
+                    if (typeof showSuccessToast === 'function') {
+                        showSuccessToast('Profile updated successfully.');
                     }
+                } else {
+                    showErrorToast('Couldnt update your profile');
                 }
             })
             .catch(error => {
-                console.error('Fetch error:', error);
-                alert('An error occurred: ' + error.message);
+                console.error('Error updating profile:', error);
+                if (typeof showErrorToast === 'function') {
+                    showErrorToast('Please try again!');
+                }
             });
         });
     }

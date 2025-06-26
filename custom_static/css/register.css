@@ -1,7 +1,8 @@
 /* ===== Flip Card + Form ===== */
-body{
+body {
     background-color: var(--background-color);
 }
+
 .Container {
     width: 1200px;
     height: 680px;
@@ -29,7 +30,7 @@ body{
     background: var(--text);
     border-radius: 15px;
     overflow: hidden;
-    backface-visibility: hidden; /* Keep this so individual sides disappear when facing away */
+    backface-visibility: hidden;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
@@ -38,8 +39,7 @@ body{
 }
 
 .card-back {
-    transform: rotateY(180deg); /* This is correct for its initial state */
-    /* When the parent '.card' flips 180deg, this side's rotation will effectively become 360deg (0deg) relative to the viewer, making it appear correctly. */
+    transform: rotateY(180deg);
 }
 
 .left-panel {
@@ -112,32 +112,54 @@ body{
     flex: 1;
 }
 
-.form-group input {
+/* Styles for input and select for consistent appearance */
+.form-group input,
+.form-group select {
     width: 100%;
-    padding: 18px 14px 10px 14px;
+    padding: 18px 14px 10px 14px; /* Consistent padding */
     font-size: 16px;
     border: 1.5px solid var(--alternative-color4);
     border-radius: 12px;
     outline: none;
     transition: border-color 0.2s;
+    background-color: var(--text); /* Ensure consistent background */
 }
 
-.form-group input:focus {
+/* Remove default arrow from select and add custom one */
+.form-group select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23868686" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 20px;
+    margin-top: 10px;
+}
+
+/* Focus styles for both input and select */
+.form-group input:focus,
+.form-group select:focus {
     border-color: var(--alternative-color4);
     background-color: var(--alternative-color4);
 }
 
+/* Label base styles */
 .form-group label {
     position: absolute;
     left: 16px;
-    top: 25px;
+    top: 22px;
     font-size: 14px;
     color: var(--labels-color);
     transition: top 0.18s linear, left 0.18s linear, font-size 0.18s linear, color 0.18s linear;
+    pointer-events: none; /* Allow clicks to pass through to input/select */
 }
 
-.form-group input:focus+label,
-.form-group input:not(:placeholder-shown)+label {
+/* Label active state (when input/select is focused or has content) */
+.form-group input:focus + label,
+.form-group input:not(:placeholder-shown) + label,
+.form-group select:focus + label,
+.form-group select:not([value="Select a location"]) + label {
     top: 2px;
     left: 12px;
     font-size: 13px;
@@ -148,21 +170,29 @@ body{
     border-radius: 0.5rem;
 }
 
+/* Icon positioning for all form groups */
 .form-group .fas {
     position: absolute;
     right: 15px;
-    top: 45%;
+    top: 50%; /* Center vertically */
+    transform: translateY(-50%); /* Adjust for perfect vertical centering */
     color: var(--labels-color);
     font-size: 16px;
     z-index: 3;
 }
+
+/* Specific icon adjustments for select (if needed due to custom arrow) */
+.form-group select + label + .fas {
+    right: 40px; /* Adjust if the icon overlaps with the custom select arrow */
+}
+
 
 .form-group .password-toggle-icon {
     cursor: pointer;
 }
 
 input {
-    margin-top: 10px;
+    margin-top: 10px; /* Consider if this rule is still needed given .form-group input padding */
 }
 
 button {
@@ -192,11 +222,64 @@ button::before {
     z-index: 0;
 }
 
+.coming_soon {
+    position: relative;
+    overflow: hidden;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px auto;
+    max-width: 400px;
+    text-align: center;
+}
+
+.coming_soon > :not(.overlay) {
+    filter: blur(3px);
+    transition: filter 0.3s ease;
+}
+
+.social-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px;
+}
+
+.coming_soon > .overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--text, #fff);
+    background: rgba(0, 0, 0, 0.6);
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    z-index: 10;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.coming_soon > .overlay i {
+    font-size: 2.5rem;
+    color: #ffa93d;
+}
+
+.social-buttons button:hover {
+    background-color: var(--button-hover-bg, #0056b3);
+}
+
+.social-buttons button i {
+    font-size: 1.2rem;
+}
 
 button:hover::before {
     top: 0;
 }
-
 
 button:hover {
     color: var(--alternative-color1);
@@ -212,7 +295,6 @@ button i {
 button:hover i {
     transform: rotateY(360deg);
 }
-
 
 .divider {
     display: flex;
@@ -306,7 +388,6 @@ button:hover i {
 }
 
 .login-link {
-    margin-top: 25px;
     text-align: center;
     font-size: 14px;
 }
@@ -319,7 +400,6 @@ button:hover i {
 }
 
 @media (max-width: 768px) {
-
     .Container {
         width: 350px;
     }
@@ -341,5 +421,4 @@ button:hover i {
         margin-top: 5px;
         font-size: 13px;
     }
-
 }

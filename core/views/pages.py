@@ -140,6 +140,8 @@ class FeedView(TemplateView):
         else:
             services = services.order_by('-created_at')
 
+        if request.user.is_authenticated:
+            services = services.exclude(owner=request.user)
 
         context = self.get_context_data(
             services=services,
@@ -164,15 +166,15 @@ def user_list(request):
 def create_chat(request, receiver_id):
     if request.method == "POST":
         # Check if it's an AJAX request
-        is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+        is_async = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
 
         # Get message content. For AJAX, it will be in JSON body. For form POST, it will be in request.POST.
-        if is_ajax:
+        if is_async:
             try:
                 body_data = json.loads(request.body)
                 text = body_data.get("message_content", "").strip()
             except json.JSONDecodeError:
-                if is_ajax:
+                if is_async:
                     return JsonResponse({"success": False, "detail": "Invalid JSON"}, status=400)
                 text = "" # Fallback for non-ajax if body is empty
         else:
@@ -182,7 +184,7 @@ def create_chat(request, receiver_id):
 
         # Prevent a user from chatting with themselves
         if request.user.id == receiver.id:
-            if is_ajax:
+            if is_async:
                 return JsonResponse({"success": False, "detail": "Cannot create chat with yourself."}, status=400)
             return redirect("dashboard")
 
@@ -241,7 +243,7 @@ def create_chat(request, receiver_id):
                     )
                     logger.info(f"Sent {message_type} notification to user_{receiver.id} for room {room.id}")
 
-            if is_ajax:
+            if is_async:
                 return JsonResponse({"success": True, "room_id": room.id, "created": created, "message_sent": bool(text)})
             else:
                 response = redirect(f"/dashboard/?room_id={room.id}")
@@ -250,7 +252,7 @@ def create_chat(request, receiver_id):
 
         except Exception as e:
             logger.error(f"Error in create_chat view: {e}")
-            if is_ajax:
+            if is_async:
                 return JsonResponse({"success": False, "detail": "An internal server error occurred."}, status=500)
             return redirect("dashboard")
     

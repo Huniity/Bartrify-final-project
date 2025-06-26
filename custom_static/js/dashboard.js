@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-  // --- Chart.js setup ---
   const ctx = document.getElementById('servicesChart').getContext('2d');
   const gradient = ctx.createLinearGradient(0, 0, 0, 180);
   gradient.addColorStop(0, '#f87d6f');
@@ -36,28 +35,23 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }
   });
+  const tabBtn = document.querySelectorAll('.tab-btn');
+  const tabPanel = document.querySelectorAll('.tab-pane');
 
-  // --- Tabs ---
-  const tabButtons = document.querySelectorAll('.tab-btn');
-  const tabPanes = document.querySelectorAll('.tab-pane');
-
-  tabButtons.forEach(button => {
+  tabBtn.forEach(button => {
     button.addEventListener('click', function () {
       const tabId = this.getAttribute('data-tab');
 
-      tabButtons.forEach(btn => btn.classList.remove('active'));
+      tabBtn.forEach(btn => btn.classList.remove('active'));
       this.classList.add('active');
 
-      tabPanes.forEach(pane => pane.classList.remove('active'));
+      tabPanel.forEach(pane => pane.classList.remove('active'));
       document.getElementById(tabId).classList.add('active');
     });
   });
-
-  // --- Scroll legacy container if present ---
   const el = document.getElementById('scrollable');
   if (el) el.scrollTop = el.scrollHeight;
 
-  // --- Auto-load chat room from URL or first one ---
   const params = new URLSearchParams(window.location.search);
   const roomId = params.get("room_id");
   if (roomId) {
@@ -68,4 +62,3 @@ document.addEventListener('DOMContentLoaded', function () {
     if (firstRoom) firstRoom.click();
   }
 });
-

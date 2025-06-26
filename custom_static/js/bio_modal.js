@@ -60,20 +60,21 @@ async function saveEdit() {
         if (response.ok) {
             const data = await response.json();
             editableText.textContent = data.bio;
-            console.log('Bio updated successfully:', data.bio);
+            if (typeof showSuccessToast === 'function') {
+                showSuccessToast('You have successfully updated your Bio!');
+            }
             closeEditModal();
         } else {
-            const errorData = await response.json();
-            console.error('Failed to update bio:', errorData.error);
-            alert('Failed to update bio: ' + errorData.error);
+            if (typeof showErrorToast === 'function') {
+                showErrorToast('Please try again.');
+            }
         }
     } catch (error) {
-        console.error('Network or server error:', error);
-        alert('An unexpected error occurred. Please try again.');
+        if (typeof showErrorToast === 'function') {
+            showErrorToast('Please try again');
+        }
     }
 }
-
-
 editPopupBtn.addEventListener('click', openEditModal);
 closeBtn3.addEventListener('click', closeEditModal);
 cancelBtn.addEventListener('click', closeEditModal);

@@ -122,6 +122,7 @@
 
 .left-panel p {
   font-size: 1rem;
+  color: var(--text)!important;
 }
 
 .left-panel img {
@@ -198,7 +199,7 @@ textarea:focus {
 /* Floating Labels for all inputs, selects, and textareas */
 label {
   position: absolute;
-  top: 0.7rem;
+  top: 0.7rem!important;
   left: 1rem;
   font-size: 0.75rem;
   padding: 0 0.25rem;
@@ -217,7 +218,7 @@ textarea:not(:placeholder-shown) + label,
 select:focus + label,
 select:not([value=""]) + label,
 select:not(:placeholder-shown) + label {
-  top: -0.7rem;
+  top: -0.7rem!important;
   left: 1rem;
   font-size: 0.75rem;
   color: #3b6e68;
@@ -321,7 +322,7 @@ button[type="submit"]:hover {
 #wrapper_service label,
 #wrapper_token label {
   position: absolute;
-  top: 0.7rem;
+  top: 0.7rem!important;
   left: 1rem;
   font-size: 0.75rem;
   padding: 0 0.25rem;
@@ -365,7 +366,7 @@ button[type="submit"]:hover {
 #wrapper_service select:not([value=""]) + label,
 #wrapper_token select:focus + label,
 #wrapper_token select:not([value=""]) + label {
-  top: -0.7rem;
+  top: -0.7rem!important;
   left: 1rem;
   font-size: 0.75rem;
   color: #3b6e68;

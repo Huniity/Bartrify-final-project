@@ -1,9 +1,5 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener("DOMContentLoaded", function() {
     const filterForm = document.querySelector('.filter-controls');
-    if (!filterForm) {
-        console.warn('Filter form not found. Auto-refresh filters will not work.');
-    }
-
     const searchInput = document.getElementById('search-input');
     const categorySelect = document.getElementById('category-select');
     const locationSelect = document.getElementById('location-select');
@@ -49,15 +45,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const profileFeedModal = document.getElementById('profile-feed-modal');
     const contactModal = document.getElementById('contact-modal');
-
     const closeProfileBtn = document.querySelector('.close-btn-profile');
     const closeContactBtn = document.querySelector('.close-btn');
-
-
     const profileAvatar = document.getElementById('profile-avatar');
     const profileName = document.getElementById('profile-name');
     const profileDescription = document.getElementById('profile-description');
-
     const modalUserAvatar = document.getElementById('modal-user-avatar');
     const modalUserName = document.getElementById('modal-user-name');
     const modalUserRating = document.getElementById('modal-user-rating');
@@ -66,7 +58,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const modalTrade1Title = document.getElementById('modal-trade1-title');
     const contactForm = document.getElementById('contact-form');
     const messageTextarea = document.getElementById('message');
-
     let currentRecipientId = null;
 
     function getCookie(name) {
@@ -107,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function closeProfileModal() {
         if (profileFeedModal) {
-             profileFeedModal.style.display = 'none';
+            profileFeedModal.style.display = 'none';
         }
     }
 
@@ -135,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function() {
             contactModal.style.display = 'none';
         }
         if (messageTextarea) {
-             messageTextarea.value = '';
+            messageTextarea.value = '';
         }
         currentRecipientId = null;
     }
@@ -237,18 +228,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const messageContent = messageTextarea.value.trim();
             const recipientId = contactForm.dataset.receiverId;
-
-            if (!messageContent) {
-                alert('Please write a message before sending.');
-                return;
-            }
-
-            if (!recipientId) {
-                console.error('Recipient ID is missing from the form data attribute. Cannot send message.');
-                alert('Error: Recipient information missing. Please ensure the modal loaded correctly.');
-                return;
-            }
-
             const apiUrl = `/chat/create/${recipientId}/`;
 
             try {
@@ -270,7 +249,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (!response.ok) {
                     const errorData = await response.json();
-                    throw new Error(errorData.detail || `Server error: ${response.status}`);
+                    throw new Error('Server error.');
                 }
 
                 const responseData = await response.json();
@@ -279,22 +258,33 @@ document.addEventListener('DOMContentLoaded', function() {
                     messageTextarea.value = '';
                     closeModal();
 
-                    if (responseData.room_id && responseData.recipient_username) {
-                        window.location.href = `/dashboard/?chat_room_id=${responseData.room_id}&chat_username=${encodeURIComponent(responseData.recipient_username)}`;
-                    } else {
-                        alert('Message sent successfully! Please navigate to your dashboard to view the chat.');
+                    if (typeof showSuccessToast === 'function') {
+                        showSuccessToast('Your message has been sent!');
                     }
 
+                    if (responseData.room_id && responseData.recipient_username) {
+                        const toastTimer = 1500;
+                        setTimeout(() => {
+                            window.location.href = `/dashboard/?chat_room_id=${responseData.room_id}&chat_username=${encodeURIComponent(responseData.recipient_username)}`;
+                        }, toastTimer);
+                    }
                 } else {
-                    alert('Error sending message: ' + (responseData.detail || 'Unknown error.'));
+                    if (typeof showErrorToast === 'function') {
+                        showErrorToast('Could not send message.');
+                    }
                 }
 
             } catch (error) {
-                console.error('AJAX Error sending message:', error);
-                alert(`An error occurred: ${error.message}. Please try again.`);
+                if (typeof showErrorToast === 'function') {
+                    showErrorToast('Error, please try again.');
+                }
             }
         });
-    } else {
-        console.warn('Contact form not found. Message sending functionality will not work.');
     }
 });
+
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(";").shift();
+}
