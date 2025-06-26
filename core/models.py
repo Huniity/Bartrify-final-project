@@ -78,7 +78,15 @@ class ServiceRequest(models.Model):
     sender = models.ForeignKey(User, related_name='sent_requests', on_delete=models.CASCADE)
     receiver = models.ForeignKey(User, related_name='received_requests', on_delete=models.CASCADE)
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
-    status = models.CharField(choices=[('pending', 'Pending'), ('accepted', 'Accepted'), ('declined', 'Declined')], default='pending', max_length=10)
+    status = models.CharField(
+        choices=[
+            ('pending', 'Pending'),
+            ('in-progress', 'In Progress'),
+            ('completed', 'Completed')
+        ],
+        default='pending',
+        max_length=12
+    )
     message = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 

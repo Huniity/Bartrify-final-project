@@ -69,70 +69,176 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 }
 
-  function fetchActiveRequests() {
-    const activeTabContent = document.getElementById('active');
-    activeTabContent.innerHTML = '';
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+      cookie = cookie.trim();
+      if (cookie.startsWith(name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
 
-    fetch('/api/requests/')
-        .then(response => response.json())
-        .then(data => {
-            if (data.length > 0) {
-                data.forEach(request => {
-                    if (request.status === "pending") {
-                        fetch(`/api/services/${request.service}/`)
-                            .then(serviceResponse => serviceResponse.json())
-                            .then(serviceData => {
-                                const exchangeItem = document.createElement('div');
-                                exchangeItem.classList.add('exchange-item');
+function handleStatusUpdate(requestId, newStatus) {
+  const csrftoken = getCookie('csrftoken');
+  return fetch(`/api/requests/${requestId}/`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRFToken': csrftoken
+    },
+    body: JSON.stringify({ status: newStatus })
+  })
+  .then(response => {
+    if (!response.ok) {
+      return response.json().then(err => {
+        console.error('Failed to update status:', err);
+        alert('Error updating status: ' + (err.detail || response.statusText));
+        throw new Error('Failed to update status');
+      });
+    }
+    return response.json();
+  })
+  .catch(err => {
+    console.error('Network or server error:', err);
+  });
+}
 
-                                const exchangeInfo = document.createElement('div');
-                                exchangeInfo.classList.add('exchange-info');
+function fetchActiveRequests() {
+  const activeTabContent = document.getElementById('active');
+  activeTabContent.innerHTML = '';
 
-                                const serviceAvatar = document.createElement('div');
-                                serviceAvatar.classList.add('service-avatar');
-                                serviceAvatar.style.backgroundColor = '#4caf50';
-                                const icon = document.createElement('i');
-                                icon.classList.add('fa-solid', 'fa-leaf');
-                                serviceAvatar.appendChild(icon);
+  fetch('/api/requests/')
+    .then(response => response.json())
+    .then(data => {
+      if (data.length > 0) {
+        data.forEach(request => {
+          if (request.status === "pending" || request.status === "in-progress") {
+            fetch(`/api/services/${request.service}/`)
+              .then(serviceResponse => serviceResponse.json())
+              .then(serviceData => {
+                const exchangeItem = document.createElement('div');
+                exchangeItem.classList.add('exchange-item');
 
-                                const serviceDetails = document.createElement('div');
-                                const serviceTitle = document.createElement('h4');
-                                serviceTitle.textContent = serviceData.title;
+                const exchangeInfo = document.createElement('div');
+                exchangeInfo.classList.add('exchange-info');
 
-                                const serviceDate = document.createElement('p');
-                                const formattedDate = new Date(request.created_at).toLocaleDateString();
+                const serviceAvatar = document.createElement('div');
+                serviceAvatar.classList.add('service-avatar');
+                serviceAvatar.style.backgroundColor = '#4caf50';
+                const icon = document.createElement('i');
+                icon.classList.add('fa-solid', 'fa-leaf');
+                serviceAvatar.appendChild(icon);
 
-                                fetchSenderUsername(request.sender)
-                                    .then(username => {
-                                        serviceDate.textContent = `With: ${username} · ${formattedDate}`;
-                                    });
+                const serviceDetails = document.createElement('div');
+                const serviceTitle = document.createElement('h4');
+                serviceTitle.textContent = serviceData.title;
 
-                                serviceDetails.appendChild(serviceTitle);
-                                serviceDetails.appendChild(serviceDate);
+                const serviceDate = document.createElement('p');
+                const formattedDate = new Date(request.created_at).toLocaleDateString();
 
-                                exchangeInfo.appendChild(serviceAvatar);
-                                exchangeInfo.appendChild(serviceDetails);
+                fetchSenderUsername(request.sender)
+                  .then(username => {
+                    serviceDate.textContent = `With: ${username} · ${formattedDate}`;
+                  });
 
-                                const exchangeStatus = document.createElement('div');
-                                exchangeStatus.classList.add('exchange-status');
-                                const status = document.createElement('span');
-                                status.classList.add('status', 'in-progress');
-                                status.textContent = request.status || 'In Progress';
-                                exchangeStatus.appendChild(status);
+                serviceDetails.appendChild(serviceTitle);
+                serviceDetails.appendChild(serviceDate);
 
-                                exchangeItem.appendChild(exchangeInfo);
-                                exchangeItem.appendChild(exchangeStatus);
+                exchangeInfo.appendChild(serviceAvatar);
+                exchangeInfo.appendChild(serviceDetails);
 
-                                activeTabContent.appendChild(exchangeItem);
-                            })
-                            .catch(err => console.error('Error fetching service details:', err));
-                    }
+                const exchangeStatus = document.createElement('div');
+                exchangeStatus.classList.add('exchange-status');
+
+                // Status text
+                const status = document.createElement('span');
+                status.classList.add('status');
+                if (request.status === 'pending') {
+                  status.classList.add('pending');
+                } else if (request.status === 'in-progress') {
+                  status.classList.add('in-progress');
+                }
+                status.textContent = request.status;
+
+                exchangeStatus.appendChild(status);
+
+                // Accept or Complete button
+                const actionButton = document.createElement('button');
+                actionButton.classList.add('btn-small');
+
+                if (request.status === 'pending') {
+                  actionButton.textContent = 'Accept';
+                } else if (request.status === 'in-progress') {
+                  actionButton.textContent = 'Mark Completed';
+                }
+
+                actionButton.addEventListener('click', () => {
+                  let nextStatus = null;
+                  if (request.status === 'pending') {
+                    nextStatus = 'in-progress';
+                  } else if (request.status === 'in-progress') {
+                    nextStatus = 'completed';
+                  }
+                  if (nextStatus) {
+                    handleStatusUpdate(request.id, nextStatus)
+                      .then(updatedRequest => {
+                        if (updatedRequest) {
+                          fetchActiveRequests();
+                          updateCompletedCount();
+                        }
+                      });
+                  }
                 });
-            } else {
-                activeTabContent.innerHTML = '<p>No active requests.</p>';
-            }
-        })
-        .catch(err => console.error('Error fetching active requests:', err));
+
+                exchangeStatus.appendChild(actionButton);
+
+                // Delete button
+                const deleteButton = document.createElement('button');
+                deleteButton.classList.add('btn-small', 'btn-danger');
+                deleteButton.textContent = 'Delete';
+                deleteButton.addEventListener('click', () => {
+                  const csrftoken = getCookie('csrftoken');
+                  fetch(`/api/requests/${request.id}/`, {
+                    method: 'DELETE',
+                    headers: {
+                      'X-CSRFToken': csrftoken
+                    }
+                  })
+                  .then(response => {
+                    if (response.ok) {
+                      fetchActiveRequests();
+                      updateCompletedCount();
+                    } else {
+                      alert('Failed to delete request');
+                    }
+                  })
+                  .catch(err => {
+                    console.error('Error deleting request:', err);
+                    alert('Error deleting request');
+                  });
+                });
+
+                exchangeStatus.appendChild(deleteButton);
+
+                exchangeItem.appendChild(exchangeInfo);
+                exchangeItem.appendChild(exchangeStatus);
+
+                activeTabContent.appendChild(exchangeItem);
+              })
+              .catch(err => console.error('Error fetching service details:', err));
+          }
+        });
+      } else {
+        activeTabContent.innerHTML = '<p>No active requests.</p>';
+      }
+    })
+    .catch(err => console.error('Error fetching active requests:', err));
 }
 
 function fetchCompletedRequests() {
@@ -183,24 +289,25 @@ function fetchCompletedRequests() {
                               exchangeStatus.classList.add('exchange-status');
                               const status = document.createElement('span');
                               status.classList.add('status');
+                              status.classList.add('completed');
                               status.textContent = request.status || 'Completed';
                               exchangeStatus.appendChild(status);
 
-                              // Initial "Leave a Review" button (before review is left)
                               const reviewButton = document.createElement('button');
                               reviewButton.classList.add('mark-completed-btn');
+                              reviewButton.classList.add('btn-small');
                               reviewButton.textContent = 'Leave a Review';
                               reviewButton.dataset.serviceId = request.service;
                               reviewButton.dataset.serviceTitle = serviceData.title;
                               reviewButton.dataset.requestId = request.id;
-                              reviewButton.dataset.revieweeUserId = request.sender;  // Review the sender (user who completed the service)
+                              reviewButton.dataset.revieweeUserId = request.sender; 
                               
                               reviewButton.addEventListener('click', (event) => {
                                   const serviceId = event.target.dataset.serviceId;
                                   const serviceTitle = event.target.dataset.serviceTitle;
                                   const requestId = event.target.dataset.requestId;
                                   const revieweeUserId = event.target.dataset.revieweeUserId;
-                                  openReviewModal(serviceId, serviceTitle, requestId, revieweeUserId); // Pass revieweeUserId to modal
+                                  openReviewModal(serviceId, serviceTitle, requestId, revieweeUserId); 
                               });
 
                               fetch(`/api/check-review/?reviewee_user_id=${request.sender}`)
@@ -221,7 +328,6 @@ function fetchCompletedRequests() {
                                 })
                                 .catch(err => {
                                   console.error('Error checking review status:', err);
-                                  // Fallback: still show the review button if check fails
                                   exchangeStatus.appendChild(reviewButton);
                                   exchangeItem.appendChild(exchangeInfo);
                                   exchangeItem.appendChild(exchangeStatus);
@@ -374,7 +480,6 @@ function fetchCompletedRequests() {
           return;
         }
   
-        // Calculate average rating
         const total = data.reduce((sum, review) => sum + review.rating, 0);
         const average = (total / data.length).toFixed(1);
   

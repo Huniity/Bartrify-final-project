@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.addEventListener('click', (event) => {
       const serviceId = event.target.dataset.serviceId;
       const serviceCard = event.target.closest('.card');
-
+  
       if (serviceCard) {
         modalUserAvatar.src = serviceCard.dataset.ownerAvatar || '{% static "img/default-avatar.png" %}';
         modalUserName.textContent = serviceCard.dataset.ownerName;
@@ -135,11 +135,27 @@ document.addEventListener('DOMContentLoaded', () => {
         modalUserDescription.textContent = serviceCard.dataset.description;
         modalTrade1Icon.src = serviceCard.dataset.categoryImage || '{% static "img/Img-content.png" %}';
         modalTrade1Title.textContent = serviceCard.dataset.category;
-
+  
+        contactForm.dataset.serviceId = serviceId; // ✅ Add this
         openContactModal();
       }
     });
   });
+
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let cookie of cookies) {
+        cookie = cookie.trim();
+        if (cookie.startsWith(name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
 
   window.addEventListener('click', (event) => {
     if (event.target === profileFeedModal) {
@@ -150,12 +166,55 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  contactForm.addEventListener('submit', (event) => {
+  contactForm.addEventListener('submit', async (event) => {
     event.preventDefault();
-    const message = messageTextarea.value;
-    console.log(`Sending message: "${message}"`);
-    alert('Message sent!');
-    closeModal();
-    contactForm.reset();
+  
+    const message = messageTextarea.value.trim();
+    const serviceId = contactForm.dataset.serviceId;
+  
+    if (!message || !serviceId || !CURRENT_USER_ID) {
+      alert("Missing required data.");
+      return;
+    }
+  
+    const serviceCard = document.querySelector(`.card[data-service-id="${serviceId}"]`);
+    if (!serviceCard) {
+      alert("Service card not found.");
+      return;
+    }
+  
+    const receiverId = serviceCard.dataset.ownerId;
+    const csrftoken = getCookie('csrftoken');
+  
+    try {
+      const response = await fetch('/api/requests/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrftoken,
+        },
+        body: JSON.stringify({
+          service: parseInt(serviceId, 10),
+          receiver: parseInt(receiverId, 10),
+          message: message,
+        })
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        console.error("❌ Error:", errorData);
+        alert("Failed to send message.");
+        return;
+      }
+  
+      alert("Message sent and request created!");
+      contactForm.reset();
+      closeModal();
+  
+    } catch (error) {
+      console.error("🚨 Request error:", error);
+      alert("An unexpected error occurred.");
+    }
   });
+  
 });

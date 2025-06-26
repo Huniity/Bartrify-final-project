@@ -134,4 +134,8 @@
 </section>
 
 <script src="{% static 'js/feed.js' %}"></script>
+<script>
+    const CURRENT_USER_ID = "{{ request.user.id }}";
+    const CURRENT_USERNAME = "{{ request.user.username }}";
+</script>
 {% endblock %}
