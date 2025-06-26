@@ -437,7 +437,7 @@ function fetchCompletedRequests() {
       .then(response => response.json())
       .then(data => {
         const completedRequests = data.filter(request => request.status === "completed");
-        const activeRequests = data.filter(request => request.status === "pending");
+        const activeRequests = data.filter(request => request.status === "pending" || request.status === "in-progress");
         const completedCount = completedRequests.length;
         const activeCount = activeRequests.length;
 

@@ -8,6 +8,31 @@ from rest_framework.permissions import IsAuthenticated
 class SubmitReviewAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
+    def get(self, request, *args, **kwargs):
+        user_id = request.query_params.get("user_id")
+        if not user_id:
+            user_id = request.user.id
+
+        try:
+            user_id = int(user_id)
+        except ValueError:
+            return Response({'error': 'Invalid user_id'}, status=400)
+
+        reviews = Review.objects.filter(reviewee_id=user_id)
+
+        data = [
+            {
+                'id': review.id,
+                'user_id': review.user.id,
+                'username': review.user.username,
+                'rating': review.rating,
+                'created_at': review.created_at.isoformat(),
+            }
+            for review in reviews
+        ]
+
+        return Response(data)
+
     def post(self, request, *args, **kwargs):
         data = request.data
         user = request.user
@@ -68,15 +93,24 @@ class UserReceivedReviewsAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
-        user = request.user
-        reviews = Review.objects.filter(reviewee=user)
+        # Optional: fetch another user's reviews by ?user_id=
+        user_id = request.query_params.get("user_id")
+        if user_id:
+            try:
+                user_id = int(user_id)
+            except ValueError:
+                return Response({"error": "Invalid user_id"}, status=400)
+        else:
+            user_id = request.user.id
+
+        reviews = Review.objects.filter(reviewee_id=user_id)
 
         data = [
             {
                 'id': review.id,
-                'reviewer_id': review.user.id,
+                'user_id': review.user.id,  # reviewer ID
+                'username': review.user.username,  # reviewer name
                 'rating': review.rating,
-                'comment': getattr(review, 'comment', ''),
                 'created_at': review.created_at.isoformat(),
             }
             for review in reviews

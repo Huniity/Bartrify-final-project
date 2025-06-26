@@ -89,24 +89,20 @@ function fetchUserServicesById(userId) {
 
       servicesContainer.innerHTML = '';
       userServices.forEach(service => {
-        const card = document.createElement('div');
-        card.classList.add('service-card');
-
-        const title = document.createElement('h4');
-        title.textContent = service.title;
-
-        const category = document.createElement('p');
-        const categoryName = categoryMapping[service.category] || service.category;
-        category.textContent = categoryName;
-
-        const desc = document.createElement('p');
-        desc.textContent = service.description;
-
-        card.appendChild(title);
-        card.appendChild(category);
-        card.appendChild(desc);
-
-        servicesContainer.appendChild(card);
+        const serviceItem = document.createElement('div');
+        serviceItem.classList.add('service-tab');
+        
+        serviceItem.innerHTML = `
+          <div class="header-text-tab">
+            <h4 class="service-title-h4">${service.title}</h4>
+            <p class="service-title-p">${categoryMapping[service.category] || service.category}</p>
+          </div>
+          <div class="service-description-tab">
+            <p>${service.description}</p>
+          </div>
+        `;
+        
+        servicesContainer.appendChild(serviceItem);
       });
     })
     .catch(err => {
@@ -115,11 +111,42 @@ function fetchUserServicesById(userId) {
     });
 }
 
+function fetchReviewsForUser(userId) {
+  const reviewsContainer = document.getElementById('tab-reviews');
+  reviewsContainer.innerHTML = '<p>Loading reviews...</p>';
+
+  fetch(`/api/reviews/?user_id=${userId}`)
+    .then(res => res.json())
+    .then(reviews => {
+      if (!reviews.length) {
+        reviewsContainer.innerHTML = '<p>No reviews yet.</p>';
+        return;
+      }
+
+      reviewsContainer.innerHTML = '';
+      reviews.forEach(review => {
+        const reviewEl = document.createElement('div');
+        reviewEl.classList.add('review-item');
+        reviewEl.innerHTML = `
+          <p><strong>${review.username}</strong> rated: ${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</p>
+          <p><em>${new Date(review.created_at).toLocaleDateString()}</em></p>
+        `;
+        reviewsContainer.appendChild(reviewEl);
+      });
+    })
+    .catch(err => {
+      console.error("Error fetching reviews:", err);
+      reviewsContainer.innerHTML = '<p>Error loading reviews.</p>';
+    });
+}
+
+
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.open-profile-modal-btn').forEach(btn => {
     btn.addEventListener('click', (event) => {
       const ownerId = event.target.dataset.ownerId;
       openProfileModal(ownerId);
+      fetchReviewsForUser(ownerId);
     });
   });
 
@@ -136,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
         modalTrade1Icon.src = serviceCard.dataset.categoryImage || '{% static "img/Img-content.png" %}';
         modalTrade1Title.textContent = serviceCard.dataset.category;
   
-        contactForm.dataset.serviceId = serviceId; // ✅ Add this
+        contactForm.dataset.serviceId = serviceId; 
         openContactModal();
       }
     });
