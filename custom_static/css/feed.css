@@ -573,6 +573,9 @@ textarea {
     cursor: pointer;
     color: var(--alternative-color1);
     z-index: 10;
+    background-color: transparent; /* to be checked */
+    border: none;
+    outline: none;
 }
 
 .close-btn-profile:hover {

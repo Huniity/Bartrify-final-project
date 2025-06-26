@@ -11,18 +11,21 @@
             </div>
         </div>
 
-        <div class="bottom-panel">
-            <button class="close-btn-profile">✖</button>
+    <!-- Bottom Section -->
+    <div class="bottom-panel">
+      <button class="close-btn-profile">✖</button>
             <div class="tabs">
-                <button class="tab active" data-tab-id="tab-services">Serviços Fornecidos</button>
-                <button class="tab" data-tab-id="tab-needed">Serviços Necessários</button>
-                <button class="tab" data-tab-id="tab-reviews">Reviews</button>
-            </div>
-            <div id="tab-services" class="tab-content"></div>
-            <div id="tab-needed" class="tab-content"></div>
-            <div id="tab-reviews" class="tab-content"></div>
-        </div>
+        <button class="tab active" data-tab-id="tab-services">Serviços Fornecidos</button>
+        <button class="tab" data-tab-id="tab-reviews">Reviews</button>
+      </div>
+
+      <!-- Tab Content will be loaded dynamically -->
+      <div id="tab-services" class="tab-content" style="display: block;"></div>
+      <div id="tab-reviews" class="tab-content" style="display: none;">
+        <p>Loading reviews...</p>
+      </div>
     </div>
+  </div>
 </div>
 
 <div id="contact-modal" class="Modal-Container">

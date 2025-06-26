@@ -95,12 +95,12 @@
                 </div>
             </div>
 
-            <div class="stat-card">
+            <div class="stat-card" id="activeCountStat">
                 <div class="stat-icon">
                     <i class="fa-solid fa-handshake"></i>
                 </div>
                 <div class="stat-content">
-                    <span class="stat-value">24</span>
+                    <span class="stat-value">0</span>
                     <span class="stat-title">Active</span>
                 </div>
             </div>
@@ -110,18 +110,18 @@
                     <i class="fa-solid fa-star"></i>
                 </div>
                 <div class="stat-content">
-                    <span class="stat-value">4.8</span>
+                    <span class="stat-value" id="ratingsAverage1">0</span>
                     <span class="stat-title">Rating</span>
                 </div>
             </div>
 
-            <div class="stat-card">
+            <div class="stat-card" id="completedCountStat">
                 <div class="stat-icon">
                     <i class="fa-solid fa-calendar-check"></i>
                 </div>
                 <div class="stat-content">
-                    <span class="stat-value">7</span>
-                    <span class="stat-title">Upcoming</span>
+                    <span class="stat-value">0</span>  
+                    <span class="stat-title">Completed</span>
                 </div>
             </div>
         </div>
@@ -258,10 +258,10 @@
     <div class="panel">
         <div class="stats-content">
             <div class="stats-card">
-                <h3><i class="fa-solid fa-star"></i> Reviews & Ratings</h3>
+                <h3><i class="fa-solid fa-star"></i> Ratings</h3>
                 <div class="rating-summary">
                     <div class="average-rating">
-                        4.8
+                        <p id="ratingsAverage2">0</p>
                         <div class="stars">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
@@ -276,14 +276,14 @@
                             <div class="bar-container">
                                 <div class="bar-fill" style="width: 85%"></div>
                             </div>
-                            <span>85%</span>
+                            <span class="fiveStarAverage">0%</span>
                         </div>
                         <div class="rating-bar">
-                            <span>4 stars</span>
+                            <span class="fourStarAverage">4 stars</span>
                             <div class="bar-container">
                                 <div class="bar-fill" style="width: 12%"></div>
                             </div>
-                            <span>12%</span>
+                            <span>0%</span>
                         </div>
                     </div>
                 </div>
@@ -318,9 +318,11 @@
     </div>
 </div>
 {% include "core/profile_modal.html" %}
+{% include "core/review_modal.html" %}
 {% include "core/service_modal.html" %}
 {% include "core/bio_modal.html" %}
 <script src="{% static 'js/service_modal.js' %}"></script>
+<script src="{% static 'js/review_modal.js' %}"></script>
 <script src="{% static 'js/profile_modal.js' %}"></script>
 <script src="{% static 'js/bio_modal.js' %}"></script>
 <script>

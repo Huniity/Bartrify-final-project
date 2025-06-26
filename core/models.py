@@ -78,9 +78,27 @@ class ServiceRequest(models.Model):
     sender = models.ForeignKey(User, related_name='sent_requests', on_delete=models.CASCADE)
     receiver = models.ForeignKey(User, related_name='received_requests', on_delete=models.CASCADE)
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
-    status = models.CharField(choices=[('pending', 'Pending'), ('accepted', 'Accepted'), ('declined', 'Declined')], default='pending', max_length=10)
+    status = models.CharField(
+        choices=[
+            ('pending', 'Pending'),
+            ('in-progress', 'In Progress'),
+            ('completed', 'Completed')
+        ],
+        default='pending',
+        max_length=12
+    )
     message = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+class Review(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews_written')  # The reviewer
+    reviewee = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, related_name='reviews_received')  # Temporarily allow null
+    rating = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'Review from {self.user} to {self.reviewee} - Rating: {self.rating}'
+
 
 ########################### CHATROOM AND MESSAGES ###########################
 

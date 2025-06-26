@@ -35,6 +35,7 @@ document.addEventListener('keydown', e => {
 });
 
 
+
 document.addEventListener("DOMContentLoaded", function() {
     const typeTrade = document.getElementById("type_trade");
     const wrapperService = document.getElementById("wrapper_service");

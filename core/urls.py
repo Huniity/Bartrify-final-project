@@ -25,6 +25,9 @@ from core.views import (
     ServiceRequestViewSet,
     MyServiceViewSet,
     PasswordChangeView,
+    SubmitReviewAPIView,
+    CheckReviewAPIView,
+    UserReceivedReviewsAPIView,
 )
 
 router = DefaultRouter()
@@ -58,6 +61,10 @@ urlpatterns = [
     path('api/update-bio/', UpdateBioView.as_view(), name='update_bio'),
     path('api/chat/<int:room_id>/messages/', ChatRoomMessagesView.as_view(), name='chat-messages'),
     path('api/chat/<int:room_id>/mark_read/', MarkMessagesReadView.as_view(), name='mark-messages-read'),
+    path('api/reviews/', SubmitReviewAPIView.as_view(), name='submit_review'),
+    path('api/check-review/', CheckReviewAPIView.as_view(), name='check_review'),
+    path('api/my-reviews/', UserReceivedReviewsAPIView.as_view(), name='my-reviews'),
+
 
     # Routers
     path('api/', include(router.urls)),
@@ -65,5 +72,4 @@ urlpatterns = [
     # Other URLs can be included here as needed
     path("chat/create/<int:receiver_id>/", views.create_chat, name="create_chat"),
     path('create-service/', CreateServiceView.as_view(), name='create_service'),
-
 ]

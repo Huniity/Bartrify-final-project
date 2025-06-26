@@ -127,11 +127,15 @@
                 </div>
             </div>
         {% empty %}
-            <p>No services found, yo. Try changing your filters.</p>
+            <p>No services found. Try changing your filters.</p>
         {% endfor %}
     </div>
 </section>
 
 <script src="{% static 'js/chat.js' %}"></script>
 <script src="{% static 'js/feed.js' %}"></script>
+<script>
+    const CURRENT_USER_ID = "{{ request.user.id }}";
+    const CURRENT_USERNAME = "{{ request.user.username }}";
+</script>
 {% endblock %}
