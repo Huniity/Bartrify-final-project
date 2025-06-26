@@ -11,19 +11,23 @@ const feedData = [
         image: "/static/img/1.png",
         avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Laura",
         userReviews: [
-            { name: "Mariana S", comment: "Adorei o carrinho, super confortável e seguro para o meu bebé!" },
-            { name: "João P", comment: "Excelente qualidade e entrega rápida. Recomendo!" },
-            { name: "Mariana S", comment: "Adorei o carrinho, super confortável e seguro para o meu bebé!" },
-            { name: "João P", comment: "Excelente qualidade e entrega rápida. Recomendo!" },
-            { name: "Mariana S", comment: "Adorei o carrinho, super confortável e seguro para o meu bebé!" },
-            { name: "João P", comment: "Excelente qualidade e entrega rápida. Recomendo!" },
-            { name: "Mariana S", comment: "Adorei o carrinho, super confortável e seguro para o meu bebé!" },
-            { name: "João P", comment: "Excelente qualidade e entrega rápida. Recomendo!" },
-            { name: "Mariana S", comment: "Adorei o carrinho, super confortável e seguro para o meu bebé!" },
-            { name: "João P", comment: "Excelente qualidade e entrega rápida. Recomendo!" },
-            { name: "Mariana S", comment: "Adorei o carrinho, super confortável e seguro para o meu bebé!" },
-            { name: "João P", comment: "Excelente qualidade e entrega rápida. Recomendo!" },
-            { name: "Ana L", comment: "Produtos muito bons e atendimento impecável. Voltarei a comprar." }
+            { name: "Mariana S", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Mariana", rating: 5 },
+            { name: "João P", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=João", rating: 3 },
+            { name: "Ana L", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Ana", rating: 5 },
+            { name: "Mariana S", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Mariana", rating: 5 },
+            { name: "João P", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=João", rating: 3 },
+            { name: "Ana L", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Ana", rating: 5 },
+            { name: "Mariana S", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Mariana", rating: 5 },
+            { name: "João P", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=João", rating: 3 },
+            { name: "Mariana S", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Mariana", rating: 5 },
+            { name: "João P", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=João", rating: 3 },
+            { name: "Ana L", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Ana", rating: 5 },
+            { name: "Mariana S", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Mariana", rating: 5 },
+            { name: "João P", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=João", rating: 3 },
+            { name: "Ana L", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Ana", rating: 5 },
+            { name: "Mariana S", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Mariana", rating: 5 },
+            { name: "João P", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=João", rating: 3 },
+            { name: "Ana L", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Ana", rating: 5 }
         ]
     },
     {
@@ -38,9 +42,9 @@ const feedData = [
         image: "/static/img/2.png",
         avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Miguel",
         userReviews: [
-            { name: "Sofia M.", comment: "Casa impecável! Serviço muito detalhado e eficiente." },
-            { name: "Rui C.", comment: "Profissionalismo e pontualidade. Recomendo vivamente." },
-            { name: "Beatriz A.", comment: "Ótimo trabalho, a casa ficou a brilhar. Preço justo." }
+            { name: "Tiago D.", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Tiago", rating: 5 },
+            { name: "Vanda R.", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Vanda", rating: 4 },
+            { name: "Nuno F.", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Nuno", rating: 5 }
         ]
     },
     {
@@ -55,9 +59,9 @@ const feedData = [
         image: "/static/img/3.png",
         avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Sara",
         userReviews: [
-            { name: "Tiago D.", comment: "Conhecimento profundo de PCs retro. Conseguiu reparar o meu ZX Spectrum!" },
-            { name: "Vanda R.", comment: "Peças difíceis de encontrar, mas ela tinha. Excelente!" },
-            { name: "Nuno F.", comment: "Resolveu um problema que mais ninguém conseguia. Recomendo a quem tem máquinas antigas." }
+            { name: "Marta G.", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Marta", rating: 5 },
+            { name: "Pedro E.", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Pedro", rating: 5 },
+            { name: "Filipa B.", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Filipa", rating: 5 }
         ]
     },
     {
@@ -72,9 +76,9 @@ const feedData = [
         image: "/static/img/4.png",
         avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Bruno",
         userReviews: [
-            { name: "Marta G.", comment: "O meu cão adora o Bruno! Volta sempre feliz e cansado." },
-            { name: "Pedro E.", comment: "Serviço super atencioso e confiável. Recomendo para quem tem cães." },
-            { name: "Filipa B.", comment: "Muito profissional e carinhoso com os animais. Impecável!" }
+            { name: "Marta G.", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Marta", rating: 5 },
+            { name: "Pedro E.", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Pedro", rating: 5 },
+            { name: "Filipa B.", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Filipa", rating: 5 }
         ]
     },
     {
@@ -89,9 +93,9 @@ const feedData = [
         image: "/static/img/5.png",
         avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Clara",
         userReviews: [
-            { name: "Vasco C.", comment: "Chegou super rápido e resolveu o problema em minutos. Excelente!" },
-            { name: "Diana P.", comment: "Serviço de emergência impecável. Muito profissionalismo." },
-            { name: "Hugo Q.", comment: "Reparação rápida e limpa. Recomendo a Clara para qualquer problema de canalização." }
+            { name: "Marta G.", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Marta", rating: 5 },
+            { name: "Pedro E.", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Pedro", rating: 5 },
+            { name: "Filipa B.", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Filipa", rating: 5 }
         ]
     },
     {
@@ -106,9 +110,9 @@ const feedData = [
         image: "/static/img/6.png",
         avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=João",
         userReviews: [
-            { name: "Carla H.", comment: "Produtos frescos e de ótima qualidade. Entrega sempre pontual." },
-            { name: "Rui I.", comment: "Leite delicioso e iogurtes artesanais. Adoro o serviço!" },
-            { name: "Eva J.", comment: "Conveniência e qualidade. Uma mais-valia para o dia a dia." }
+            { name: "Marta G.", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Marta", rating: 5 },
+            { name: "Pedro E.", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Pedro", rating: 5 },
+            { name: "Filipa B.", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Filipa", rating: 5 }
         ]
     },
     {
@@ -123,9 +127,9 @@ const feedData = [
         image: "/static/img/7.png",
         avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Ana",
         userReviews: [
-            { name: "Luís K.", comment: "Pintura impecável, casa nova! Muito atenciosa e profissional." },
-            { name: "Inês M.", comment: "Trabalho rápido e limpo. Recomendo os serviços da Ana." },
-            { name: "Paulo N.", comment: "Acabamentos de alta qualidade. Gostei muito do resultado final." }
+            { name: "Marta G.", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Marta", rating: 5 },
+            { name: "Pedro E.", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Pedro", rating: 5 },
+            { name: "Filipa B.", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Filipa", rating: 5 }
         ]
     },
     {
@@ -140,9 +144,9 @@ const feedData = [
         image: "/static/img/8.png",
         avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=David",
         userReviews: [
-            { name: "Sandra O.", comment: "Conselhos muito úteis para as minhas poupanças. Ajudou-me muito." },
-            { name: "Ricardo P.", comment: "Esclarecedor e prático. As dicas de investimento foram valiosas." },
-            { name: "Daniela Q.", comment: "Profissional competente e direto. Recomendo para quem precisa de orientação financeira." }
+            { name: "Marta G.", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Marta", rating: 5 },
+            { name: "Pedro E.", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Pedro", rating: 5 },
+            { name: "Filipa B.", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Filipa", rating: 5 }
         ]
     },
     {
@@ -157,9 +161,9 @@ const feedData = [
         image: "/static/img/9.png",
         avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Sofia",
         userReviews: [
-            { name: "Fernando R.", comment: "Jardim impecável e com um aspeto saudável. Usa produtos amigos do ambiente." },
-            { name: "Leonor S.", comment: "Excelente serviço de jardinagem. A relva nunca esteve tão verde!" },
-            { name: "Miguel T.", comment: "Rápida e eficiente, o jardim ficou um espetáculo. Recomendo!" }
+            { name: "Marta G.", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Marta", rating: 5 },
+            { name: "Pedro E.", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Pedro", rating: 5 },
+            { name: "Filipa B.", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Filipa", rating: 5 }
         ]
     },
     {
@@ -174,9 +178,9 @@ const feedData = [
         image: "/static/img/10.png",
         avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Ricardo",
         userReviews: [
-            { name: "Joana U.", comment: "Instalou um sistema de poupança de água que é excelente. Muito consciente." },
-            { name: "Diogo V.", comment: "Canalizador ecológico e muito competente. Recomendo os seus serviços." },
-            { name: "Patrícia W.", comment: "Soluções sustentáveis e eficazes. Estou muito satisfeita." }
+            { name: "Marta G.", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Marta", rating: 5 },
+            { name: "Pedro E.", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Pedro", rating: 5 },
+            { name: "Filipa B.", avatar: "https://api.dicebear.com/7.x/adventurer/svg?seed=Filipa", rating: 5 }
         ]
     }
 ];
@@ -218,34 +222,52 @@ document.addEventListener("DOMContentLoaded", function () {
     renderFeed(feedData);
 });
 
-function openProfileModal(user) {
-    document.getElementById("profile-avatar").src = user.avatar;
-    document.getElementById("profile-name").textContent = user.name;
-    document.getElementById("profile-description").textContent = user.description;
+function openProfileModal(profile) {
+    window.selectedUser = profile;
 
-    window.selectedUser = user;
-    document.getElementById("profile-feed-modal").classList.add("active");
+    document.getElementById("profile-avatar").src = profile.avatar;
+    document.getElementById("profile-name").textContent = profile.name;
+    document.getElementById("profile-description").textContent = profile.description;
 
-    document.getElementById("tab-services").innerHTML = `
-        <img src="${user.trade1.icon}" alt="${user.trade1.title}" />
-        <p>${user.trade1.title}</p>
-    `;
+    const ratingContainer = document.getElementById("modal-user-rating");
+    const rating = profile.rating || 5;
+    ratingContainer.innerHTML = "★".repeat(rating) + "☆".repeat(5 - rating);
 
-    document.getElementById("tab-needed").innerHTML = `
-        <p>Precisa de ajuda com jardinagem e pequenas manutenções.</p>
-    `;
+    const reviewsContainer = document.getElementById("tab-reviews");
+    reviewsContainer.innerHTML = "";
 
-    const reviewHTML = user.userReviews.map(r => `<div class="review"><strong>${r.name}:</strong> ${r.comment}</div>`).join("");
+    profile.userReviews.forEach((review) => {
+        const reviewDiv = document.createElement("div");
+        reviewDiv.classList.add("review-item");
 
-    document.getElementById("tab-reviews").innerHTML = reviewHTML;
+        const avatarUrl = review.avatar || `https://api.dicebear.com/7.x/adventurer/svg?seed=${encodeURIComponent(review.name)}`;
+        const reviewRating = review.rating || 5;
+        const stars = "★".repeat(reviewRating) + "☆".repeat(5 - reviewRating);
+
+        reviewDiv.innerHTML = `
+            <div class="review-content">
+                <img class="review-avatar" src="${avatarUrl}" alt="${review.name}" />
+                <div>
+                    <strong>${review.name}</strong>
+                    <div class="review-stars">${stars}</div>
+                </div>
+            </div>
+        `;
+
+        reviewsContainer.appendChild(reviewDiv);
+    });
+
+    document.getElementById("profile-feed-modal").style.display = "flex";
+    showTab("tab-services");
 }
 
-
 function closeProfileModal() {
-    document.getElementById("profile-feed-modal").classList.remove("active");
+    document.getElementById("profile-feed-modal").style.display = "none";
 }
 
 function openContactModal() {
+    const contactModal = document.getElementById("contact-modal");
+    contactModal.style.display = "flex";
     closeProfileModal();
 
     const user = window.selectedUser;
@@ -253,22 +275,20 @@ function openContactModal() {
 
     document.getElementById("modal-user-avatar").src = user.avatar;
     document.getElementById("modal-user-name").textContent = user.name;
-    document.getElementById("modal-user-rating").innerHTML =
-        "★".repeat(user.rating) + "☆".repeat(5 - user.rating);
+    document.getElementById("modal-user-rating").innerHTML = "★".repeat(user.rating) + "☆".repeat(5 - user.rating);
 
     document.getElementById("modal-trade1-icon").src = user.trade1.icon;
     document.getElementById("modal-trade1-title").textContent = user.trade1.title;
 
     document.getElementById("modal-user-description").textContent = user.description;
-
-    document.getElementById("contact-modal").classList.add("active");
 }
 
 function closeModal() {
-    document.getElementById("contact-modal").classList.remove("active");
+    const contactModal = document.getElementById("contact-modal");
+    contactModal.style.display = "none";
 }
 
-function showTab(tabId) {
+function showTab(tabId, event) {
     document.querySelectorAll('.tab-content').forEach(tab => {
         tab.style.display = 'none';
     });
@@ -278,5 +298,8 @@ function showTab(tabId) {
     });
 
     document.getElementById(tabId).style.display = 'block';
-    event.currentTarget.classList.add('active');
+
+    if (event) {
+        event.currentTarget.classList.add('active');
+    }
 }
