@@ -261,10 +261,6 @@
     z-index: 9999;
 }
 
-#contact-modal.active {
-    display: flex;
-}
-
 .modal-card {
     position: absolute;
     width: 55%;
@@ -279,7 +275,7 @@
 
 .left-panel {
     background: var(--primary-color);
-    padding: 40px;
+    padding: 60px;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -315,14 +311,12 @@
 
 .close-btn {
     position: absolute;
-    top: 20px;
-    right: 25px;
-    font-size: 28px;
-    font-weight: bold;
-    color: var(--secundary-text);
+    top: 10px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    font-size: 24px;
     cursor: pointer;
-    z-index: 10;
-    transition: color 0.2s;
 }
 
 .close-btn:hover {
@@ -456,10 +450,6 @@ textarea {
 
 /* ===== Profile Feed Modal ===== */
 
-#profile-feed-modal.active {
-    display: flex;
-}
-
 .modal-card-profile {
     display: flex;
     flex-direction: column;
@@ -563,7 +553,7 @@ textarea {
     right: 640px;
     font-size: 16px;
     font-weight: bold;
-    color: var(--secundary-text);
+    color: var(--text);
     cursor: pointer;
     z-index: 10;
     background-color: transparent;
@@ -606,45 +596,84 @@ textarea {
 }
 
 .tab-content {
-    display: none;
     padding: 20px;
     flex-grow: 1;
-    overflow-y: auto;
+    max-height: 280px;
+    position: relative;
+    overflow-y: scroll;
+    height: 120rem;
 }
 
 .tab-content.active {
     display: block;
 }
 
-#tab-needed,
-#tab-services {
-    align-items: center;
-    text-align: center;
-    position: relative;
-    margin-top: 20px;
+.tab-content.active {
+    display: block;
 }
 
-#tab-services p {
-    font-size: 20px;
-    font-weight: 600;
-}
-
-#tab-services img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-}
-
-.review {
+.service-tab {
     display: flex;
     flex-direction: column;
-    padding: 8px;
-    border-bottom: 1px solid #ccc;
-    position: relative;
-    max-height: 100px;
-    overflow-y: auto;
-    margin-bottom: 10px;
+    gap: 18px;
+    padding: 28px 32px;
+    margin-bottom: 28px;
+    border-radius: 20px;
+    background: #ffffff;
+    border: 1px solid #d9d9d9;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
+
+.header-text-tab {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary-color);
+    padding-bottom: 14px;
+    border-bottom: 2px solid #eaeaea;
+}
+
+.service-description-tab p {
+    margin: 0;
+    font-size: 16px;
+    color: var(--secundary-text);
+    font-weight: 400;
+    letter-spacing: 0.015em;
+    user-select: text;
+}
+
+.review-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding: 28px 32px;
+    border-radius: 20px;
+    background: #ffffff;
+    border: 1px solid #d9d9d9;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.review-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    transition: transform 0.3s ease;
+}
+
+
+.review-stars {
+    color: #f5c518;
+    font-size: 23px;
+    user-select: none;
+    display: flex;
+    gap: 2px;
+}
+
 
 @media (max-width: 768px) {
 
