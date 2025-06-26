@@ -106,9 +106,11 @@ class FeedView(TemplateView):
         category = request.GET.get("category")
         location = request.GET.get("location")
         query = request.GET.get("q") 
-        sort_by = request.GET.get("sort_by") 
+        sort_by = request.GET.get("sort_by")
 
         services = Service.objects.all().select_related('owner')
+        services = services.filter(servicerequest__isnull=True) 
+
 
         # --- Apply Filters ---
         # Category filter

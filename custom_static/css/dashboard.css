@@ -1090,4 +1090,12 @@ width: 2.5rem;
         font-size: 2.5rem;
         color: var(--tertiary-text);
       }
+
+
+      #achievementBadgeContainer.hidden, #activeBadgeContainer.hidden, #ratingsBadgeContainer.hidden{
+        display: none;
+      }
+      #achievementBadgeContainer, #activeBadgeContainer, #ratingsBadgeContainer{
+        display:block
+      }
       

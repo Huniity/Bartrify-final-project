@@ -365,7 +365,7 @@ function fetchCompletedRequests() {
   function fetchUserServices() {
     const servicesTabContent = document.getElementById('services');
     servicesTabContent.innerHTML = '';
-
+  
     fetch('/api/my-services/')
       .then(response => response.json())
       .then(data => {
@@ -373,50 +373,74 @@ function fetchCompletedRequests() {
           data.forEach(service => {
             const exchangeItem = document.createElement('div');
             exchangeItem.classList.add('exchange-item');
-            
+  
             const exchangeInfo = document.createElement('div');
             exchangeInfo.classList.add('exchange-info');
-            
+  
             const serviceAvatar = document.createElement('div');
             serviceAvatar.classList.add('service-avatar');
             serviceAvatar.style.backgroundColor = '#4caf50';
-            
+  
             const icon = document.createElement('i');
             icon.classList.add('fa-solid', 'fa-leaf');
             serviceAvatar.appendChild(icon);
-            
+  
             const serviceDetails = document.createElement('div');
-            
+  
             const serviceTitle = document.createElement('h4');
             serviceTitle.textContent = service.title;
-            
+  
             const serviceCategory = document.createElement('p');
             const categoryName = categoryMapping[service.category];
             serviceCategory.textContent = `${categoryName}`;
-            
+  
             serviceDetails.appendChild(serviceTitle);
             serviceDetails.appendChild(serviceCategory);
-            
+  
             exchangeInfo.appendChild(serviceAvatar);
             exchangeInfo.appendChild(serviceDetails);
-            
+  
             const exchangeStatus = document.createElement('div');
             exchangeStatus.classList.add('exchange-status');
-            
+  
             const status = document.createElement('span');
             status.classList.add('status', 'in-progress');
             status.textContent = 'Active';
-            
-            const editButton = document.createElement('button');
-            editButton.classList.add('btn-small');
-            editButton.textContent = 'Edit';
-            
+  
+            // Delete button (replaces Edit button)
+            const deleteButton = document.createElement('button');
+            deleteButton.classList.add('btn-small', 'btn-danger');
+            deleteButton.textContent = 'Delete';
+  
+            deleteButton.addEventListener('click', () => {
+              if (confirm('Are you sure you want to delete this service?')) {
+                const csrftoken = getCookie('csrftoken');
+                fetch(`/api/my-services/${service.id}/`, {
+                  method: 'DELETE',
+                  headers: {
+                    'X-CSRFToken': csrftoken
+                  }
+                })
+                .then(response => {
+                  if (response.ok) {
+                    fetchUserServices(); // refresh list
+                  } else {
+                    alert('Failed to delete service');
+                  }
+                })
+                .catch(err => {
+                  console.error('Error deleting service:', err);
+                  alert('Error deleting service');
+                });
+              }
+            });
+  
             exchangeStatus.appendChild(status);
-            exchangeStatus.appendChild(editButton);
-            
+            exchangeStatus.appendChild(deleteButton);
+  
             exchangeItem.appendChild(exchangeInfo);
             exchangeItem.appendChild(exchangeStatus);
-            
+  
             servicesTabContent.appendChild(exchangeItem);
           });
         } else {
@@ -428,7 +452,9 @@ function fetchCompletedRequests() {
 
   function updateCompletedCount() {
     const completedCountStat = document.getElementById('completedCountStat');
-    
+    const achievementBadgeContainer = document.getElementById('achievementBadgeContainer');
+    const activeBadgeContainer = document.getElementById('activeBadgeContainer');
+
     if (!completedCountStat) {
       console.error('Completed count stat element not found.');
       return;
@@ -446,6 +472,17 @@ function fetchCompletedRequests() {
         const activeValue = document.getElementById('activeCountStat').querySelector('.stat-value');
         completedValue.textContent = completedCount;  
         activeValue.textContent = activeCount;
+
+        if (completedCount >= 5) {
+          achievementBadgeContainer.classList.remove('hidden');
+        } else {
+          achievementBadgeContainer.classList.add('hidden');
+          }
+        if (activeCount >= 3) {
+          activeBadgeContainer.classList.remove('hidden');
+        } else {
+          activeBadgeContainer.classList.add('hidden');
+        }
       })
       .catch(err => console.error('Error fetching requests:', err));
   }
@@ -454,6 +491,8 @@ function fetchCompletedRequests() {
   function fetchUserRatings() {
     const ratingsAverage1 = document.getElementById('ratingsAverage1');
     const ratingsAverage2 = document.getElementById('ratingsAverage2');
+    const ratingsBadgeContainer = document.getElementById('ratingsBadgeContainer');
+
   
     if (!ratingsAverage1 || !ratingsAverage2) {
       console.error('Ratings elements not found.');
@@ -472,12 +511,14 @@ function fetchCompletedRequests() {
           console.error('Unexpected data format for reviews:', data);
           ratingsAverage1.textContent = 'No ratings yet';
           ratingsAverage2.textContent = 'No ratings yet';
+          ratingsBadgeContainer.classList.add('hidden');
           return;
         }
   
         if (data.length === 0) {
           ratingsAverage1.textContent = 'No ratings yet';
           ratingsAverage2.textContent = 'No ratings yet';
+          ratingsBadgeContainer.classList.add('hidden');
           return;
         }
   
@@ -486,6 +527,12 @@ function fetchCompletedRequests() {
   
         ratingsAverage1.textContent = ` ${average}/5`;
         ratingsAverage2.textContent = ` ${average}/5`;
+
+        if (parseFloat(average) >= 4.0) {
+                ratingsBadgeContainer.classList.remove('hidden');
+        } else {
+                ratingsBadgeContainer.classList.add('hidden');
+        }
       })
       .catch(err => {
         console.error('Error fetching user ratings:', err);
