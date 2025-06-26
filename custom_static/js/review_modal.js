@@ -87,13 +87,19 @@ window.addEventListener('click', function (event) {
 });
 
 // Submit review
-async function submitReview(event, requestId, revieweeUserId) {
+async function submitReview(event, requestId) {
     event.preventDefault();
 
     const rating = parseInt(selectedRatingValue, 10);
+    const revieweeUserId = parseInt(document.getElementById('reviewee-user-id').value, 10);
 
     if (isNaN(rating)) {
         alert('Please select a rating.');
+        return;
+    }
+
+    if (isNaN(revieweeUserId)) {
+        alert('Invalid reviewee.');
         return;
     }
 
@@ -108,9 +114,10 @@ async function submitReview(event, requestId, revieweeUserId) {
             },
             body: JSON.stringify({
                 rating: rating,
-                reviewee_user_id: parseInt(revieweeUserId)
+                reviewee_user_id: revieweeUserId 
             })
         });
+
 
         if (!response.ok) {
             const errorData = await response.json().catch(() => ({}));
@@ -139,7 +146,7 @@ async function submitReview(event, requestId, revieweeUserId) {
                 if (exchangeStatus) {
                     const ratingSpan = document.createElement('span');
                     ratingSpan.classList.add('time-remaining');
-                    ratingSpan.textContent = `⭐ ${selectedRatingValue}/5`;
+                    ratingSpan.textContent = `тнР ${selectedRatingValue}/5`;
                     exchangeStatus.appendChild(ratingSpan);
                 }
             }

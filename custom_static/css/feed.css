@@ -820,3 +820,48 @@ textarea {
         padding: 10px;
     }
 }
+
+.service-tab {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 28px 32px;
+  margin-bottom: 28px;
+  border-radius: 20px;
+  background: #ffffff;
+  border: 1px solid #d9d9d9;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.header-text-tab {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--primary-color);
+  padding-bottom: 14px;
+  border-bottom: 2px solid #eaeaea;
+}
+
+.service-title-h4 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.service-title-p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--tertiary-text);
+}
+
+.service-description-tab p {
+  margin: 0;
+  font-size: 16px;
+  color: var(--secundary-text);
+  font-weight: 400;
+  letter-spacing: 0.015em;
+  user-select: text;
+}

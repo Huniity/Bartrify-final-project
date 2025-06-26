@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="{% static 'css/chat.css' %}">
 <link rel="stylesheet" href="{% static 'css/modals.css' %}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{% static 'js/dashboard.js' %}"></script>
 <div class="dashboard-container">
@@ -139,58 +140,17 @@
                                     <button class="tab-btn" data-tab="services">My Services</button>
                                 </div>
 
-                                <div class="tab-content">
+                                <div class="tab-content-dashboard">
                                     <div id="active" class="tab-pane active">
-                                        <div class="exchange-item">
-                                            <div class="exchange-info">
-                                                <div class="service-avatar" style="background-color: #4caf50;">
-                                                    <i class="fa-solid fa-leaf"></i>
-                                                </div>
-                                                <div>
-                                                    <h4>Gardening Service</h4>
-                                                    <p>With: Alex Johnson · Jun 15</p>
-                                                </div>
-                                            </div>
-                                            <div class="exchange-status">
-                                                <span class="status in-progress">In Progress</span>
-                                            </div>
-                                        </div>
+                                        
                                     </div>
 
                                     <div id="completed" class="tab-pane">
-                                        <div class="exchange-item">
-                                            <div class="exchange-info">
-                                                <div class="service-avatar" style="background-color: #00bcd4;">
-                                                    <i class="fa-solid fa-broom"></i>
-                                                </div>
-                                                <div>
-                                                    <h4>Deep Cleaning</h4>
-                                                    <p>With: Sarah Miller · Jun 2</p>
-                                                </div>
-                                            </div>
-                                            <div class="exchange-status">
-                                                <span class="status completed">Completed</span>
-                                                <span class="time-remaining">Rated 4/5</span>
-                                            </div>
-                                        </div>
+                                        
                                     </div>
 
                                     <div id="services" class="tab-pane">
-                                        <div class="exchange-item">
-                                            <div class="exchange-info">
-                                                <div class="service-avatar" style="background-color: #4caf50;">
-                                                    <i class="fa-solid fa-leaf"></i>
-                                                </div>
-                                                <div>
-                                                    <h4>Gardening Service</h4>
-                                                    <p>Home & Garden · 20 exchanges</p>
-                                                </div>
-                                            </div>
-                                            <div class="exchange-status">
-                                                <span class="status in-progress">Active</span>
-                                                <button class="btn-small">Edit</button>
-                                            </div>
-                                        </div>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -321,14 +281,14 @@
 {% include "core/review_modal.html" %}
 {% include "core/service_modal.html" %}
 {% include "core/bio_modal.html" %}
-<script src="{% static 'js/service_modal.js' %}"></script>
-<script src="{% static 'js/review_modal.js' %}"></script>
-<script src="{% static 'js/profile_modal.js' %}"></script>
-<script src="{% static 'js/bio_modal.js' %}"></script>
 <script>
     const CURRENT_USER_ID = {{ request.user.id }};
     const CURRENT_USERNAME = "{{ request.user.username }}";
 </script>
+<script src="{% static 'js/service_modal.js' %}"></script>
+<script src="{% static 'js/review_modal.js' %}"></script>
+<script src="{% static 'js/profile_modal.js' %}"></script>
+<script src="{% static 'js/bio_modal.js' %}"></script>
 {% if open_room_cookie %}
 <script>
     if (new URLSearchParams(window.location.search).get("room_id")) {

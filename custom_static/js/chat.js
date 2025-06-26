@@ -7,6 +7,9 @@ function flipToChatView() {
 
     if (dashboardCard && !dashboardCard.classList.contains("flipped")) {
         dashboardCard.classList.add("flipped");
+        console.log("Dashboard flipped to chat view (from dashboard front).");
+    } else {
+        console.log("Dashboard already in chat view or is not a flip card. No flip triggered.");
     }
 }
 function flipToDashboardView() {
@@ -14,11 +17,13 @@ function flipToDashboardView() {
 
     if (dashboardCard && dashboardCard.classList.contains("flipped")) {
         dashboardCard.classList.remove("flipped");
+        console.log("Dashboard flipped back to overview.");
     }
 
     if (chatSocket) {
         chatSocket.close();
         chatSocket = null;
+        console.log("Chat WebSocket closed.");
     }
     currentRoomId = null;
     document.getElementById("chatWithLabel").textContent = "Select a chat to begin";
@@ -37,6 +42,7 @@ function getCookie(name) {
 function loadChatRoom(roomId, otherUsername) {
     const dashboardCard = document.querySelector(".card");
     if (currentRoomId === roomId && dashboardCard.classList.contains("flipped")) {
+        console.log(`Already in chatroom ${roomId} and card is flipped. No action.`);
         return;
     }
     flipToChatView();
@@ -66,6 +72,7 @@ function loadChatRoom(roomId, otherUsername) {
         })
         .then(messages => {
             if (currentRoomId !== roomId) {
+                console.log(`Aborted rendering for room ${roomId} as user navigated away.`);
                 return;
             }
             chatContainer.innerHTML = "";
@@ -106,10 +113,15 @@ function loadChatRoom(roomId, otherUsername) {
                         roomItem.querySelector(".unread-badge")?.remove();
                         roomItem.classList.remove("fw-bold");
                     }
+                } else {
+                    console.warn(`Failed to mark messages as read for room ${roomId}. Status: ${response.status}`);
                 }
-            })
+            }).catch(err => {
+                console.error(" Failed to mark messages as read:", err);
+            });
         })
         .catch(err => {
+            console.error("Failed to fetch messages:", err);
             if (currentRoomId === roomId) {
                 chatContainer.innerHTML = "<p class='text-danger text-center mt-5'>Failed to load messages. Please try again.</p>";
             }
@@ -124,6 +136,7 @@ function loadChatRoom(roomId, otherUsername) {
     chatSocket.onmessage = e => {
         const data = JSON.parse(e.data);
         if (data.room_id !== parseInt(currentRoomId) || !data.message) {
+            console.log("Received message for a different or invalid room, ignoring.");
             return;
         }
 
@@ -156,6 +169,9 @@ function loadChatRoom(roomId, otherUsername) {
         chatContainer.appendChild(div);
         chatContainer.scrollTop = chatContainer.scrollHeight;
     };
+
+    chatSocket.onclose = () => console.warn("🔌 Chat WebSocket closed.");
+    chatSocket.onerror = err => console.error("Chat WebSocket error:", err);
 }
 
 
@@ -188,96 +204,95 @@ document.addEventListener("DOMContentLoaded", () => {
     roomNotificationSocket.onerror = err => console.error("Room WebSocket error:", err);
     roomNotificationSocket.onclose = () => console.warn("🔌 Room notification WebSocket closed.");
 
-    roomNotificationSocket.onmessage = e => {
-        const data = JSON.parse(e.data);
-        const roomList = document.getElementById("roomList");
-        const roomId = data.room_id;
-        let roomElem = document.getElementById(`room-${roomId}`);
+roomNotificationSocket.onmessage = e => {
+    const data = JSON.parse(e.data);
+    const roomList = document.getElementById("roomList");
+    const roomId = data.room_id;
+    let roomElem = document.getElementById(`room-${roomId}`);
 
-        if (data.type === "new_room") {
-            if (!roomElem) {
-                const li = document.createElement("li");
-                li.id = `room-${roomId}`;
+    if (data.type === "new_room") {
+        if (!roomElem) {
+            const li = document.createElement("li");
+            li.id = `room-${roomId}`;
 
-                li.className = "room-item chat-button list-group-item d-flex justify-content-between align-items-center fw-bold";
-                li.onclick = () => loadChatRoom(roomId, data.other_user_username);
+            li.className = "room-item chat-button list-group-item d-flex justify-content-between align-items-center fw-bold";
+            li.onclick = () => loadChatRoom(roomId, data.other_user_username);
 
-                const avatarSrc = data.other_user_avatar || `https://ui-avatars.com/api/?name=${data.other_user_username}&background=567C8D&color=fff`;
+            const avatarSrc = data.other_user_avatar || `https://ui-avatars.com/api/?name=${data.other_user_username}&background=567C8D&color=fff`;
 
-                li.innerHTML = `
+            li.innerHTML = `
                 <div class="chat-info">
                     <div class="chat-avatar">
                         <img src="${avatarSrc}" alt="${data.other_user_username} avatar"/>
                     </div>
                     <div class="chat-details">
                         <span class="chat-name">${data.other_user_username}</span>
-                        <p class="last-msg">${data.last_message}</p>
+                        <p class="last-msg">${data.last_message || "New conversation started"}</p>
                     </div>
                 </div>
-                <span class="badge bg-danger unread-badge">${data.unread_count}</span>
+                <span class="badge bg-danger unread-badge">${data.unread_count || 1}</span>
             `;
-                const noConvos = document.getElementById("no-conversations");
-                noConvos?.remove();
-                roomList.prepend(li);
-                roomElem = li;
+            const noConvos = document.getElementById("no-conversations");
+            noConvos?.remove();
+            roomList.prepend(li);
+            roomElem = li;
 
-            } else {
-                roomList.prepend(roomElem);
-                const lastMsgP = roomElem.querySelector('.last-msg');
-                if (lastMsgP && data.last_message) {
-                    lastMsgP.textContent = data.last_message;
-                }
-                let badge = roomElem.querySelector(".unread-badge");
-                if (!badge && data.unread_count > 0) {
-                    badge = document.createElement("span");
-                    badge.className = "badge bg-danger unread-badge";
-                    roomElem.appendChild(badge);
-                }
-                if (badge) badge.textContent = data.unread_count || 1;
-                roomElem.classList.add("fw-bold");
+        } else {
+            roomList.prepend(roomElem);
+            const lastMsgP = roomElem.querySelector('.last-msg');
+            if (lastMsgP && data.last_message) {
+                lastMsgP.textContent = data.last_message;
             }
-            roomElem.classList.add("blink");
-            setTimeout(() => roomElem.classList.remove("blink"), 1500);
-
-        } else if (data.type === "unread_count_update" && roomElem) {
-            if (parseInt(roomId) === currentRoomId) {
-
-                roomList.prepend(roomElem);
-                const lastMsgP = roomElem.querySelector('.last-msg');
-                if (lastMsgP && data.last_message) {
-                    lastMsgP.textContent = data.last_message;
-                }
-                return;
-            }
-
-
             let badge = roomElem.querySelector(".unread-badge");
-            let unreadCount = data.unread_count;
-
-            if (unreadCount > 0) {
-                if (badge) {
-                    badge.textContent = unreadCount;
-                } else {
-                    badge = document.createElement("span");
-                    badge.className = "badge bg-danger unread-badge";
-                    badge.textContent = unreadCount;
-                    roomElem.appendChild(badge);
-                }
-                roomElem.classList.add("fw-bold", "blink");
-                setTimeout(() => roomElem.classList.remove("blink"), 1500);
-                roomList.prepend(roomElem);
-                const lastMsgP = roomElem.querySelector('.last-msg');
-                roomElem.querySelector(".last-msg").textContent = data.last_message || "New message";
-                if (lastMsgP && data.last_message) {
-                    lastMsgP.textContent = data.last_message;
-                }
-            } else {
-
-                if (badge) badge.remove();
-                roomElem.classList.remove("fw-bold");
+            if (!badge && data.unread_count > 0) {
+                 badge = document.createElement("span");
+                 badge.className = "badge bg-danger unread-badge";
+                 roomElem.appendChild(badge);
             }
+            if (badge) badge.textContent = data.unread_count || 1;
+            roomElem.classList.add("fw-bold");
         }
-    };
+        roomElem.classList.add("blink");
+        setTimeout(() => roomElem.classList.remove("blink"), 1500);
+
+    } else if (data.type === "unread_count_update" && roomElem) {
+        if (parseInt(roomId) === currentRoomId) {
+
+            roomList.prepend(roomElem);
+            const lastMsgP = roomElem.querySelector('.last-msg');
+            if (lastMsgP && data.last_message) {
+                lastMsgP.textContent = data.last_message;
+            }
+            return;
+        }
+
+
+        let badge = roomElem.querySelector(".unread-badge");
+        let unreadCount = data.unread_count;
+
+        if (unreadCount > 0) {
+            if (badge) {
+                badge.textContent = unreadCount;
+            } else {
+                badge = document.createElement("span");
+                badge.className = "badge bg-danger unread-badge";
+                badge.textContent = unreadCount;
+                roomElem.appendChild(badge);
+            }
+            roomElem.classList.add("fw-bold", "blink");
+            setTimeout(() => roomElem.classList.remove("blink"), 1500);
+            roomList.prepend(roomElem);
+            const lastMsgP = roomElem.querySelector('.last-msg');
+            if (lastMsgP && data.last_message) {
+                lastMsgP.textContent = data.last_message;
+            }
+        } else {
+
+            if (badge) badge.remove();
+            roomElem.classList.remove("fw-bold");
+        }
+    }
+};
 
     const backToDashboardButton = document.getElementById("backToDashboardButton");
     if (backToDashboardButton) {

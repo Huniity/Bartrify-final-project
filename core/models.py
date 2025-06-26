@@ -119,6 +119,7 @@ class Message(models.Model):
     text = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
     read = models.BooleanField(default=False)
+    
 
     def __str__(self):
         return f"[{self.timestamp:%Y-%m-%d %H:%M}] {self.sender.username}: {self.text[:30]}"

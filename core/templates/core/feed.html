@@ -77,6 +77,7 @@
     </div>
 </section>
 
+{# Include your provided modal HTML file #}
 {% include 'core/service_detail_modal.html' %}
 
 
@@ -132,7 +133,6 @@
     </div>
 </section>
 
-<script src="{% static 'js/chat.js' %}"></script>
 <script src="{% static 'js/feed.js' %}"></script>
 <script>
     const CURRENT_USER_ID = "{{ request.user.id }}";

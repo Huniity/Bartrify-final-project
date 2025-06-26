@@ -43,19 +43,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const signupForm = document.getElementById("signup-form");
     const loginForm = document.getElementById("login-form");
-    const toastTimer = 1500;
 
-    if (signupForm) {
-        signupForm.addEventListener("submit", async (e) => {
+    if (signupForm) { 
+            signupForm.addEventListener("submit", async (e) => {
             e.preventDefault();
 
             const password = document.getElementById("password").value;
             const confirmPassword = document.getElementById("confirmPassword").value;
 
             if (password !== confirmPassword) {
-                if (typeof showErrorToast === 'function') {
-                    showErrorToast('Password does not match.');
-                }
+                alert("Passwords do not match!");
                 return;
             }
 
@@ -79,63 +76,62 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 if (res.ok) {
+                    alert("Signup successful! Please log in.");
                     signupForm.reset();
                     flipCard();
-                    if (typeof showSuccessToast === 'function') {
-                        showSuccessToast('Registration successfull! You can login now!');
-                    }
                 } else {
                     const errorData = await res.json();
-                    if (typeof showErrorToast === 'function') {
-                        showErrorToast('Couldnt Sign Up');
+                    let errorMessage = "Signup failed: ";
+                    if (errorData) {
+                        for (const key in errorData) {
+                            errorMessage += `\n${key}: ${Array.isArray(errorData[key]) ? errorData[key].join(', ') : errorData[key]}`;
+                        }
+                    } else {
+                        errorMessage += "Unknown error.";
                     }
+                    alert(errorMessage);
+                    console.error("Signup error details:", errorData);
                 }
             } catch (error) {
-                if (typeof showErrorToast === 'function') {
-                    showErrorToast('Server error', error);
-                }
+                console.error("Network or fetch error during signup:", error);
+                alert("A network error occurred during signup. Please try again.");
             }
         });
     }
 
     if (loginForm) {
-        loginForm.addEventListener("submit", async (e) => {
-            e.preventDefault();
+    loginForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-            const data = {
-                username: document.getElementById("login-username").value,
-                password: document.getElementById("password-back").value
-            };
+        const data = {
+            username: document.getElementById("login-username").value,
+            password: document.getElementById("password-back").value
+        };
 
-            try {
-                const res = await fetch("/login/", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRFToken": csrftoken
-                    },
-                    body: JSON.stringify(data)
-                });
+        try {
+            const res = await fetch("/login/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrftoken
+                },
+                body: JSON.stringify(data)
+            });
 
-                const result = await res.json();
+            const result = await res.json();
 
-                if (res.ok && result.success) {
-                    loginForm.reset();
-                    if (typeof showSuccessToast === 'function') {
-                        showSuccessToast('Welcome!');
-                    }
-                    setTimeout(() => {
-                        window.location.href = result.redirect || "/dashboard/";
-                    }, toastTimer);    
-                } else {
-                    if (typeof showErrorToast === 'function') {
-                        showErrorToast('Something wrong your username or password.');
-                    }
-                }
-            } catch (error) {
-                console.error("Server Eerror", error);
+            if (res.ok && result.success) {
+                loginForm.reset();
+                window.location.href = result.redirect || "/dashboard/";
+            } else {
+                alert(result.error || "Login failed. Please try again.");
+                console.error("Login error:", result);
             }
-        });
-    }
+        } catch (error) {
+            console.error("Network error during login:", error);
+            alert("A network error occurred during login. Please try again.");
+        }
+    });
+}
 
 });
