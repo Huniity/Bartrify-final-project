@@ -194,8 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
     modalUserAvatar.src = serviceCard.dataset.ownerAvatar || '{% static "img/default-avatar.png" %}';
     modalUserName.textContent = serviceCard.dataset.ownerName;
-    modalUserRating.innerHTML = serviceCard.dataset.modalUserRating;
-    modalUserDescription.textContent = serviceCard.dataset.description;
+    modalUserDescription.textContent = serviceCard.dataset.description || '';
     modalTrade1Icon.src = serviceCard.dataset.categoryImage || '{% static "img/Img-content.png" %}';
     modalTrade1Title.textContent = serviceCard.dataset.category;
 
