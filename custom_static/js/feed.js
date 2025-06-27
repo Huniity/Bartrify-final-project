@@ -140,6 +140,32 @@ function fetchReviewsForUser(userId) {
     });
 }
 
+  function renderStars(rating, container) {
+    container.innerHTML = '';
+
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = (rating % 1) >= 0.5;
+    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+
+    for (let i = 0; i < fullStars; i++) {
+        const star = document.createElement('i');
+        star.classList.add('fas', 'fa-star');
+        container.appendChild(star);
+    }
+
+    if (hasHalfStar) {
+        const halfStar = document.createElement('i');
+        halfStar.classList.add('fas', 'fa-star-half-stroke');
+        container.appendChild(halfStar);
+    }
+
+    for (let i = 0; i < emptyStars; i++) {
+        const emptyStar = document.createElement('i');
+        emptyStar.classList.add('far', 'fa-star');
+        container.appendChild(emptyStar);
+    }
+}
+
 
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.open-profile-modal-btn').forEach(btn => {
@@ -149,6 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
       fetchReviewsForUser(ownerId);
     });
   });
+  
   const filterForm = document.querySelector('.filter-controls');
     const searchInput = document.getElementById('search-input');
     const categorySelect = document.getElementById('category-select');
@@ -201,7 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (serviceCard) {
         modalUserAvatar.src = serviceCard.dataset.ownerAvatar || '{% static "img/default-avatar.png" %}';
         modalUserName.textContent = serviceCard.dataset.ownerName;
-        modalUserRating.innerHTML = '★★★★☆';
+        modalUserRating.innerHTML = serviceCard.dataset.modalUserRating || '★★★★☆';
         modalUserDescription.textContent = serviceCard.dataset.description;
         modalTrade1Icon.src = serviceCard.dataset.categoryImage || '{% static "img/Img-content.png" %}';
         modalTrade1Title.textContent = serviceCard.dataset.category;
@@ -286,5 +313,16 @@ document.addEventListener('DOMContentLoaded', () => {
       alert("An unexpected error occurred.");
     }
   });
+  document.querySelectorAll('.card').forEach(card => {
+        const ownerRating = parseFloat(card.dataset.ownerRating);
+        const starsContainer = card.querySelector('.stars');
+
+        if (!isNaN(ownerRating) && starsContainer) {
+            renderStars(ownerRating, starsContainer);
+        } else if (starsContainer) {
+
+            starsContainer.innerHTML = '';
+        }
+    });
   
 });

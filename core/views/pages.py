@@ -16,7 +16,7 @@ from django import forms
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Q
+from django.db.models import Q, Avg
 from django.db import transaction
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -111,6 +111,7 @@ class FeedView(TemplateView):
         services = Service.objects.all().select_related('owner')
         services = services.filter(servicerequest__isnull=True) 
 
+        services = services.annotate(owner_avg_rating=Avg('owner__reviews_received__rating', distinct=True))
 
         # --- Apply Filters ---
         # Category filter

@@ -552,6 +552,93 @@ function fetchCompletedRequests() {
     if (firstRoom) firstRoom.click();
   }
 
+
+  function renderStars(rating, containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) {
+        console.error(`Star container with ID '${containerId}' not found.`);
+        return;
+    }
+
+    container.innerHTML = ''; 
+
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = (rating % 1) >= 0.5;
+    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+
+
+    for (let i = 0; i < fullStars; i++) {
+        const star = document.createElement('i');
+        star.classList.add('fas', 'fa-star');
+        container.appendChild(star);
+    }
+
+
+    if (hasHalfStar) {
+        const halfStar = document.createElement('i');
+        halfStar.classList.add('fas', 'fa-star-half-stroke');
+        container.appendChild(halfStar);
+    }
+
+    for (let i = 0; i < emptyStars; i++) {
+        const emptyStar = document.createElement('i');
+        emptyStar.classList.add('far', 'fa-star');
+        container.appendChild(emptyStar);
+    }
+}
+
+
+function fetchUserRatings() {
+    const ratingsAverage1 = document.getElementById('ratingsAverage1');
+    const ratingsAverage2 = document.getElementById('ratingsAverage2');
+    const userStarsContainer = document.getElementById('userStarsContainer');
+
+    if (!ratingsAverage1 || !ratingsAverage2 || !userStarsContainer) {
+        console.error('Ratings elements or star container not found.');
+        return;
+    }
+
+    fetch('/api/my-reviews/')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (!Array.isArray(data)) {
+                console.error('Unexpected data format for reviews:', data);
+                ratingsAverage1.textContent = 'N/A';
+                ratingsAverage2.textContent = 'N/A';
+                userStarsContainer.innerHTML = '';
+                return;
+            }
+
+            if (data.length === 0) {
+                ratingsAverage1.textContent = 'No ratings yet';
+                ratingsAverage2.textContent = 'No ratings yet';
+                userStarsContainer.innerHTML = '<p>No ratings yet</p>';
+                return;
+            }
+
+            const total = data.reduce((sum, review) => sum + review.rating, 0);
+            const average = (total / data.length).toFixed(1);
+
+            ratingsAverage1.textContent = `${average}/5`;
+            ratingsAverage2.textContent = `${average}/5`;
+
+
+            renderStars(parseFloat(average), 'userStarsContainer');
+        })
+        .catch(err => {
+            console.error('Error fetching user ratings:', err);
+            ratingsAverage1.textContent = 'Error';
+            ratingsAverage2.textContent = 'Error';
+            userStarsContainer.innerHTML = '<p>Error loading ratings</p>';
+        });
+}
+
+
   fetchActiveRequests();
   updateCompletedCount();
   fetchUserRatings();

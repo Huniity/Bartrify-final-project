@@ -132,10 +132,10 @@ class Command(BaseCommand):
             self.stdout.write(self.style.ERROR("No users found to assign services to. Please ensure users are created."))
             return
 
-        self.stdout.write(self.style.HTTP_INFO("\nCreating test services (at least 4 per user)..."))
+        self.stdout.write(self.style.HTTP_INFO("\nCreating test services (at least 5 per user)..."))
 
         all_users = list(users)
-        min_services_per_user = 4
+        min_services_per_user = 5
 
         user_service_counts = {user.pk: 0 for user in all_users}
 
@@ -168,12 +168,23 @@ class Command(BaseCommand):
                 continue
 
             desired_category_key = random.choice([c for c in categories if c != category_key] or categories)
+            category_descriptions = service_descriptions.get(category_key)
+            if category_descriptions:
+                chosen_description = category_descriptions
+            else:
+                chosen_description = "A versatile service provided with care and quality."
+
+            # Confirm full string is being used
+            if not isinstance(chosen_description, str) or len(chosen_description) < 10:
+                self.stdout.write(self.style.WARNING(
+                    f"Suspiciously short description for category '{category_key}': {repr(chosen_description)}"
+                ))
 
             service, created = Service.objects.get_or_create(
                 owner=owner,
                 title=service_title_full,
                 defaults={
-                    "description": random.choice(service_descriptions.get(category_key, ["A versatile service."])),
+                    "description": chosen_description,
                     "category": category_key,
                     "desired_category": desired_category_key,
                     "price": Decimal('0.00'),

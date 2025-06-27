@@ -98,7 +98,8 @@
                  data-owner-username="{{ service.owner.username }}"
                  data-owner-avatar="{{ service.owner.get_avatar }}"
                  data-owner-bio="{{ service.owner.bio|default_if_none:'' }}" {# Assuming bio field on User #}
-                 data-owner-location="{{ service.owner.location|default_if_none:'' }}"> {# Assuming location field on User #}
+                 data-owner-location="{{ service.owner.location|default_if_none:'' }}"
+                 data-owner-rating="{{ service.owner_avg_rating|default:0 }}">
                  
                 <div class="card-left">
                     <h3 class="category-h3">{{ service.get_category_display|default:"N/A" }}</h3>
@@ -110,8 +111,8 @@
                         {{ service.owner.first_name|default:"Unknown" }} {{ service.owner.last_name|default:"User" }}
                     </h4>
                     <div class="stars">
-                        {# Hardcode 4 stars as default, adjust as desired #}
-                        ★★★★☆
+                        <!-- {# Hardcode 4 stars as default, adjust as desired #}
+                        ★★★★☆ -->
                     </div>
                     <p class="card-title-display">{{ service.title }}</p>
                     <p class="card-description-display">{{ service.description|truncatechars:50 }}</p>

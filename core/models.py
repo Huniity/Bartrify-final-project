@@ -62,7 +62,7 @@ class Service(models.Model):
         return category_images.get(self.category, 'img/Img-content.png')
 
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='services')
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=100)
     description = models.TextField()
     category = models.CharField(max_length=100, choices=CATEGORY_CHOICES)
     desired_category = models.CharField(max_length=100, choices=CATEGORY_CHOICES, blank=True, null=True)
@@ -93,7 +93,8 @@ class ServiceRequest(models.Model):
 class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews_written')  # The reviewer
     reviewee = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, related_name='reviews_received')  # Temporarily allow null
-    rating = models.IntegerField()
+    # rating = models.IntegerField()
+    rating = models.PositiveSmallIntegerField(choices=[(i, str(i)) for i in range(1, 6)])
     created_at = models.DateTimeField(auto_now_add=True)
     service_request = models.ForeignKey(ServiceRequest, on_delete=models.CASCADE, related_name='reviews', null=True, blank=True)
 

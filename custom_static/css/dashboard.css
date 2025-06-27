@@ -644,7 +644,7 @@ width: 2.5rem;
         font-size: 0.75rem;
     }
     
-    /* Right panel styling */
+
     .stats-content {
         padding: 1rem;
         display: flex;
@@ -660,6 +660,9 @@ width: 2.5rem;
         padding: 1rem;
         box-shadow: var(--card-shadow);
         border: 1px solid var(--borders-color);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
     
     .stats-card h3 {
