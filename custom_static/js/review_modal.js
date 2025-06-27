@@ -5,6 +5,7 @@ const cancelReviewBtn = document.getElementById('cancelReviewBtn');
 const submitReviewBtn = document.getElementById('submit-review-btn');
 const serviceIdInput = document.getElementById('service-id');
 const revieweeUserIdInput = document.getElementById('reviewee-user-id');
+const requestIdInput = document.getElementById('request-id');
 
 
 function getCookie(name) {
@@ -83,23 +84,24 @@ window.addEventListener('click', function (event) {
 });
 
 
-async function submitReview(event, requestId) {
+async function submitReview(event, serviceId, requestId, revieweeUserId) {
     event.preventDefault();
 
     const rating = parseInt(selectedRatingValue, 10);
-    const revieweeUserId = parseInt(document.getElementById('reviewee-user-id').value, 10);
+    const csrftoken = getCookie('csrftoken');
 
     if (isNaN(rating)) {
-        showInfoToast("Missing Rating");
+        showInfoToast("Please select a rating.");
         return;
     }
 
-    if (isNaN(revieweeUserId)) {
-        showErrorToast("Invalid user");
+    const parsedRevieweeUserId = parseInt(revieweeUserId, 10);
+    const parsedRequestId = parseInt(requestId, 10);
+
+    if (isNaN(parsedRevieweeUserId) || isNaN(parsedRequestId)) {
+        // showErrorToast("Invalid user or request ID. Please try again.");
         return;
     }
-
-    const csrftoken = getCookie('csrftoken');
 
     try {
         const response = await fetch('/api/reviews/', {
@@ -110,27 +112,48 @@ async function submitReview(event, requestId) {
             },
             body: JSON.stringify({
                 rating: rating,
-                reviewee_user_id: revieweeUserId 
+                reviewee_user_id: parsedRevieweeUserId,
+                service_request: parsedRequestId
             })
         });
 
+        let data;
 
         if (!response.ok) {
-            const errorData = await response.json().catch(() => ({}));
+            const contentType = response.headers.get("Content-Type");
+            let errorData = {};
+
+            if (contentType && contentType.includes("application/json")) {
+                errorData = await response.json().catch(() => ({}));
+            }
+
             let errorMessage = 'Failed to submit review.';
+
             if (errorData.detail) {
-                errorMessage += `\nDetail: ${errorData.detail}`;
+                errorMessage = errorData.detail; 
+            } else if (errorData.error) {
+                errorMessage = errorData.error;
             } else {
                 for (const key in errorData) {
                     errorMessage += `\n${key}: ${Array.isArray(errorData[key]) ? errorData[key].join(', ') : errorData[key]}`;
                 }
             }
             throw new Error(errorMessage);
+        } else {
+            try {
+                data = await response.json();
+            } catch (jsonParseError) {
+                console.warn("Review submitted successfully");
+                data = {};
+            }
         }
 
-        const data = await response.json();
         showSuccessToast("Thank you for the Feedback!");
         closeReviewModal();
+
+        await fetchCompletedRequests();
+        await fetchUserRatings(); 
+
 
         const reviewItem = document.querySelector(`[data-request-id="${requestId}"]`);
         if (reviewItem) {
@@ -139,17 +162,19 @@ async function submitReview(event, requestId) {
                 reviewButton.remove();
                 const exchangeStatus = reviewItem.querySelector('.exchange-status');
                 if (exchangeStatus) {
-                    const ratingSpan = document.createElement('span');
-                    ratingSpan.classList.add('time-remaining');
-                    ratingSpan.textContent = `тнР ${selectedRatingValue}/5`;
-                    exchangeStatus.appendChild(ratingSpan);
+                    const starContainer = document.createElement('div');
+                    starContainer.classList.add('star-rating', 'flex', 'gap-1');
+                    renderStars(parseFloat(selectedRatingValue), starContainer);
+                    exchangeStatus.appendChild(starContainer);
                 }
             }
         }
 
     } catch (err) {
-        showErrorToast("Please try again");
+        console.error("Error in submitReview:", err);
+        // showErrorToast(err.message || "An unknown error occurred. Please try again.");
     }
 }
+
 
 window.openReviewModal = openReviewModal;
