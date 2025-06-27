@@ -1,0 +1,92 @@
+{% load static %}
+<div class="modal-overlay" id="overlay" aria-hidden="true">
+  <div class="modal" id="modal" role="dialog" aria-modal="true" tabindex="-1">
+    <button class="close-btn" id="closeBtn" aria-label="Close">&times;</button>
+    <div class="modal-content">
+      <div class="left-panel">
+        <h2>Create your Service!</h2>
+        <p>Start bartering now and trade later!</p>
+        <img src="{% static 'img/service.png'%}" alt="Illustration" />
+      </div>
+      <div class="right-panel">
+        <h2>A few steps from being a Barter</h2>
+        <form method="POST" id="createServiceForm">
+          {% csrf_token %}
+          <div class="form-row">
+            <div class="form-group">
+              <input type="text" id="service_title" name="service_title" placeholder=" " required />
+              <label for="service_title">What can you trade?</label>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group half-width">
+              <select id="type_trade" name="trade_type"> {# Changed name to trade_type to match the view's expectation #}
+                <option value="">How would you like to trade?</option>
+                <option value="Barter">Barter</option>
+                <option value="Tokens">Tokens</option>
+              </select>
+              <label for="type_trade">How would you like to trade?</label>
+            </div>
+            <div class="form-group half-width">
+              <select id="category" name="category"> {# Name matches model field #}
+                <option value="">Select a category</option>
+                {# Update options based on your CATEGORY_CHOICES in models.py #}
+                <option value="IT_SUPPORT">IT Support & Troubleshooting</option>
+                <option value="GRAPHIC_DESIGN">Graphic Design & Branding</option>
+                <option value="WEB_DEV">Web Development & Design</option>
+                <option value="LANG_TUTOR">Language Tutoring</option>
+                <option value="HOME_REPAIR">Home Repair & Maintenance</option>
+                <option value="CLEANING">Cleaning Services</option>
+                <option value="PET_SITTING">Pet Sitting & Walking</option>
+                <option value="PHOTOGRAPHY">Photography & Editing</option>
+                <option value="CONSULTING">Business Consulting</option>
+                <option value="FITNESS_COACH">Fitness Coaching</option>
+                <option value="EDUCATION">Education & Tutoring</option>
+                <option value="HANDICRAFTS">Handicrafts & Custom Goods</option>
+              </select>
+              <label for="category">Select a category</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <textarea id="service_description" name="service_description" placeholder=" " required></textarea>
+            <label for="service_description">Describe your offer</label>
+          </div>
+          <div class="form-group option1">
+            <div id="wrapper_service">
+              <select id="exchanging_for_service" name="desired_category"> {# Name changed to desired_category #}
+                <option value="">What are you looking for?</option>
+                {# Update options based on your CATEGORY_CHOICES in models.py #}
+                <option value="IT_SUPPORT">IT Support & Troubleshooting</option>
+                <option value="GRAPHIC_DESIGN">Graphic Design & Branding</option>
+                <option value="WEB_DEV">Web Development & Design</option>
+                <option value="LANG_TUTOR">Language Tutoring</option>
+                <option value="HOME_REPAIR">Home Repair & Maintenance</option>
+                <option value="CLEANING">Cleaning Services</option>
+                <option value="PET_SITTING">Pet Sitting & Walking</option>
+                <option value="PHOTOGRAPHY">Photography & Editing</option>
+                <option value="CONSULTING">Business Consulting</option>
+                <option value="FITNESS_COACH">Fitness Coaching</option>
+                <option value="EDUCATION">Education & Tutoring</option>
+                <option value="HANDICRAFTS">Handicrafts & Custom Goods</option>
+              </select>
+              <label id="label_exchanging_for_service" for="exchanging_for_service">What are you looking for?</label>
+            </div>
+            <div id="wrapper_token">
+              <select id="exchanging_for_token" name="price"> {# Name changed to price #}
+                <option value="">How much would you like to charge?</option>
+                <option value="2">2 Tokens</option>
+                <option value="3">3 Tokens</option>
+                <option value="4">4 Tokens</option>
+                <option value="5">5 Tokens</option>
+              </select>
+              <label id="label_exchanging_for_token" for="exchanging_for_token">How much would you like to charge?</label>
+            </div>
+          </div>
+          <button type="submit">Barter!</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="{% static 'js/service_modal.js' %}"></script>

@@ -1,34 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %}Bartrify{% endblock %}</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Bartrify{% endblock %}</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="shortcut icon" href="{% static 'img/favicon.ico'%}" type="image/x-icon">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/feed.css' %}" />
 </head>
 
 <body>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'core/css/styles.css' %}">
-    <!-- Header -->
-    <header class="header">
-        <!-- insert nav here -->
+<!-- DASHBOARD NAVBAR IF AUTHENTICATED -->
+  {% if user.is_authenticated and 'dashboard' in request.path %}
+  <header class="header">
+      <div class="logo">
+        <a href="/">
+          <div class="header-logo-brand">
+            <img src="{% static 'img/logo.png'%}" />
+            <img src="{% static 'img/title.png'%}" />
+          </div>
+        </a>
+      </div>
+      <nav>
+        <a href="{% url 'feed' %}" class="nav-text-link">Feed <i class="fa-solid fa-signs-post"></i></a>
+        <a href="{% url 'logout' %}" class="header-btn"><span>Logout </span><i class="fa-solid fa-right-from-bracket"></i></a>
+      </nav>
     </header>
+<!-- FEED NAVBAR IF AUTHENTICATED -->
+  {% elif user.is_authenticated and 'feed' in request.path %}
+  <header class="header">
+      <div class="logo">
+        <a href="/">
+          <div class="header-logo-brand">
+            <img src="{% static 'img/logo.png'%}" />
+            <img src="{% static 'img/title.png'%}" />
+          </div>
+        </a>
+      </div>
+      <nav>
+        <a href="{% url 'dashboard' %}" class="nav-text-link">Dashboard <i class="fa-solid fa-gauge-high"></i></a>
+        <a href="{% url 'logout' %}" class="header-btn"><span>Logout </span><i class="fa-solid fa-right-from-bracket"></i></a>
+      </nav>
+    </header>
+<!-- FEED NAVBAR IF NOT AUTHENTICATED -->
+  {% elif not user.is_authenticated and 'feed' in request.path %}
+  <header class="header">
+      <div class="logo">
+        <a href="/">
+          <div class="header-logo-brand">
+            <img src="{% static 'img/logo.png'%}" />
+            <img src="{% static 'img/title.png'%}" />
+          </div>
+        </a>
+      </div>
+      <nav>
+        <a href="{% url 'register' %}?mode=signin" class="nav-text-link">Sign In <i class="fa-solid fa-right-to-bracket"></i></a>
+        <a href="{% url 'register' %}?mode=signup" class="header-btn"><span>Join Us </span><i class="fa-solid fa-user-plus"></i></a>
+      </nav>
+    </header>
+<!-- FEED NAVBAR IF NOT AUTHENTICATED -->
+  {% elif user.is_authenticated and 'rgpd' in request.path %}
+  <header class="header">
+      <div class="logo">
+        <a href="/">
+          <div class="header-logo-brand">
+            <img src="{% static 'img/logo.png'%}" />
+            <img src="{% static 'img/title.png'%}" />
+          </div>
+        </a>
+      </div>
+      <nav>
+        <a href="/" class="header-btn" class="nav-text-link">Home <i class="fa-solid fa-house"></i></a>
+        <a href="{% url 'logout' %}" class="header-btn"><span>Logout </span><i class="fa-solid fa-right-from-bracket"></i></a>
+      </nav>
+    </header>
+  {% elif user.is_authenticated %}
+  <header class="header">
+      <div class="logo">
+        <a href="/">
+          <div class="header-logo-brand">
+            <img src="{% static 'img/logo.png'%}" />
+            <img src="{% static 'img/title.png'%}" />
+          </div>
+        </a>
+      </div>
+      <nav>
+        <a href="{% url 'feed' %}" class="nav-text-link">Feed <i class="fa-solid fa-signs-post"></i></a>
+        <a href="{% url 'dashboard' %}" class="header-btn"><span>Dashboard </span><i class="fa-solid fa-gauge-high"></i></a>
+    </nav>
+    </header>
+  {% elif 'register' in request.path %}
+  <!-- Header para página de registro/login -->
+  <header class="header">
+    <div class="logo">
+      <a href="/">
+          <div class="header-logo-brand">
+            <img src="{% static 'img/logo.png'%}" />
+            <img src="{% static 'img/title.png'%}" />
+          </div>
+        </a>
+    </div>
+    <nav>
+      <a href="/" class="header-btn" ><span>Home </span><i class="fa-solid fa-house"></i></a>
+    </nav>
+  </header>
+  {% else %}
+  <!-- Header padrão (fora do dashboard ou register) -->
+  <header class="header">
+    <div class="logo">
+      <a href="/">
+        <div class="header-logo-brand">
+          <img src="{% static 'img/logo.png'%}" />
+          <img src="{% static 'img/title.png'%}" />
+        </div>
+        </a>
+    </div>
+    <nav>
+      <a href="{% url 'register' %}?mode=signin" class="nav-text-link">Sign In <i class="fa-solid fa-right-to-bracket"></i></a>
+      <a href="{% url 'register' %}?mode=signup" class="header-btn"><span>Join Us </span><i class="fa-solid fa-user-plus"></i></a>
+    </nav>
+  </header>
+  {% endif %}
 
-    <!-- Main Content -->
-    {% block content %}{% endblock %}
+  <!-- Main Content -->
+  {% block content %}{% endblock %}
 
-    <!-- Footer -->
-    <div class="wave-footer"></div>
-    <section>
-        <footer class="footer">
-            <!-- insert footer here -->
-        </footer>
-    </section>
-    <script>
-        document.getElementById('date').textContent = new Date().getFullYear();
-    </script>
+  <!-- Footer -->
+  {% if 'dashboard' not in request.path %}
+  <div class="wave-footer">
+    <footer class="footer">
+      <div class="footer-container">
+
+        <div class="footer-col">
+          <h3><i class="fa-solid fa-circle-info"></i> About Us</h3>
+          <p>We’re your go-to space for sharing skills, solving problems, and helping each other out.
+            From fixing stuff to teaching or creating together this is where good vibes and real help meet.
+            No stress, just people connecting, learning, and growing.</p>
+        </div>
+
+        <div class="footer-col">
+          <h3><i class="fa-solid fa-link"></i> Quick Links</h3>
+          <ul>
+            <li><a href="{% url 'index' %}"><i class="fa-solid fa-house"></i> Home</a></li>
+            <li><a href="{% url 'feed' %}"><i class="fa-solid fa-rss"></i> Feed</a></li>
+            <li><a href="{% url 'register' %}?mode=signup"><i class="fa-solid fa-user-plus"></i> Signup</a></li>
+            <li><a href="{% url 'register' %}?mode=signin"><i class="fa-solid fa-right-to-bracket"></i> Signin</a></li>
+            <li><a href="{% url 'dashboard' %}"><i class="fa-solid fa-gauge-high"></i> Dashboard</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h3><i class="fa-solid fa-shield-halved"></i> Privacy & Info</h3>
+          <ul>
+            <li><a href="{% url 'TermsConditions' %}"><i class="fa-solid fa-file-contract"></i> Terms & Conditions</a></li>
+            <li><a href="{% url 'PrivacyPolicy' %}"><i class="fa-solid fa-user-shield"></i> Privacy Policy</a></li>
+            <li><a href="{% url 'RGPD' %}"><i class="fa-solid fa-scale-balanced"></i> RGPD</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h3><i class="fa-solid fa-address-book"></i> Contacts</h3>
+          <ul class="contacts">
+            <li><i class="fa-solid fa-location-dot"></i> @ETIC_Algarve, PT</li>
+            <li><i class="fa-solid fa-envelope"></i> adrien_dejonc@eticalgarve.com</li>
+            <li><i class="fa-solid fa-envelope"></i> lucas_cleminson@eticalgarve.com</li>
+            <li><i class="fa-solid fa-envelope"></i> tomas_miguel@eticalgarve.com</li>
+
+          </ul>
+        </div>
+      </div>
+
+      <p class="footer-copy">
+        <i class="fa-regular fa-copyright"></i>
+        <span id="date"></span> Bartrify. All Rights Reserved.
+      </p>
+    </footer>
+  </div>
+  {% endif %}
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="{% static 'js/toast_logic.js' %}"></script>
+  <script>
+    document.getElementById('date').textContent = new Date().getFullYear();
+  </script>
 </body>
 
 </html>

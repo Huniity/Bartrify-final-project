@@ -1,0 +1,255 @@
+{% load static %}
+
+<div id="reviewPopupOverlay" class="modal-overlay">
+  <div id="reviewPopupModal" class="popup-modal" role="dialog" aria-modal="true" tabindex="-1">
+    <button class="close-btn" id="closeReviewBtn" aria-label="Close">&times;</button>
+    <div class="popup-modal-content">
+      <div class="left-panel">
+        <h2>Help Us Improve</h2>
+        <p>Your feedback helps us create a better experience for everyone.</p>
+        <img src="{% static 'img/SignUp.png' %}" alt="Illustration">
+      </div>
+      <div class="right-panel">
+        <div class="rating-text">
+          <h3>Rate Your Interaction</h3>
+          <p>How was your experience with this user? Your opinion matters.</p>
+        </div>
+        <div class="rating">
+          <input type="radio" name="rating" id="rating-1" value="1" hidden>
+          <div class="rating-option" data-value="1">😢<br><span>Terrible</span></div>
+
+          <input type="radio" name="rating" id="rating-2" value="2" hidden>
+          <div class="rating-option" data-value="2">😟<br><span>Bad</span></div>
+
+          <input type="radio" name="rating" id="rating-3" value="3" hidden>
+          <div class="rating-option" data-value="3">🙂<br><span>Okay</span></div>
+
+          <input type="radio" name="rating" id="rating-4" value="4" hidden>
+          <div class="rating-option" data-value="4">😄<br><span>Good</span></div>
+
+          <input type="radio" name="rating" id="rating-5" value="5" hidden>
+          <div class="rating-option" data-value="5">😍<br><span>Amazing</span></div>
+        </div>
+
+
+        <input type="hidden" id="service-id">
+        <input type="hidden" id="reviewee-user-id">
+        <div class="popup-buttons">
+          <button id="submit-review-btn">Submit Review</button>
+          <button id="cancelReviewBtn">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Updated CSS for review_modal.html
+    Increased specificity by prepending '#reviewPopupOverlay' or '#reviewPopupModal'
+    to ensure these styles override conflicting rules from modals.css.
+*/
+
+  #reviewPopupOverlay.modal-overlay {
+    /* Targeting the specific ID AND class */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    /* Changed to none by default */
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+  }
+
+  #reviewPopupModal.popup-modal {
+    /* Targeting the specific ID AND class */
+    background: #fff;
+    width: 800px;
+    max-width: 95%;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    /* Removed padding from here as it's in content, and column is for inner layout */
+  }
+
+  /* Ensure the .active class for animation also has high specificity */
+  #reviewPopupModal.popup-modal.active {
+    /* If you have animation tied to 'active' class, keep styles here. */
+    /* This rule will trigger the fadeIn animation below */
+    animation: fadeIn 0.3s ease-out;
+  }
+
+
+  #reviewPopupModal .popup-modal-content {
+    /* Nested under modal ID */
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+
+  #reviewPopupModal .left-panel {
+    /* Nested under modal ID */
+    background-color: var(--primary-color);
+    /* Ensure --primary-color is defined in your main CSS */
+    color: var(--text);
+    /* Ensure --text is defined */
+    flex: 1;
+    padding: 40px 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  #reviewPopupModal .left-panel img {
+    /* Nested under modal ID */
+    max-width: 100%;
+    height: auto;
+    margin-top: 20px;
+  }
+
+  #reviewPopupModal .right-panel {
+    /* Nested under modal ID */
+    flex: 1;
+    background-color: #ffffff;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  #reviewPopupModal .rating-text {
+    /* Nested under modal ID */
+    text-align: center;
+  }
+
+  #reviewPopupModal .rating {
+    /* Nested under modal ID */
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 35px;
+    flex-wrap: nowrap;
+    /* Added alignment to ensure emojis/text are vertically centered in their flex items */
+    align-items: flex-start;
+    /* Align items to the start of the cross axis (top) */
+  }
+
+  #reviewPopupModal .rating input[type="radio"] {
+    /* Nested under modal ID */
+    display: none;
+  }
+
+  #reviewPopupModal .rating-option {
+    font-size: 24px;
+    text-align: center;
+    flex: 1;
+    margin: 5px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background: #fff;
+    transition: background 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#reviewPopupModal .rating-option span {
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+#reviewPopupModal .rating-option:hover {
+    background-color: #f0f0f0;
+    transform: scale(1.05);
+}
+
+#reviewPopupModal .rating-option.selected {
+    background-color: #f0f8ff;
+    border-color: var(--secundary-color, #4a90e2);
+    transform: scale(1.1);
+}
+
+  #reviewPopupModal .popup-buttons {
+    /* Nested under modal ID */
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  #reviewPopupModal .popup-buttons button {
+    /* Nested under modal ID */
+    padding: 12px 18px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    color: white;
+    /* Ensure text color is white for these buttons */
+  }
+
+
+  #reviewPopupModal #submit-review-btn {
+    /* Nested under modal ID */
+    background-color: #28a745;
+    /* Green */
+  }
+
+  #reviewPopupModal #submit-review-btn:hover {
+    /* Nested under modal ID */
+    background-color: #218838;
+  }
+
+  #reviewPopupModal #cancelReviewBtn {
+    /* Nested under modal ID */
+    background-color: #dc3545;
+    /* Red */
+  }
+
+  #reviewPopupModal #cancelReviewBtn:hover {
+    /* Nested under modal ID */
+    background-color: #c82333;
+  }
+
+  #reviewPopupModal .close-btn {
+    /* Nested under modal ID */
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-size: 24px;
+    background: none;
+    border: none;
+    color: #333;
+    cursor: pointer;
+    z-index: 1000;
+    /* Ensure it's above other content if necessary */
+  }
+
+  /* Optional: Add fade-in animation for modal */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* Re-added active class here as well for clarity */
+  #reviewPopupModal.popup-modal.active {
+    animation: fadeIn 0.3s ease-out;
+  }
+</style>

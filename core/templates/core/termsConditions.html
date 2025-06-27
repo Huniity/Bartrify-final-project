@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Termos e Condições{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/policy.css' %}">
+
+<div class="policy-wrapper">
+    <h1>Terms and Conditions</h1>
+    <p>By accessing and using this website, you agree to the following terms and conditions. Please read them carefully
+        before using our services.</p>
+
+    <h2><span class="icon">📝</span> Acceptance of Terms</h2>
+    <p>By using this site, you agree to comply with these terms. If you do not agree, please do not use our services.
+    </p>
+
+    <h2><span class="icon">⚖️</span> Modifications</h2>
+    <p>We reserve the right to change these terms at any time, with or without prior notice. It is recommended to
+        regularly check this page.</p>
+
+    <h2><span class="icon">💼</span> Permitted Use</h2>
+    <p>The content of this site is provided for personal and non-commercial use. It is not allowed to copy, reproduce,
+        or redistribute without prior written permission.</p>
+
+    <h2><span class="icon">🔗</span> Third-Party Links</h2>
+    <p>Our site may contain links to external websites. We have no control over the content or policies of those sites.
+    </p>
+
+    <h2><span class="icon">🔒</span> Liability</h2>
+    <p>We are not responsible for any direct, indirect, or consequential damages related to the use of this site.</p>
+
+    <h2><span class="icon">📞</span> Contact</h2>
+    <p>If you have any questions regarding these terms, please contact us at <a
+            href="mailto:suporte@example.com">suporte@example.com</a>.</p>
+
+    <p class="last-updated"><strong>Last updated:</strong> June 23, 2025</p>
+</div>
+
+{% endblock %}

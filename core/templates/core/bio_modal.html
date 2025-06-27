@@ -1,0 +1,150 @@
+{% load static %}
+<div id="editPopupOverlay" class="modal-overlay3" aria-hidden="true">
+  <div id="editPopupModal" class="popup-modal" aria-hidden="true" role="dialog" aria-modal="true" tabindex="-1">
+    <button class="close-btn3" id="closeBtn3" aria-label="Close">&times;</button>
+    <div class="popup-modal-content">
+      <div class="left-panel">
+        <h2>Tell us more about you!</h2>
+        <p>Let others know you better!</p>
+        <img src="{% static 'img/bio.png' %}" alt="Edit illustration" />
+      </div>
+      <div class="popup-right-panel">
+        <h2>Edit My Bio</h2>
+        <label for="editPopupTextarea">Tell us more about you!</label>
+        <textarea id="editPopupTextarea" rows="4" placeholder=" "></textarea>
+          <div class="popup-buttons">
+              <button id="editPopupSaveBtn">Save</button>
+              <button id="editPopupCancelBtn">Cancel</button>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+   .popup-modal {
+  width: 45rem;
+  height: 25rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  position: relative;
+  animation-fill-mode: forwards;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+  .popup-modal.active {
+    display: flex;
+  }
+
+  .popup-modal-content {
+    width: 45rem;
+    height: 25rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    display: flex;
+    overflow: hidden;
+  }
+
+  .popup-left-panel {
+    width: 40%;
+    background: linear-gradient(135deg, var(--test-color1) 50%, var(--test-color2) 100%);
+    color: white;
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .popup-left-panel h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+
+  .popup-left-panel p {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .popup-left-panel img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+  }
+
+  .popup-right-panel {
+    width: 60%;
+    padding: 1.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  #editPopupTextarea {
+    width: 100%;
+    height: 120px;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    padding: 0.75rem;
+    resize: none;
+  }
+
+  .popup-buttons {
+    text-align: right;
+    margin-top: 1rem;
+  }
+
+  .popup-buttons button {
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 0.5rem;
+  }
+
+  #editPopupSaveBtn {
+    background-color: #2c3e50;
+    color: white;
+  }
+
+  #editPopupSaveBtn:hover {
+    background-color: #1a252f;
+  }
+
+  #editPopupCancelBtn {
+    background-color: #ffffff;
+    color: #333;
+  }
+
+  #editPopupCancelBtn:hover {
+    background-color: #ffffff;
+  }
+  #editPopupBtn {
+    margin-top: 2rem;;
+    background-color: white;
+    color: var(--alternative-color1);
+    border: 1px solid var(--alternative-color1);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-weight: semibold;
+    padding: 0.8rem;
+    width: 14rem;
+    font-size: 0.9rem;
+  }
+    #editPopupBtn:hover {
+        background-color: var(--secundary-color);
+        color: white;
+        
+        border: 1px solid #2c3e50;
+    }
+    .popup-right-panel label{
+      top: 5.5rem!important;
+      left: 19rem;
+      background: white;
+    }
+</style>

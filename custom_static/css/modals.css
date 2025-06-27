@@ -1,0 +1,449 @@
+* {
+  font-family: 'outfit', sans-serif;
+}
+
+/* Overlay and Modal */
+.modal-overlay,
+.modal-overlay2,
+.modal-overlay3 {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal-overlay.active,
+.modal-overlay2.active {
+  display: flex;
+}
+
+.modal,
+.modal2 {
+  width: 60%;
+  height: 75%;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  position: relative;
+  animation-fill-mode: forwards;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+/* Smaller modal2 variant */
+.modal.small, .modal2.small {
+  padding: 2rem;
+  max-width: 360px;
+  text-align: center;
+}
+
+/* Animations */
+@keyframes meepIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-30px) rotateX(20deg) scale(0.95);
+    transform-origin: top;
+    filter: blur(6px);
+  }
+  60% {
+    opacity: 0.7;
+    transform: translateY(10px) rotateX(0deg) scale(1.02);
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes meepOut {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.98);
+  }
+}
+
+.modal.entering,
+.modal2.entering,
+.popup-modal-content.entering {
+  animation: meepIn 0.6s ease-out forwards;
+}
+
+.modal.exiting,
+.modal2.exiting,
+.popup-modal-content.exiting {
+  animation: meepOut 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+.popup-modal-content {
+  display: flex;
+  height: 100%;
+}
+/* Modal Content Layout */
+.modal-content,
+.modal-content2 {
+  display: flex;
+  height: 100%;
+}
+.popup-modal.entering {
+  animation: meepIn 0.5s ease-out forwards;
+}
+
+.popup-modal.exiting {
+  animation: meepOut 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+/* Left Panel */
+.left-panel {
+  width: 50%;
+  background-color: var(--primary-color);
+  color: white;
+  text-align: center;
+  padding: 3rem 2rem;
+  border-radius: 8px 0 0 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.left-panel h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.left-panel p {
+  font-size: 1rem;
+  color: var(--text)!important;
+}
+
+.left-panel img {
+  margin-top: 2rem;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Right Panel */
+.right-panel {
+  width: 50%;
+  background: #ffffff;
+  padding: 3rem 2rem;
+  border-radius: 0 8px 8px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.right-panel h2 {
+  margin-bottom: 2rem;
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #1e1e1e;
+}
+
+/* Form */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.form-group {
+  position: relative;
+  width: 100%;
+}
+
+.half-width {
+  flex: 1;
+}
+
+/* Inputs, Selects, Textareas */
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 0.75rem 2.5rem 0.75rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  background-color: #f8f8f8;
+  transition: border 0.3s, background-color 0.3s;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+}
+
+/* Focus states */
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #3b6e68;
+  background-color: #fff;
+}
+
+/* Floating Labels for all inputs, selects, and textareas */
+label {
+  position: absolute;
+  top: 0.7rem!important;
+  left: 1rem;
+  font-size: 0.75rem;
+  padding: 0 0.25rem;
+  color: #666;
+  transition: top 0.18s linear, left 0.18s linear, font-size 0.18s linear, color 0.18s linear;
+  pointer-events: none;
+  background-color: transparent;
+  z-index: 1;
+}
+
+/* Float label up when input/textarea is focused or has content */
+input:focus + label,
+input:not(:placeholder-shown) + label,
+textarea:focus + label,
+textarea:not(:placeholder-shown) + label,
+select:focus + label,
+select:not([value=""]) + label,
+select:not(:placeholder-shown) + label {
+  top: -0.7rem!important;
+  left: 1rem;
+  font-size: 0.75rem;
+  color: #3b6e68;
+  background-color: #fff;
+  padding: 0 0.25rem;
+  pointer-events: none;
+}
+
+/* Textarea Styling */
+textarea {
+  height: 100px;
+  resize: none;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+/* Hide default select arrow and add custom arrow */
+select {
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3csvg fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1em;
+}
+
+/* Input Icons */
+.icon-input {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+}
+
+/* Submit Button */
+button[type="submit"] {
+  /* margin-top: 1rem; */
+  padding: 0.75rem;
+  background: #2c3e50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background: #1a252f;
+}
+
+/* Close Buttons */
+.close-btn,
+.close-btn2,
+.close-btn3 {
+  position: absolute;
+  top: 1rem;
+  right: 2rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #556b2f;
+  cursor: pointer;
+  z-index: 101;
+}
+
+.close-btn:hover,
+.close-btn2:hover,
+.close-btn3:hover {
+  color: #334218;
+}
+
+/* Small modal2 specific styles */
+.modal.small h2, .modal2.small h2 {
+  margin: 0.5rem 0;
+  color: #556b2f;
+  font-size: 1.4rem;
+}
+
+.modal.small p, .modal2.small p {
+  color: #555;
+  font-size: 0.65rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Wrappers for conditional selects (initially hidden) */
+#wrapper_service,
+#wrapper_token {
+  display: none;
+  position: relative;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+/* Show wrapper when active */
+#wrapper_service.active,
+#wrapper_token.active {
+  display: block;
+}
+
+/* Position labels inside wrappers */
+#wrapper_service label,
+#wrapper_token label {
+  position: absolute;
+  top: 0.7rem!important;
+  left: 1rem;
+  font-size: 0.75rem;
+  padding: 0 0.25rem;
+  color: #666;
+  pointer-events: none;
+  transition: top 0.18s linear, left 0.18s linear, font-size 0.18s linear, color 0.18s linear;
+  background-color: transparent;
+  z-index: 1;
+}
+
+/* Select styling inside wrappers */
+#wrapper_service select,
+#wrapper_token select {
+  width: 100%;
+  padding: 0.75rem 2.5rem 0.75rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  background-color: #f8f8f8;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  transition: border 0.3s, background-color 0.3s;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3csvg fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1em;
+}
+
+/* On focus inside wrappers */
+#wrapper_service select:focus,
+#wrapper_token select:focus {
+  outline: none;
+  border-color: #3b6e68;
+  background-color: #fff;
+}
+
+/* Float label up for selects inside wrappers on focus or value */
+#wrapper_service select:focus + label,
+#wrapper_service select:not([value=""]) + label,
+#wrapper_token select:focus + label,
+#wrapper_token select:not([value=""]) + label {
+  top: -0.7rem!important;
+  left: 1rem;
+  font-size: 0.75rem;
+  color: #3b6e68;
+  background-color: #fff;
+  padding: 0 0.25rem;
+  pointer-events: none;
+}
+
+#editPopupOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+#editPopupOverlay.active {
+  display: flex;
+}
+
+  /* Make avatar upload full width and top-aligned */
+  .avatar-upload {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
+    /* space below avatar */
+    position: relative;
+  }
+
+  /* Keep input hidden */
+  .avatar-upload input[type="file"] {
+    display: none;
+  }
+
+  /* Avatar label styling */
+  .avatar-label {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.9rem;
+    color: #666;
+    user-select: none;
+    position: relative;
+    z-index: 2;
+    pointer-events: all!important;
+    margin-right: 2rem;
+  }
+
+  .avatar-label img {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #3b6e68;
+    margin-bottom: 0.5rem;
+    transition: box-shadow 0.3s ease;
+  }
+  .avatar-upload img {
+  width: 5;
+  height: 5rem;
+  border-radius: 50%;
+  object-fit: cover;
+  }
+
+  .avatar-label:hover img {
+    box-shadow: 0 0 8px 2px #3b6e68;
+  }
+
+  /* Make sure .form-row keeps original flex layout */
+  .form-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: nowrap;
+    /* prevent wrapping, keep side-by-side */
+  }

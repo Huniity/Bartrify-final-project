@@ -1,0 +1,287 @@
+{% extends "base.html" %}
+
+{% block title %}My Dashboard{% endblock %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/chat.css' %}">
+<link rel="stylesheet" href="{% static 'css/modals.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{% static 'js/dashboard.js' %}"></script>
+<div class="dashboard-container">
+    <div class="panel">
+        <div class="profile-section">
+            <div class="avatar-container">
+                <img src="{{ request.user.get_avatar }}" alt="Profile" class="profile-image avatar" id="avatarPreview1" />
+            </div>
+            <div class="profile-info">
+                <h2>{{ request.user.first_name }} {{ request.user.last_name }}</h2>
+                <p>{{ request.user.location }}</p>
+                <p id="editableText">{{ request.user.bio}}</p>
+                <button class="btn-edit" id="editPopupBtn">
+                    <i class="fas fa-edit"></i> Edit Bio
+                </button>
+            </div>
+        </div>
+
+        <div class="search-container">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="search" placeholder="Search chats..." aria-label="Search chats" />
+        </div>
+
+        <div class="chat-section">
+            <h3>Recent Chats</h3>
+            <ul id="roomList" class="list-group">
+                {% for room in chat_rooms %}
+                <li id="room-{{ room.id }}"
+                    class="chat-button list-group-item d-flex justify-content-between align-items-center {% if room.unread_count %}fw-bold{% endif %}"
+                    onclick="loadChatRoom('{{ room.id }}', '{{ room.other_user.username }}')">
+                    <div class="chat-info">
+                        <div class="chat-avatar">
+                            <img src="{{ room.other_user.avatar_url }}" alt="{{ room.other_user.username }}'s avatar" class="profile-image" />
+                        </div>
+                        <div class="chat-details">
+                            <span class="chat-name">{{ room.other_user.username }}</span>
+                            <p class="last-msg">Click to open</p>
+                        </div>
+                    </div>
+                    {% if room.unread_count %}
+                    <span class="badge bg-danger unread-badge">{{ room.unread_count }}</span>
+                    {% endif %}
+                </li>
+                {% empty %}
+                    <p>No chat's yet!</p>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn-action" id="openBtn2">
+                <i class="fa-solid fa-user-pen"></i>
+                <span>Edit Profile</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="panel">
+        <div class="dashboard-header">
+            <div class="dashboard-header-left">
+                <div class="container-profile-image">
+                    <img src="{{ request.user.get_avatar }}" alt="Profile" class="profile-image avatar" id="avatarPreview2" />
+                </div>
+                <div>
+                    <h1>Welcome back, {{ request.user.username }}!</h1>
+                    <p>Here's your activity summary for today</p>
+                </div>
+            </div>
+            <div class="dashboard-header-btn">
+                <button class="btn-action" id="openBtn">
+                    <i class="fa-solid fa-square-plus"></i>
+                    <span>Create a New Service</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fa-solid fa-coins"></i>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-value">150</span>
+                    <span class="stat-title">Tokens</span>
+                </div>
+            </div>
+
+            <div class="stat-card" id="activeCountStat">
+                <div class="stat-icon">
+                    <i class="fa-solid fa-handshake"></i>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-value">0</span>
+                    <span class="stat-title">Active</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-value" id="ratingsAverage1">0</span>
+                    <span class="stat-title">Rating</span>
+                </div>
+            </div>
+
+            <div class="stat-card" id="completedCountStat">
+                <div class="stat-icon">
+                    <i class="fa-solid fa-calendar-check"></i>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-value">0</span>  
+                    <span class="stat-title">Completed</span>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="card" id="card">
+            <div class="card-content">
+                <div class="front">
+                    <div class="main-content">
+                        <div class="content-column-left">
+                            <div class="tabs-container">
+                                <div class="tabs-header">
+                                    <button class="tab-btn active" data-tab="active">Active</button>
+                                    <button class="tab-btn" data-tab="completed">Completed</button>
+                                    <button class="tab-btn" data-tab="services">My Services</button>
+                                </div>
+
+                                <div class="tab-content-dashboard">
+                                    <div id="active" class="tab-pane active">
+                                        
+                                    </div>
+
+                                    <div id="completed" class="tab-pane">
+                                        
+                                    </div>
+
+                                    <div id="services" class="tab-pane">
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="content-column-right">
+                            <div class="subscription-card">
+                                <div class="subscription-header">
+                                    <h3>Subscription Plan</h3>
+                                    <span class="status-badge active">Active</span>
+                                </div>
+                                <div class="subscription-body">
+                                    <div class="plan-details">
+                                        <i class="fa-solid fa-crown premium-icon"></i>
+                                        <div>
+                                            <p class="plan-name">Premium Plan</p>
+                                            <p class="plan-features">Unlimited Services · Priority Appearance</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="renewal-info">
+                                        <p><i class="fa-solid fa-arrow-rotate-right"></i> Renewal: <strong>July 15,
+                                                2025</strong></p>
+                                        <p><i class="fa-solid fa-gift"></i> 50 bonus tokens monthly</p>
+                                        <div class="subscription-actions">
+                                            <button class="btn-primary">Upgrade</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="token-card">
+                                    <h3>Your Token Balance</h3>
+                                    <div class="token-balance">
+                                        <i class="fa-solid fa-coins"></i>
+                                        <span>150</span>
+                                    </div>
+                                </div>
+                                <div class="overlay">
+                                    <i class="fa-solid fa-hourglass-half"></i> COMING SOON!
+                                  </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="back">
+                    <div class="dashboard-card-side dashboard-card-back" id="dashboard-card-back">
+                        <header class="chat-header d-flex justify-content-between align-items-center">
+                            <div><span id="chatWithLabel">Chat</span></div>
+                            <div><button onclick="flipToDashboardView()" class="btn-action">
+                                <i class="fas fa-arrow-left"></i> Back</button>
+                            </div>
+                        </header>
+                        <div class="chat-messages" id="chatContainer">
+                            </div>
+                        <form class="chat-input-area mt-2" onsubmit="event.preventDefault()">
+                            <input aria-label="Type your message" autocomplete="off" class="chat-input form-control"
+                                id="messageInput" placeholder="Message" type="text" />
+                            <button class="btn btn-primary mt-2" id="sendBtn">Send</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel">
+        <div class="stats-content">
+            <div class="stats-card">
+                <h3><i class="fa-solid fa-star"></i> Ratings</h3>
+                <div class="rating-summary">
+                    <div class="average-rating">
+                        <p id="ratingsAverage2">0</p>
+                            <div class="stars" id="userStarsContainer"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-card">
+                <h3><i class="fa-solid fa-chart-line"></i> Monthly Activity</h3>
+                <div class="chart-container">
+                  <canvas id="servicesChart"></canvas>
+                </div>
+                
+                <div class="overlay">
+                  <i class="fa-solid fa-hourglass-half"></i> COMING SOON!
+                </div>
+            </div>
+            
+            <div class="stats-card">
+                <h3><i class="fa-solid fa-trophy"></i> Achievements</h3>
+                <div class="badges-container">
+                    <div id="achievementBadgeContainer" class="hidden">
+                        <div class="badge">
+                            <i class="fa-solid fa-5"></i>
+                            <span>Bartr Jr!</span>
+                        </div>
+                    </div>
+                    <div id="ratingsBadgeContainer" class="hidden">
+                        <div class="badge">
+                            <i class="fa-solid fa-trophy"></i>
+                            <span>4+ Rating!</span>
+                        </div>
+                    </div>
+                    <div id="activeBadgeContainer" class="hidden">
+                        <div class="badge">
+                            <i class="fa-solid fa-chart-line"></i>
+                            <span>Active</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% include "core/profile_modal.html" %}
+{% include "core/review_modal.html" %}
+{% include "core/service_modal.html" %}
+{% include "core/bio_modal.html" %}
+<script>
+    const CURRENT_USER_ID = {{ request.user.id }};
+    const CURRENT_USERNAME = "{{ request.user.username }}";
+</script>
+<script src="{% static 'js/service_modal.js' %}"></script>
+<script src="{% static 'js/review_modal.js' %}"></script>
+<script src="{% static 'js/profile_modal.js' %}"></script>
+<script src="{% static 'js/bio_modal.js' %}"></script>
+{% if open_room_cookie %}
+<script>
+    if (new URLSearchParams(window.location.search).get("room_id")) {
+        sessionStorage.setItem("openRoomOnce", "1");
+    }
+</script>
+{% endif %}
+<script src="{% static 'js/chat.js' %}"></script>
+{% endblock %}
