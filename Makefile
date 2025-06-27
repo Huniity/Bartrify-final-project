@@ -104,6 +104,7 @@ create.env:
 # 	make compose.logs
 
 compose.test:
+	make create.env
 	docker compose down -v --remove-orphans
 	sleep 2
 	make compose.start
@@ -111,3 +112,5 @@ compose.test:
 	docker compose run --rm web poetry run python manage.py migrate
 	docker compose run --rm web poetry run python manage.py create_fake_data
 	docker compose run --rm web poetry run python manage.py populate_chatrooms
+	make open.browser
+	make compose.logs
