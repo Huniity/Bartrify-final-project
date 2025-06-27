@@ -301,17 +301,20 @@ function fetchCompletedRequests() {
                               reviewButton.dataset.serviceId = request.service;
                               reviewButton.dataset.serviceTitle = serviceData.title;
                               reviewButton.dataset.requestId = request.id;
-                              reviewButton.dataset.revieweeUserId = request.sender; 
+                              reviewButton.dataset.revieweeUserId = request.sender === CURRENT_USER_ID ? request.receiver : request.sender;
                               
                               reviewButton.addEventListener('click', (event) => {
-                                  const serviceId = event.target.dataset.serviceId;
-                                  const serviceTitle = event.target.dataset.serviceTitle;
-                                  const requestId = event.target.dataset.requestId;
-                                  const revieweeUserId = event.target.dataset.revieweeUserId;
-                                  openReviewModal(serviceId, serviceTitle, requestId, revieweeUserId); 
-                              });
+                              const serviceId = event.target.dataset.serviceId;
+                              const serviceTitle = event.target.dataset.serviceTitle;
+                              const requestId = event.target.dataset.requestId;
+                              const revieweeUserId = parseInt(event.target.dataset.revieweeUserId, 10);
 
-                              fetch(`/api/check-review/?reviewee_user_id=${request.sender}`)
+                              openReviewModal(serviceId, serviceTitle, requestId, revieweeUserId);
+                            });
+
+                              const revieweeId = (request.sender === CURRENT_USER_ID) ? request.receiver : request.sender;
+                              fetch(`/api/check-review/?reviewee_user_id=${revieweeId}&service_request=${request.id}`)
+
                                 .then(res => res.json())
                                 .then(reviewData => {
                                   if (reviewData.reviewed) {
@@ -637,7 +640,127 @@ function fetchUserRatings() {
             userStarsContainer.innerHTML = '<p>Error loading ratings</p>';
         });
 }
+  function fetchSenderUsername(senderId) {
+    return fetch(`/api/users/${senderId}/`)  
+        .then(response => response.json())
+        .then(user => user.username)
+        .catch(err => {
+            console.error('Error fetching sender details:', err);
+            return 'Unknown';
+        });
+  }
 
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let cookie of cookies) {
+        cookie = cookie.trim();
+        if (cookie.startsWith(name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+
+  function handleStatusUpdate(requestId, newStatus) {
+    const csrftoken = getCookie('csrftoken');
+    return fetch(`/api/requests/${requestId}/`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrftoken
+      },
+      body: JSON.stringify({ status: newStatus })
+    })
+    .then(response => {
+      if (!response.ok) {
+        return response.json().then(err => {
+          console.error('Failed to update status:', err);
+          alert('Error updating status: ' + (err.detail || response.statusText));
+          throw new Error('Failed to update status');
+        });
+      }
+      return response.json();
+    })
+    .catch(err => {
+      console.error('Network or server error:', err);
+    });
+  }
+
+  function fetchActiveRequests() {
+    const activeTabContent = document.getElementById('active');
+    activeTabContent.innerHTML = '';
+
+    fetch('/api/requests/')
+      .then(response => response.json())
+      .then(data => {
+        if (data.length > 0) {
+          data.forEach(request => {
+            if (request.status === "pending" || request.status === "in-progress") {
+              Promise.all([
+                fetch(`/api/services/${request.service}/`).then(res => res.json()),
+                request.offered_service ? fetch(`/api/services/${request.offered_service}/`).then(res => res.json()) : Promise.resolve(null),
+                fetchSenderUsername(request.sender)
+              ]).then(([requestedService, offeredService, senderName]) => {
+                const exchangeItem = document.createElement('div');
+                exchangeItem.classList.add('exchange-item');
+
+                const exchangeInfo = document.createElement('div');
+                exchangeInfo.classList.add('exchange-info');
+                const title = document.createElement('h4');
+                title.textContent = `${requestedService.title}`;
+
+                const subtitle = document.createElement('p');
+                subtitle.textContent = `From ${senderName} on ${new Date(request.created_at).toLocaleDateString()}`;
+                exchangeInfo.append(title, subtitle);
+
+                const exchangeStatus = document.createElement('div');
+                exchangeStatus.classList.add('exchange-status');
+                const status = document.createElement('span');
+                status.classList.add('status');
+                status.textContent = request.status;
+                exchangeStatus.appendChild(status);
+
+                if (offeredService) {
+                  const offered = document.createElement('p');
+                  offered.innerHTML = `<strong>Offered:</strong> ${offeredService.title}`;
+                  exchangeInfo.appendChild(offered);
+                }
+
+                const actionButton = document.createElement('button');
+                actionButton.classList.add('btn-small');
+                actionButton.textContent = request.status === 'pending' ? 'Accept' : 'Mark Completed';
+                actionButton.addEventListener('click', () => {
+                  const nextStatus = request.status === 'pending' ? 'in-progress' : 'completed';
+                  handleStatusUpdate(request.id, nextStatus).then(fetchActiveRequests);
+                });
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = 'Delete';
+                deleteBtn.classList.add('btn-small', 'btn-danger');
+                deleteBtn.addEventListener('click', () => {
+                  const csrftoken = getCookie('csrftoken');
+                  fetch(`/api/requests/${request.id}/`, {
+                    method: 'DELETE',
+                    headers: { 'X-CSRFToken': csrftoken }
+                  }).then(fetchActiveRequests);
+                });
+
+                exchangeStatus.append(actionButton, deleteBtn);
+
+                exchangeItem.append(exchangeInfo, exchangeStatus);
+                activeTabContent.appendChild(exchangeItem);
+              });
+            }
+          });
+        } else {
+          activeTabContent.innerHTML = '<p>No active requests.</p>';
+        }
+      });
+  }
 
   fetchActiveRequests();
   updateCompletedCount();

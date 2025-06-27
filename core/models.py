@@ -78,6 +78,7 @@ class ServiceRequest(models.Model):
     sender = models.ForeignKey(User, related_name='sent_requests', on_delete=models.CASCADE)
     receiver = models.ForeignKey(User, related_name='received_requests', on_delete=models.CASCADE)
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
+    offered_service = models.ForeignKey(Service, related_name='offered_requests', null=True, blank=True, on_delete=models.SET_NULL)
     status = models.CharField(
         choices=[
             ('pending', 'Pending'),

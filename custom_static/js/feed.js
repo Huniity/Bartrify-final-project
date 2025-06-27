@@ -1,3 +1,5 @@
+let currentProfileUserId = null;
+
 const profileFeedModal = document.getElementById('profile-feed-modal');
 const contactModal = document.getElementById('contact-modal');
 
@@ -13,6 +15,9 @@ const modalTrade1Icon = document.getElementById('modal-trade1-icon');
 const modalTrade1Title = document.getElementById('modal-trade1-title');
 const contactForm = document.getElementById('contact-form');
 const messageTextarea = document.getElementById('message');
+
+const myServiceSelect = document.getElementById('my-service-select');
+const theirServiceSelect = document.getElementById('their-service-select');
 
 
 const categoryMapping = {
@@ -31,6 +36,7 @@ const categoryMapping = {
 };
 
 function openProfileModal(ownerId) {
+  currentProfileUserId = ownerId;
   const serviceCard = document.querySelector(`.card[data-owner-id="${ownerId}"]`);
 
   if (serviceCard) {
@@ -71,6 +77,9 @@ function showTab(tabId) {
 
   document.getElementById(tabId).style.display = 'block';
   event.currentTarget.classList.add('active');
+  if (tabId === 'tab-reviews' && currentProfileUserId) {
+    fetchReviewsForUser(currentProfileUserId);
+  }
 }
 
 function fetchUserServicesById(userId) {
@@ -140,33 +149,32 @@ function fetchReviewsForUser(userId) {
     });
 }
 
-  function renderStars(rating, container) {
-    container.innerHTML = '';
+function renderStars(rating, container) {
+  container.innerHTML = '';
+  const fullStars = Math.floor(rating);
+  const hasHalfStar = (rating % 1) >= 0.5;
+  const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
 
-    const fullStars = Math.floor(rating);
-    const hasHalfStar = (rating % 1) >= 0.5;
-    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+  for (let i = 0; i < fullStars; i++) {
+    const star = document.createElement('i');
+    star.classList.add('fas', 'fa-star');
+    container.appendChild(star);
+  }
 
-    for (let i = 0; i < fullStars; i++) {
-        const star = document.createElement('i');
-        star.classList.add('fas', 'fa-star');
-        container.appendChild(star);
-    }
+  if (hasHalfStar) {
+    const halfStar = document.createElement('i');
+    halfStar.classList.add('fas', 'fa-star-half-stroke');
+    container.appendChild(halfStar);
+  }
 
-    if (hasHalfStar) {
-        const halfStar = document.createElement('i');
-        halfStar.classList.add('fas', 'fa-star-half-stroke');
-        container.appendChild(halfStar);
-    }
-
-    for (let i = 0; i < emptyStars; i++) {
-        const emptyStar = document.createElement('i');
-        emptyStar.classList.add('far', 'fa-star');
-        container.appendChild(emptyStar);
-    }
+  for (let i = 0; i < emptyStars; i++) {
+    const emptyStar = document.createElement('i');
+    emptyStar.classList.add('far', 'fa-star');
+    container.appendChild(emptyStar);
+  }
 }
 
-
+// --- EVENTOS ---
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.open-profile-modal-btn').forEach(btn => {
     btn.addEventListener('click', (event) => {
@@ -175,141 +183,171 @@ document.addEventListener('DOMContentLoaded', () => {
       fetchReviewsForUser(ownerId);
     });
   });
-  
-  const filterForm = document.querySelector('.filter-controls');
-    const searchInput = document.getElementById('search-input');
-    const categorySelect = document.getElementById('category-select');
-    const locationSelect = document.getElementById('location-select');
-    const sortSelect = document.getElementById('sort-select');
-    const resetFiltersBtn = document.getElementById('reset-filters-btn');
-
-    function submitForm() {
-        if (filterForm) {
-            filterForm.submit();
-        }
-    }
-
-    if (filterForm) {
-        if (categorySelect) categorySelect.addEventListener('change', submitForm);
-        if (locationSelect) locationSelect.addEventListener('change', submitForm);
-        if (sortSelect) sortSelect.addEventListener('change', submitForm);
-
-        let searchTimeout;
-        if (searchInput) {
-            searchInput.addEventListener('input', function() {
-                clearTimeout(searchTimeout);
-                searchTimeout = setTimeout(submitForm, 500);
-            });
-        }
-        if (resetFiltersBtn) {
-            resetFiltersBtn.addEventListener('click', function() {
-                if (searchInput) {
-                    searchInput.value = '';
-                }
-                if (categorySelect) {
-                    categorySelect.value = '';
-                }
-                if (locationSelect) {
-                    locationSelect.value = '';
-                }
-                if (sortSelect) {
-                    sortSelect.value = '';
-                }
-                submitForm();
-            });
-        }
-    }
 
   document.querySelectorAll('.open-contact-modal-btn').forEach(btn => {
-    btn.addEventListener('click', (event) => {
-      const serviceId = event.target.dataset.serviceId;
-      const serviceCard = event.target.closest('.card');
-  
-      if (serviceCard) {
-        modalUserAvatar.src = serviceCard.dataset.ownerAvatar || '{% static "img/default-avatar.png" %}';
-        modalUserName.textContent = serviceCard.dataset.ownerName;
-        modalUserRating.innerHTML = serviceCard.dataset.modalUserRating || '★★★★☆';
-        modalUserDescription.textContent = serviceCard.dataset.description;
-        modalTrade1Icon.src = serviceCard.dataset.categoryImage || '{% static "img/Img-content.png" %}';
-        modalTrade1Title.textContent = serviceCard.dataset.category;
-  
-        contactForm.dataset.serviceId = serviceId; 
-        openContactModal();
-      }
-    });
-  });
+  btn.addEventListener('click', async (event) => {
+    const serviceId = event.target.dataset.serviceId;
+    const serviceCard = event.target.closest('.card');
 
-  function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-      const cookies = document.cookie.split(';');
-      for (let cookie of cookies) {
-        cookie = cookie.trim();
-        if (cookie.startsWith(name + '=')) {
-          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-          break;
+    if (!serviceCard) return;
+
+  
+    modalUserAvatar.src = serviceCard.dataset.ownerAvatar || '{% static "img/default-avatar.png" %}';
+    modalUserName.textContent = serviceCard.dataset.ownerName;
+    modalUserRating.innerHTML = serviceCard.dataset.modalUserRating;
+    modalUserDescription.textContent = serviceCard.dataset.description;
+    modalTrade1Icon.src = serviceCard.dataset.categoryImage || '{% static "img/Img-content.png" %}';
+    modalTrade1Title.textContent = serviceCard.dataset.category;
+
+    contactForm.dataset.serviceId = serviceId;
+
+    const ownerId = serviceCard.dataset.ownerId;
+
+  
+    myServiceSelect.innerHTML = '<option value="">Dont´t offer any Service</option>';
+    theirServiceSelect.innerHTML = '<option disabled selected>Loading all the bartrs!.</option>';
+
+    try {
+      // Fetch their services and your services
+      const [theirResponse, myResponse] = await Promise.all([
+        fetch(`/api/services/?owner=${ownerId}`),
+        fetch('/api/my-services/')
+      ]);
+
+      const theirServices = await theirResponse.json();
+      const myServices = await myResponse.json();
+
+      // Populate "their services"
+      theirServiceSelect.innerHTML = '';
+      if (theirServices.length === 0) {
+        theirServiceSelect.innerHTML = '<option disabled selected>No services available!</option>';
+      } else {
+        theirServices.forEach(service => {
+          const opt = document.createElement('option');
+          opt.value = service.id;
+          opt.textContent = service.title;
+          theirServiceSelect.appendChild(opt);
+        });
+
+        if (serviceId) {
+          theirServiceSelect.value = serviceId;
         }
       }
-    }
-    return cookieValue;
-  }
 
-  window.addEventListener('click', (event) => {
-    if (event.target === profileFeedModal) {
-      closeProfileModal();
+      myServices.forEach(service => {
+        const opt = document.createElement('option');
+        opt.value = service.id;
+        opt.textContent = service.title;
+        myServiceSelect.appendChild(opt);
+      });
+
+    } catch (err) {
+      console.error("Erro ao carregar serviços para troca:", err);
+      theirServiceSelect.innerHTML = '<option disabled selected>Fasiled to Fetch!</option>';
     }
-    if (event.target === contactModal) {
-      closeModal();
-    }
+
+    openContactModal();
   });
+});
 
   contactForm.addEventListener('submit', async (event) => {
-    event.preventDefault();
-  
-    const message = messageTextarea.value.trim();
-    const serviceId = contactForm.dataset.serviceId;
-  
-    const serviceCard = document.querySelector(`.card[data-service-id="${serviceId}"]`);
-  
-    const receiverId = serviceCard.dataset.ownerId;
-    const csrftoken = getCookie('csrftoken');
-  
-    try {
-      const response = await fetch('/api/requests/', {
+  event.preventDefault();
+
+  const message = messageTextarea.value.trim();
+  const serviceId = contactForm.dataset.serviceId;
+  const serviceCard = document.querySelector(`.card[data-service-id="${serviceId}"]`);
+  const receiverId = serviceCard.dataset.ownerId;
+  const csrftoken = getCookie('csrftoken');
+  const offeredServiceId = myServiceSelect.value;
+  const targetServiceId = theirServiceSelect.value || serviceId;
+
+  try {
+    // Step 1: Create service request (if one is being offered)
+    const requestPayload = {
+      service: parseInt(targetServiceId, 10),
+      message: message,
+      receiver: parseInt(receiverId, 10),
+    };
+    if (offeredServiceId) {
+      requestPayload.offered_service = parseInt(offeredServiceId, 10);
+    }
+
+    const response = await fetch('/api/requests/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrftoken,
+      },
+      body: JSON.stringify(requestPayload)
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      console.error("Erro ao enviar pedido de troca:", errorData);
+      alert("Erro ao enviar pedido.");
+      return;
+    }
+
+    // Step 2: Create chat (if there's a message)
+    if (message) {
+      const chatResponse = await fetch(`/chat/create/${receiverId}/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'X-CSRFToken': csrftoken,
+          'X-Requested-With': 'XMLHttpRequest'
         },
-        body: JSON.stringify({
-          service: parseInt(serviceId, 10),
-          receiver: parseInt(receiverId, 10),
-          message: message,
-        })
+        body: JSON.stringify({ message_content: message })
       });
-  
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
+
+      const chatData = await chatResponse.json();
+      if (chatData.success && chatData.room_id) {
+        // Step 3: Redirect to chat
+        document.cookie = "openRoomOnce=1; path=/";
+        window.location.href = `/dashboard/?room_id=${chatData.room_id}`;
         return;
+      } else {
+        console.warn("Chat created but no room_id received.");
       }
-  
-      contactForm.reset();
-      closeModal();
-  
-    } catch (error) {
-    
+    }
+
+    alert("Pedido enviado com sucesso.");
+    contactForm.reset();
+    closeModal();
+
+  } catch (error) {
+    console.error("Erro ao submeter formulário:", error);
+    alert("Erro inesperado ao enviar o pedido.");
+  }
+});
+
+  document.querySelectorAll('.card').forEach(card => {
+    const ownerRating = parseFloat(card.dataset.ownerRating);
+    const starsContainer = card.querySelector('.stars');
+    if (!isNaN(ownerRating) && starsContainer) {
+      renderStars(ownerRating, starsContainer);
+    } else if (starsContainer) {
+      starsContainer.innerHTML = '';
     }
   });
-  document.querySelectorAll('.card').forEach(card => {
-        const ownerRating = parseFloat(card.dataset.ownerRating);
-        const starsContainer = card.querySelector('.stars');
 
-        if (!isNaN(ownerRating) && starsContainer) {
-            renderStars(ownerRating, starsContainer);
-        } else if (starsContainer) {
-
-            starsContainer.innerHTML = '';
-        }
-    });
-  
+  window.addEventListener('click', (event) => {
+    if (event.target === profileFeedModal) closeProfileModal();
+    if (event.target === contactModal) closeModal();
+  });
 });
+
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+      cookie = cookie.trim();
+      if (cookie.startsWith(name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
