@@ -244,7 +244,7 @@ function fetchActiveRequests() {
 
 function fetchCompletedRequests() {
   const completedTabContent = document.getElementById('completed');
-  completedTabContent.innerHTML = ''; // Clear previous content
+  completedTabContent.innerHTML = '';
 
   fetch('/api/requests/')
       .then(response => response.json())
@@ -407,7 +407,7 @@ function fetchCompletedRequests() {
             status.classList.add('status', 'in-progress');
             status.textContent = 'Active';
   
-            // Delete button (replaces Edit button)
+
             const deleteButton = document.createElement('button');
             deleteButton.classList.add('btn-small', 'btn-danger');
             deleteButton.textContent = 'Delete';
@@ -423,7 +423,7 @@ function fetchCompletedRequests() {
                 })
                 .then(response => {
                   if (response.ok) {
-                    fetchUserServices(); // refresh list
+                    fetchUserServices();
                   } else {
                     alert('Failed to delete service');
                   }

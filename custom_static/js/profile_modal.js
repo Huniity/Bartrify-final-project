@@ -78,8 +78,10 @@ document.addEventListener("DOMContentLoaded", function() {
             .then(response => {
                 if (!response.ok) {
                     return response.json().then(errorData => {
+                        showErrorToast("SERVER ERROR");
                         throw new Error(errorData.message || JSON.stringify(errorData) || 'Server error occurred.');
                     }).catch(() => {
+                        showErrorToast("HTTP ERROR");
                         throw new Error(`HTTP error! status: ${response.status}`);
                     });
                 }
@@ -87,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function() {
             })
             .then(data => {
                 if (data.success) {
-                    alert(data.message);
+                    showSuccessToast("Profile Updated successfully!");
                     closeModal2();
 
                     if (mainProfileAvatar1) {
@@ -120,15 +122,14 @@ document.addEventListener("DOMContentLoaded", function() {
                         for (const field in data.errors) {
                             errorMessages.push(`${field}: ${data.errors[field].join(', ')}`);
                         }
-                        alert('Validation Error:\n' + errorMessages.join('\n'));
+                        showErrorToast("Please Try Again", errorMessages.join('\n'));
                     } else {
-                        alert('Error: ' + data.message);
+                        showErrorToast("Please Try Again", dataMessages.join('\n'));
                     }
                 }
             })
             .catch(error => {
-                console.error('Fetch error:', error);
-                alert('An error occurred: ' + error.message);
+                showErrorToast("Please Try Again", error.Messages.join('\n'));
             });
         });
     }

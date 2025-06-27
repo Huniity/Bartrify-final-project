@@ -88,6 +88,7 @@ document.addEventListener("DOMContentLoaded", function() {
       .then(response => {
         if (!response.ok) {
           return response.json().then(errorData => {
+            showErrorToast("Please Try Agaain");
             throw new Error(errorData.message || 'Something went wrong.');
           });
         }
@@ -95,18 +96,17 @@ document.addEventListener("DOMContentLoaded", function() {
       })
       .then(data => {
         if (data.success) {
-          alert(data.message);
+          showSuccessToast("Service successfully created!");
           closeModal();
           createServiceForm.reset();
 
           updateDisplay();
         } else {
-          alert('Error: ' + data.message);
+          showErrorToast("Please Try Again", data.message);
         }
       })
       .catch(error => {
-        console.error('Error creating service:', error);
-        alert('An error occurred: ' + error.message);
+        showErrorToast("Please Try Again", error.message);
       });
   });
 

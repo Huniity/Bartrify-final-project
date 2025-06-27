@@ -269,16 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const message = messageTextarea.value.trim();
     const serviceId = contactForm.dataset.serviceId;
   
-    if (!message || !serviceId || !CURRENT_USER_ID) {
-      alert("Missing required data.");
-      return;
-    }
-  
     const serviceCard = document.querySelector(`.card[data-service-id="${serviceId}"]`);
-    if (!serviceCard) {
-      alert("Service card not found.");
-      return;
-    }
   
     const receiverId = serviceCard.dataset.ownerId;
     const csrftoken = getCookie('csrftoken');
@@ -299,18 +290,14 @@ document.addEventListener('DOMContentLoaded', () => {
   
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        console.error("❌ Error:", errorData);
-        alert("Failed to send message.");
         return;
       }
   
-      alert("Message sent and request created!");
       contactForm.reset();
       closeModal();
   
     } catch (error) {
-      console.error("🚨 Request error:", error);
-      alert("An unexpected error occurred.");
+    
     }
   });
   document.querySelectorAll('.card').forEach(card => {

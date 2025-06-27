@@ -6,7 +6,7 @@ const submitReviewBtn = document.getElementById('submit-review-btn');
 const serviceIdInput = document.getElementById('service-id');
 const revieweeUserIdInput = document.getElementById('reviewee-user-id');
 
-// Helper function to get CSRF token
+
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -24,28 +24,25 @@ function getCookie(name) {
 
 let selectedRatingValue = null;
 
-// Set up click handlers for rating options
+
 function setupRatingSelection() {
     const options = document.querySelectorAll('.rating-option');
     options.forEach(option => {
         option.addEventListener('click', () => {
-            // Remove .selected from all
+
             options.forEach(o => o.classList.remove('selected'));
 
-            // Add to clicked one
             option.classList.add('selected');
 
-            // Store selected value
             selectedRatingValue = option.dataset.value;
 
-            // Optional: check the hidden input for semantic purposes
             const radio = document.querySelector(`input[name="rating"][value="${selectedRatingValue}"]`);
             if (radio) radio.checked = true;
         });
     });
 }
 
-// Function to open the review modal
+
 function openReviewModal(serviceId, serviceTitle, requestId, revieweeUserId) {
     reviewModalOverlay.style.display = 'flex';
     reviewPopupModal.classList.add('active');
@@ -53,14 +50,14 @@ function openReviewModal(serviceId, serviceTitle, requestId, revieweeUserId) {
     serviceIdInput.value = serviceId;
     revieweeUserIdInput.value = revieweeUserId;
 
-    // Reset rating UI
+
     selectedRatingValue = null;
     document.querySelectorAll('.rating-option').forEach(opt => opt.classList.remove('selected'));
     document.querySelectorAll('input[name="rating"]').forEach(input => input.checked = false);
 
     setupRatingSelection();
 
-    // Replace submit button to clear previous listeners
+
     const oldSubmitReviewBtn = submitReviewBtn;
     const newSubmitReviewBtn = oldSubmitReviewBtn.cloneNode(true);
     oldSubmitReviewBtn.replaceWith(newSubmitReviewBtn);
@@ -69,24 +66,23 @@ function openReviewModal(serviceId, serviceTitle, requestId, revieweeUserId) {
     });
 }
 
-// Function to close the review modal
 function closeReviewModal() {
     reviewModalOverlay.style.display = 'none';
     reviewPopupModal.classList.remove('active');
 }
 
-// Close modal buttons
+
 closeReviewBtn.addEventListener('click', closeReviewModal);
 cancelReviewBtn.addEventListener('click', closeReviewModal);
 
-// Click outside modal closes it
+
 window.addEventListener('click', function (event) {
     if (event.target === reviewModalOverlay) {
         closeReviewModal();
     }
 });
 
-// Submit review
+
 async function submitReview(event, requestId) {
     event.preventDefault();
 
@@ -94,12 +90,12 @@ async function submitReview(event, requestId) {
     const revieweeUserId = parseInt(document.getElementById('reviewee-user-id').value, 10);
 
     if (isNaN(rating)) {
-        alert('Please select a rating.');
+        showInfoToast("Missing Rating");
         return;
     }
 
     if (isNaN(revieweeUserId)) {
-        alert('Invalid reviewee.');
+        showErrorToast("Invalid user");
         return;
     }
 
@@ -133,10 +129,9 @@ async function submitReview(event, requestId) {
         }
 
         const data = await response.json();
-        alert('Your review has been submitted successfully!');
+        showSuccessToast("Thank you for the Feedback!");
         closeReviewModal();
 
-        // Update card in dashboard
         const reviewItem = document.querySelector(`[data-request-id="${requestId}"]`);
         if (reviewItem) {
             const reviewButton = reviewItem.querySelector('.mark-completed-btn');
@@ -153,8 +148,7 @@ async function submitReview(event, requestId) {
         }
 
     } catch (err) {
-        console.error('Error submitting review:', err);
-        alert(`Something went wrong while submitting your review: ${err.message}`);
+        showErrorToast("Please try again");
     }
 }
 

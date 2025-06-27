@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const confirmPassword = document.getElementById("confirmPassword").value;
 
             if (password !== confirmPassword) {
-                alert("Passwords do not match!");
+                showWarningToast("Password doesn't match");
                 return;
             }
 
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 if (res.ok) {
-                    alert("Signup successful! Please log in.");
+                    showSuccessToast("Successful Registration! You can now log on!");
                     signupForm.reset();
                     flipCard();
                 } else {
@@ -89,12 +89,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     } else {
                         errorMessage += "Unknown error.";
                     }
-                    alert(errorMessage);
-                    console.error("Signup error details:", errorData);
+                    showErrorToast("Signup failed", errorMessage);
                 }
             } catch (error) {
                 console.error("Network or fetch error during signup:", error);
-                alert("A network error occurred during signup. Please try again.");
+                showErrorToast("Signup failed", error);
             }
         });
     }
@@ -122,14 +121,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (res.ok && result.success) {
                 loginForm.reset();
+                    showSuccessToast("Login Successful, Let's Barter!...");
+                    setTimeout(() => {
+                    window.location.href = result.redirect || "/dashboard/";
+                }, 1500);
                 window.location.href = result.redirect || "/dashboard/";
             } else {
-                alert(result.error || "Login failed. Please try again.");
-                console.error("Login error:", result);
+                showErrorToast("Signup failed", errorMessage);
             }
         } catch (error) {
-            console.error("Network error during login:", error);
-            alert("A network error occurred during login. Please try again.");
+            showErrorToast("Signup failed", errorMessage);
         }
     });
 }

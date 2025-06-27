@@ -1,9 +1,7 @@
-// toastUtils.js
-
 const Toast = Swal.mixin({
     toast: true,
     position: 'center',
-    iconColor: 'white', // This might be overridden by your CSS if it's more specific
+    iconColor: 'white',
     customClass: {
         popup: 'colored-toast',
     },
@@ -12,7 +10,6 @@ const Toast = Swal.mixin({
     timerProgressBar: true,
 });
 
-// You can create helper functions to make it even easier to use
 function showSuccessToast(title = 'Success', message = '') {
     Toast.fire({
         icon: 'success',

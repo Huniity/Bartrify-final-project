@@ -60,16 +60,16 @@ async function saveEdit() {
         if (response.ok) {
             const data = await response.json();
             editableText.textContent = data.bio;
-            console.log('Bio updated successfully:', data.bio);
             closeEditModal();
+            showSuccessToast('Successfully updated your Bio');
         } else {
             const errorData = await response.json();
             console.error('Failed to update bio:', errorData.error);
-            alert('Failed to update bio: ' + errorData.error);
+            showErrorToast('Update Failed');
         }
     } catch (error) {
         console.error('Network or server error:', error);
-        alert('An unexpected error occurred. Please try again.');
+        showErrorToast('Please try again later.');
     }
 }
 
