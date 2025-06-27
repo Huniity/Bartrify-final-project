@@ -123,6 +123,8 @@ bartrify.rise:
 	docker compose run --rm web poetry run python manage.py makemigrations
 	docker compose run --rm web poetry run python manage.py migrate
 	docker compose run --rm web poetry run python manage.py create_fake_data
+	docker compose run --rm web poetry run python manage.py create_fake_request
+	docker compose run --rm web poetry run python manage.py create_fake_reviews
 	docker compose run --rm web poetry run python manage.py populate_chatrooms
 	make open.browser
 	make compose.logs

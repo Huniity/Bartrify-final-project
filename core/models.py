@@ -95,6 +95,7 @@ class Review(models.Model):
     reviewee = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, related_name='reviews_received')  # Temporarily allow null
     rating = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
+    service_request = models.ForeignKey(ServiceRequest, on_delete=models.CASCADE, related_name='reviews', null=True, blank=True)
 
     def __str__(self):
         return f'Review from {self.user} to {self.reviewee} - Rating: {self.rating}'
