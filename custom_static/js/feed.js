@@ -183,7 +183,20 @@ document.addEventListener('DOMContentLoaded', () => {
       fetchReviewsForUser(ownerId);
     });
   });
+  const resetFiltersBtn = document.getElementById('reset-filters-btn');
+  const filterForm = document.querySelector('form'); // Replace with the specific form selector if needed
 
+  if (resetFiltersBtn && filterForm) {
+    resetFiltersBtn.addEventListener('click', (event) => {
+      event.preventDefault(); // Prevent default form submission
+      filterForm.reset(); // Reset all form fields to their default values
+
+      // Remove query parameters from the URL to reset filters
+      const url = new URL(window.location.href);
+      url.search = ''; // Clear all query parameters
+      window.location.href = url.toString(); // Reload the page with the cleared URL
+    });
+  }
   document.querySelectorAll('.open-contact-modal-btn').forEach(btn => {
   btn.addEventListener('click', async (event) => {
     const serviceId = event.target.dataset.serviceId;
